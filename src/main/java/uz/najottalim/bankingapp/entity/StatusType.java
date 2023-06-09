@@ -1,7 +1,6 @@
 package uz.najottalim.bankingapp.entity;
 
 import jakarta.persistence.*;
-import jdk.dynalink.linker.LinkerServices;
 import lombok.Data;
 
 import java.util.List;
@@ -15,5 +14,5 @@ public class StatusType {
     private String name;
 
     @OneToMany(mappedBy = "statusType")
-    private List<Messages> messages;
+    private List<Message> messages;
 }

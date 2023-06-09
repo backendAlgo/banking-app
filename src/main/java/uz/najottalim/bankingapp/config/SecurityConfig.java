@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,15 +24,17 @@ public class SecurityConfig {
 //        DefaultLoginPageGeneratingFilter
 //        AuthenticationManagerBuilder
 //                DaoAuthenticationProvider
-        http.authorizeHttpRequests(
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
                 (requests) ->
                         requests.requestMatchers(
-                                        "/accounts",
                                         "/balances",
                                         "/loans",
                                         "/cards")
                                 .authenticated()
                                 .requestMatchers(
+                                        "/accounts/**",
                                         "/notices",
                                         "/contacts")
                                 .permitAll()

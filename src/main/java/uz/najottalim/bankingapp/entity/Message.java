@@ -7,7 +7,8 @@ import java.time.LocalDate;
 
 @Entity
 @Data
-public class Messages {
+@Table(name = "messages")
+public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

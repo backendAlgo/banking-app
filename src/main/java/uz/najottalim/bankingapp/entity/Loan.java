@@ -3,12 +3,11 @@ package uz.najottalim.bankingapp.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.lang.reflect.Type;
 import java.time.LocalDate;
 
 @Entity
 @Data
-public class Loans {
+public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +20,7 @@ public class Loans {
 
     @ManyToOne
     @JoinColumn(name = "type_loans_id")
-    private LoansType loansType;
+    private LoanType loanType;
 
     @Column(name = "total_loan")
     private Double totalLoan;

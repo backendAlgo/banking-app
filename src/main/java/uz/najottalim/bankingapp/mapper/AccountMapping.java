@@ -1,7 +1,6 @@
-package uz.najottalim.bankingapp.mappers;
+package uz.najottalim.bankingapp.mapper;
 
 import uz.najottalim.bankingapp.dto.AccountDto;
-import uz.najottalim.bankingapp.dto.AccountTypeDto;
 import uz.najottalim.bankingapp.entity.Account;
 
 public class AccountMapping {
