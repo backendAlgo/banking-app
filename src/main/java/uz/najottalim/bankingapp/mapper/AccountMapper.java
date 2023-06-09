@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.springframework.stereotype.Component;
 
 
-@Component
+
 public class AccountMapper {
+
 }

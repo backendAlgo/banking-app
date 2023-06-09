@@ -11,24 +11,35 @@ import java.time.LocalDate;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "card")
-public class Card {
+@Table(name = "loans")
+public class Loan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-    private String cardNumber;
-    private LocalDate cardExpiredDate;
-    private Double totalLimit;
-    private Double amountUsed;
-    private Double availableAmt;
+    private LocalDate startDate;
+    private Double totalLoan;
+    private Double amountPay;
+    private Double outstandingAmt;
 
     @ManyToOne
     private Account account;
-}
+
+    @ManyToOne
+    private TypeLoan typeLoans;
+
+
+
+
 //    account_id number,
-//    card_number varchar(20),
-//    card_expired_date date,
-//    card_type_id number,
-//    total_limit real,
-//    amount_used real,
-//    available_amt real,
+//    start_date date,
+//    type_loans_id number,
+//    total_loan real,
+//    amount_pay real,
+//    outstanding_amt real,
+//    primary key (id)
+
+
+
+
+
+}

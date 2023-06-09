@@ -5,20 +5,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountType {
-
+@Table(name = "news")
+public class New {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-    private String name;
+    private String title;
+    private String body;
+    private String imageUrl;
+    private LocalDate sentDate;
 
-
-
-//    id number generated always as identity,
-//    name varchar(255),
-//    primary key (id)
+//    title varchar(255),
+//    body varchar2(4000),
+//    image_url varchar(255),
+//    create_date date,
 }

@@ -9,6 +9,5 @@ import uz.najottalim.bankingapp.service.AccountService;
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
-    @Autowired
-    private AccountRepository accountRepository;
+    final private AccountRepository accountRepository;
 }

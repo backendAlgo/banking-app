@@ -3,13 +3,11 @@ package uz.najottalim.bankingapp.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import uz.najottalim.bankingapp.repository.LoansRepository;
-import uz.najottalim.bankingapp.service.LoansService;
+import uz.najottalim.bankingapp.repository.LoanRepository;
+import uz.najottalim.bankingapp.service.LoanService;
 
 @Service
 @RequiredArgsConstructor
-public class LoansServiceImpl implements LoansService {
+public class LoansServiceImpl implements LoanService {
 
-    @Autowired
-    private LoansRepository creditsRepository;
 }

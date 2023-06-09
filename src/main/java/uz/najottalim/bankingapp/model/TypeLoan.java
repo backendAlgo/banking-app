@@ -9,16 +9,11 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountType {
 
+@Table(name = "typeLoans")
+public class TypeLoan {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     private String name;
-
-
-
-//    id number generated always as identity,
-//    name varchar(255),
-//    primary key (id)
 }
