@@ -22,7 +22,7 @@ public class SecurityConfig {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 //        DefaultLoginPageGeneratingFilter
         AuthenticationManagerBuilder
-                DaoAuthenticationProvider
+                DaoAuthenticationProvider;
         http.authorizeHttpRequests(
                 (requests) ->
                         requests.requestMatchers(
