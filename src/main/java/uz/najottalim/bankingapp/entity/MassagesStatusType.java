@@ -5,21 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Messages {
+@Table(name = "status_type")
+public class MassagesStatusType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String email;
-    private String subject;
-    private String message;
-    private LocalDate sentDate;
-    @ManyToOne
-    MassagesStatusType statusType;
 }

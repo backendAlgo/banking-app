@@ -1,12 +1,11 @@
 package uz.najottalim.bankingapp.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -16,4 +15,16 @@ public class Loans {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private LocalDate startDate;
+    private Double totalLoan;
+    private Double amountPay;
+    private Double outstandingAmt;
+    @ManyToOne
+    @Column(name = "type_loans_id ")
+    private LoanType loanType;
+
+    @ManyToOne
+    Accounts account;
+
+
 }
