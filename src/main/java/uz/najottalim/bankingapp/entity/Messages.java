@@ -21,5 +21,5 @@ public class Messages {
     private String message;
     private LocalDate sentDate;
     @ManyToOne
-    MassagesStatusType statusType;
+    private MassagesStatusType statusType;
 }

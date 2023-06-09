@@ -15,12 +15,12 @@ public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    LocalDate transactionDate;
-    String summary;
-    Double withdrawal;
-    Double deposit;
-    Double closingBalance;
+    private LocalDate transactionDate;
+    private String summary;
+    private Double withdrawal;
+    private Double deposit;
+    private Double closingBalance;
     @ManyToOne
-    Accounts account;
+    private Accounts account;
 
 }

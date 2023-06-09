@@ -24,7 +24,7 @@ public class Loans {
     private LoanType loanType;
 
     @ManyToOne
-    Accounts account;
+    private Accounts account;
 
 
 }

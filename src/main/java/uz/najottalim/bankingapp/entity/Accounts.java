@@ -13,12 +13,12 @@ public class Accounts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    String name;
-    String email;
-    String mobileNumber;
-    String accountNumber;
+    private String name;
+    private String email;
+    private String mobileNumber;
+    private String accountNumber;
     @ManyToOne
-    AccountType accountType;
-    String address;
+    private AccountType accountType;
+    private String address;
 
 }

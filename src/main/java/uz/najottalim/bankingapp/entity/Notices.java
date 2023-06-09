@@ -16,4 +16,8 @@ public class Notices {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String title;
+    private String body;
+    private String imageUrl;
+    private Long createDate;
 }
