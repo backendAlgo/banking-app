@@ -2,7 +2,7 @@ package uz.najottalim.bankingapp.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uz.najottalim.bankingapp.dto.LoansDTO;
+import uz.najottalim.bankingapp.dto.LoanDTO;
 import uz.najottalim.bankingapp.service.LoansService;
 
 import java.util.List;
@@ -14,27 +14,27 @@ public class LoansController {
     private LoansService loansService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<LoansDTO> getLoansById(@PathVariable Long id){
+    public ResponseEntity<LoanDTO> getLoansById(@PathVariable Long id){
         return loansService.getLoansById(id);
     }
 
     @GetMapping
-    public ResponseEntity<List<LoansDTO>> getALLLoans(){
+    public ResponseEntity<List<LoanDTO>> getALLLoans(){
         return loansService.getAllLoans();
     }
 
     @PostMapping
-    public ResponseEntity<LoansDTO> updateLoans(@RequestBody LoansDTO loansDTO){
-        return loansService.addLoans(loansDTO);
+    public ResponseEntity<LoanDTO> updateLoans(@RequestBody LoanDTO loanDTO){
+        return loansService.addLoans(loanDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LoansDTO> updateLoans(@RequestBody LoansDTO loansDTO, @PathVariable Long id){
-        return loansService.updateLoans(loansDTO, id);
+    public ResponseEntity<LoanDTO> updateLoans(@RequestBody LoanDTO loanDTO, @PathVariable Long id){
+        return loansService.updateLoans(loanDTO, id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<LoansDTO> deleteLoans(@PathVariable Long id){
+    public ResponseEntity<LoanDTO> deleteLoans(@PathVariable Long id){
         return loansService.deleteLoans(id);
     }
 }

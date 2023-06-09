@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import uz.najottalim.bankingapp.dto.CardsDTO;
-import uz.najottalim.bankingapp.repository.CardsRepository;
+import uz.najottalim.bankingapp.dto.CardDTO;
+import uz.najottalim.bankingapp.repository.CardRepository;
 import uz.najottalim.bankingapp.service.CardsService;
 
 import java.util.List;
@@ -14,30 +14,30 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CardsServiceImpl implements CardsService {
     @Autowired
-    private CardsRepository cardsRepository;
+    private CardRepository cardRepository;
 
     @Override
-    public ResponseEntity<CardsDTO> getCardsById(Long id) {
+    public ResponseEntity<CardDTO> getCardsById(Long id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<List<CardsDTO>> getAllCards() {
+    public ResponseEntity<List<CardDTO>> getAllCards() {
         return null;
     }
 
     @Override
-    public ResponseEntity<CardsDTO> addCards(CardsDTO cardsDTO) {
+    public ResponseEntity<CardDTO> addCards(CardDTO cardDTO) {
         return null;
     }
 
     @Override
-    public ResponseEntity<CardsDTO> updateCards(CardsDTO cardsDTO) {
+    public ResponseEntity<CardDTO> updateCards(CardDTO cardDTO) {
         return null;
     }
 
     @Override
-    public ResponseEntity<CardsDTO> deleteCards(Long id) {
+    public ResponseEntity<CardDTO> deleteCards(Long id) {
         return null;
     }
 }

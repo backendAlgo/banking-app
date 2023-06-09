@@ -13,19 +13,18 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "transaction")
+@Table(name = "transactions")
 public class Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    @Column(name = "account_id")
-    private Long accountId;
-    @Column(name = "transaction_date")
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
     private LocalDate transactionDate;
     private String summary;
     private Double withdrawal;
     private Double deposit;
-    @Column(name = "closing_balance")
     private Double closingBalance;
 
 }

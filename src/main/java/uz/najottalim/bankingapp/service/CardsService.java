@@ -1,18 +1,18 @@
 package uz.najottalim.bankingapp.service;
 
 import org.springframework.http.ResponseEntity;
-import uz.najottalim.bankingapp.dto.CardsDTO;
+import uz.najottalim.bankingapp.dto.CardDTO;
 
 import java.util.List;
 
 public interface CardsService {
-    ResponseEntity<CardsDTO> getCardsById(Long id);
+    ResponseEntity<CardDTO> getCardsById(Long id);
 
-    ResponseEntity<List<CardsDTO>> getAllCards();
+    ResponseEntity<List<CardDTO>> getAllCards();
 
-    ResponseEntity<CardsDTO> addCards(CardsDTO cardsDTO);
+    ResponseEntity<CardDTO> addCards(CardDTO cardDTO);
 
-    ResponseEntity<CardsDTO> updateCards(CardsDTO cardsDTO);
+    ResponseEntity<CardDTO> updateCards(CardDTO cardDTO);
 
-    ResponseEntity<CardsDTO> deleteCards(Long id);
+    ResponseEntity<CardDTO> deleteCards(Long id);
 }

@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import uz.najottalim.bankingapp.dto.LoansDTO;
-import uz.najottalim.bankingapp.repository.LoansRepository;
+import uz.najottalim.bankingapp.dto.LoanDTO;
+import uz.najottalim.bankingapp.repository.LoanRepository;
 import uz.najottalim.bankingapp.service.LoansService;
 
 import java.util.List;
@@ -15,30 +15,30 @@ import java.util.List;
 public class LoansServiceImpl implements LoansService {
 
     @Autowired
-    private LoansRepository loansRepository;
+    private LoanRepository loanRepository;
 
     @Override
-    public ResponseEntity<LoansDTO> getLoansById(Long id) {
+    public ResponseEntity<LoanDTO> getLoansById(Long id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<List<LoansDTO>> getAllLoans() {
+    public ResponseEntity<List<LoanDTO>> getAllLoans() {
         return null;
     }
 
     @Override
-    public ResponseEntity<LoansDTO> addLoans(LoansDTO loansDTO) {
+    public ResponseEntity<LoanDTO> addLoans(LoanDTO loanDTO) {
         return null;
     }
 
     @Override
-    public ResponseEntity<LoansDTO> updateLoans(LoansDTO loansDTO, Long id) {
+    public ResponseEntity<LoanDTO> updateLoans(LoanDTO loanDTO, Long id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<LoansDTO> deleteLoans(Long id) {
+    public ResponseEntity<LoanDTO> deleteLoans(Long id) {
         return null;
     }
 }

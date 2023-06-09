@@ -1,18 +1,18 @@
 package uz.najottalim.bankingapp.service;
 
 import org.springframework.http.ResponseEntity;
-import uz.najottalim.bankingapp.dto.LoansDTO;
+import uz.najottalim.bankingapp.dto.LoanDTO;
 
 import java.util.List;
 
 public interface LoansService {
-    ResponseEntity<LoansDTO> getLoansById(Long id);
+    ResponseEntity<LoanDTO> getLoansById(Long id);
 
-    ResponseEntity<List<LoansDTO>> getAllLoans();
+    ResponseEntity<List<LoanDTO>> getAllLoans();
 
-    ResponseEntity<LoansDTO> addLoans(LoansDTO loansDTO);
+    ResponseEntity<LoanDTO> addLoans(LoanDTO loanDTO);
 
-    ResponseEntity<LoansDTO> updateLoans(LoansDTO loansDTO, Long id);
+    ResponseEntity<LoanDTO> updateLoans(LoanDTO loanDTO, Long id);
 
-    ResponseEntity<LoansDTO> deleteLoans(Long id);
+    ResponseEntity<LoanDTO> deleteLoans(Long id);
 }
