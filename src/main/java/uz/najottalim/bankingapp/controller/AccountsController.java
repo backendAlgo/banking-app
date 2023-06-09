@@ -35,13 +35,5 @@ public class AccountsController {
         return 100;
     }
 
-//    @GetMapping("/hello")
-//    public String hello(HttpServletRequest request) {
-//        log.info("path: {}", request.getPathInfo());
-//        log.info("request: {}", request.getRequestURI());
-//        log.info("cookie: {}", Arrays.stream(request.getCookies())
-//                .map(cookie -> cookie.getValue())
-//                .collect(Collectors.toList()));
-//        return "Hello, Spring Security";
-//    }
+
 }

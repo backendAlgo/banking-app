@@ -21,8 +21,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 //        DefaultLoginPageGeneratingFilter
-        AuthenticationManagerBuilder
-                DaoAuthenticationProvider
+//        AuthenticationManagerBuilder
+//                DaoAuthenticationProvider
         http.authorizeHttpRequests(
                 (requests) ->
                         requests.requestMatchers(
