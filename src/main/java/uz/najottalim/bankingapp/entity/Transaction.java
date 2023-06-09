@@ -7,22 +7,21 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Entity
-public class Cards {
+@Table(name = "transactions")
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String cardNumber;
-    private LocalDate cardExpiredDate;
-    private Double totalLimit;
-    private Double amountUsed;
-    private Double availableAmt;
+    private LocalDate transactionDate;
+    private String summary;
+    private Double withdrawal;
+    private Double deposit;
+    private Double closingBalance;
     @ManyToOne
-    private CardType cardType;
-    @ManyToOne
-    private Accounts account;
+    private Account account;
 
 }

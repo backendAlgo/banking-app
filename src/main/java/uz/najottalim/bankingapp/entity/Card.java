@@ -7,19 +7,22 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
-public class Messages {
+public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String email;
-    private String subject;
-    private String message;
-    private LocalDate sentDate;
+    private String cardNumber;
+    private LocalDate cardExpiredDate;
+    private Double totalLimit;
+    private Double amountUsed;
+    private Double availableAmt;
     @ManyToOne
-    private MassagesStatusType statusType;
+    private CardType cardType;
+    @ManyToOne
+    private Account account;
+
 }

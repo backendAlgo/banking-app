@@ -8,19 +8,24 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-public class Transactions {
+@Table(name = "loans")
+public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate transactionDate;
-    private String summary;
-    private Double withdrawal;
-    private Double deposit;
-    private Double closingBalance;
+    private LocalDate startDate;
+    private Double totalLoan;
+    private Double amountPay;
+    private Double outstandingAmt;
     @ManyToOne
-    private Accounts account;
+    @Column(name = "type_loans_id ")
+    private LoanType loanType;
+
+    @ManyToOne
+    private Account account;
+
 
 }

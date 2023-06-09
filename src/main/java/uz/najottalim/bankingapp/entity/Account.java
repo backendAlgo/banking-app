@@ -5,26 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Loans {
+@Data
+@Table(name = "accounts")
+public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate startDate;
-    private Double totalLoan;
-    private Double amountPay;
-    private Double outstandingAmt;
+    private String name;
+    private String email;
+    private String mobileNumber;
+    private String accountNumber;
     @ManyToOne
-    @Column(name = "type_loans_id ")
-    private LoanType loanType;
-
-    @ManyToOne
-    private Accounts account;
-
+    private AccountType accountType;
+    private String address;
 
 }
