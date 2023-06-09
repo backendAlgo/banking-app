@@ -45,10 +45,10 @@ public class SecurityConfig {
         http.httpBasic(withDefaults());
         return http.build();
     }
-    @Bean
-    public UserDetailsService springJdbcVersionForUserDetailsManager(DataSource source) {
-        return new JdbcUserDetailsManager(source);
-    }
+//    @Bean
+//    public UserDetailsService springJdbcVersionForUserDetailsManager(DataSource source) {
+//        return new JdbcUserDetailsManager(source);
+//    }
 
 
 //    @Bean
