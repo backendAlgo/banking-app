@@ -1,4 +1,2 @@
-package uz.najottalim.bankingapp.entity;
-
-public class News {
+package uz.najottalim.bankingapp.entity;public class News {
 }
