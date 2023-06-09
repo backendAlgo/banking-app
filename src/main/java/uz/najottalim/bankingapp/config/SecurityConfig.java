@@ -20,9 +20,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-//        DefaultLoginPageGeneratingFilter
-        AuthenticationManagerBuilder
-                DaoAuthenticationProvider
+
         http.authorizeHttpRequests(
                 (requests) ->
                         requests.requestMatchers(
