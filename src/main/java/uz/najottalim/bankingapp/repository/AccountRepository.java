@@ -6,7 +6,9 @@ import org.springframework.stereotype.Repository;
 import uz.najottalim.bankingapp.models.Account;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
+    Optional<Object> findByEmail(String email);
 }

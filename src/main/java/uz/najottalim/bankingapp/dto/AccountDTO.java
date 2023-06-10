@@ -15,4 +15,5 @@ public class AccountDTO {
     private String accountNumber;
     private AccountTypeDTO accountTypeDTO;
     private String address;
+    private String password;
 }

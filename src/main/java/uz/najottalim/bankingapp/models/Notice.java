@@ -16,12 +16,10 @@ import java.time.LocalDate;
 @Table(name = "news")
 public class Notice {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String body;
-    @Column(name = "image_url")
     private String imageUrl;
-    @Column(name = "create_date")
     private LocalDate createDate;
 }

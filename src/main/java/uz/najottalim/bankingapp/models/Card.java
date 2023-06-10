@@ -16,21 +16,16 @@ import java.time.LocalDate;
 @Table(name = "card")
 public class Card {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "account_id")
     private Long accountId;
-    @Column(name = "card_number")
     private String cardNumber;
-    @Column(name = "card_expired_date")
     private LocalDate cardExpiredDate;
-    @Column(name = "card_type_id")
-    private Long cardTypeId;
-    @Column(name = "total_limit")
+    @ManyToOne
+    @JoinColumn(name = "card_type_id")
+    private CardType cardType;
     private Double totalLimit;
-    @Column(name = "amount_used")
     private Double amountUsed;
-    @Column(name = "available_amt")
     private Double availableAmt;
 
 

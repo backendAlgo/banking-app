@@ -14,7 +14,7 @@ public class CardDTO {
     private Long accountId;
     private String cardNumber;
     private LocalDate cardExpiredDate;
-    private Long cardTypeId;
+    private CardTypeDTO cardTypeDTO;
     private Double totalLimit;
     private Double amountUsed;
     private Double availableAmt;

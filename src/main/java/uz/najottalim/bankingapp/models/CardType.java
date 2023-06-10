@@ -15,7 +15,7 @@ import org.springframework.security.core.parameters.P;
 @Table(name = "card_type")
 public class CardType {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 }

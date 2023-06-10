@@ -16,14 +16,14 @@ import java.time.LocalDate;
 @Table(name = "messages")
 public class Message {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String email;
     private String subject;
     private String message;
-    @Column(name = "sent_date")
     private LocalDate sentDate;
-    @Column(name = "status_type_id")
-    private Long statusTypeId;
+    @ManyToOne
+    @JoinColumn(name = "status_type_id")
+    private StatusType statusType;
 }

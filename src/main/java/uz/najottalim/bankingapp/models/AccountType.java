@@ -14,7 +14,7 @@ import lombok.Setter;
 @Table(name = "account_type")
 public class AccountType {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 

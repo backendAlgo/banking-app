@@ -1,17 +1,16 @@
 package uz.najottalim.bankingapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.aspectj.bridge.MessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import uz.najottalim.bankingapp.dto.MessageDTO;
-import uz.najottalim.bankingapp.mapper.MessageMapper;
-import uz.najottalim.bankingapp.models.Message;
-import uz.najottalim.bankingapp.repository.MessageRepository;
-import uz.najottalim.bankingapp.service.MessageService;
+import uz.najottalim.bankingapp.dto.NoticeDTO;
+import uz.najottalim.bankingapp.mapper.NoticeMapper;
+import uz.najottalim.bankingapp.models.Notice;
+import uz.najottalim.bankingapp.repository.NoticeRepository;
+import uz.najottalim.bankingapp.service.NoticeService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,24 +19,22 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MessagesServiceImpl implements MessageService {
+public class NoticeServiceImpl implements NoticeService {
 
-    private final MessageRepository massagesRepository;
-    private final MessageMapper messageMapper;
+    private final NoticeRepository noticeRepository;
+    private final NoticeMapper noticeMapper;
 
     @Override
-    public ResponseEntity<MessageDTO> getMessageById(Long id) {
-        Optional<Message> optionalMessage = massagesRepository.findById(id);
-        if(optionalMessage.isEmpty()){
-            throw new NoSuchElementException("message not found");
+    public ResponseEntity<NoticeDTO> getNoticeById(Long id) {
+        Optional<Notice> noticeOptional = noticeRepository.findById(id);
+        if(noticeOptional == null){
+            throw new NoSuchElementException("notice not found");
         }
-        return ResponseEntity.ok(
-                messageMapper.toDto(optionalMessage.get())
-        );
+        return ResponseEntity.ok(noticeMapper.toDto(noticeOptional.get()));
     }
 
     @Override
-    public ResponseEntity<List<MessageDTO>> getAllMessage(Optional<String> columnName, Optional<Integer> pageNum, Optional<Integer> pageSize) {
+    public ResponseEntity<List<NoticeDTO>> getAllNotice(Optional<String> columnName, Optional<Integer> pageNum, Optional<Integer> pageSize) {
         PageRequest pageable = null;
         Sort sort = null;
         if(pageNum.isPresent() && pageSize.isPresent()){
@@ -51,40 +48,40 @@ public class MessagesServiceImpl implements MessageService {
         }
         if(pageable != null){
             return ResponseEntity.ok(
-                    massagesRepository.findAll(pageable)
+                    noticeRepository.findAll(pageable)
                             .stream()
-                            .map(messageMapper::toDto)
+                            .map(noticeMapper::toDto)
                             .collect(Collectors.toList())
             );
         }
         else if(sort != null){
             return ResponseEntity.ok(
-                    massagesRepository.findAll(sort)
+                    noticeRepository.findAll(sort)
                             .stream()
-                            .map(messageMapper::toDto)
+                            .map(noticeMapper::toDto)
                             .collect(Collectors.toList())
             );
         }
         return ResponseEntity.ok(
-                massagesRepository.findAll()
+                noticeRepository.findAll()
                         .stream()
-                        .map(messageMapper::toDto)
+                        .map(noticeMapper::toDto)
                         .collect(Collectors.toList())
         );
     }
 
     @Override
-    public ResponseEntity<MessageDTO> addMessage(MessageDTO messageDTO) {
+    public ResponseEntity<NoticeDTO> addNotice(NoticeDTO noticeDTO) {
         return null;
     }
 
     @Override
-    public ResponseEntity<MessageDTO> updateMessage(MessageDTO messageDTO) {
+    public ResponseEntity<NoticeDTO> updateNotice(NoticeDTO noticeDTO) {
         return null;
     }
 
     @Override
-    public ResponseEntity<MessageDTO> deleteMessage(Long id) {
+    public ResponseEntity<NoticeDTO> deleteNotice(Long id) {
         return null;
     }
 }

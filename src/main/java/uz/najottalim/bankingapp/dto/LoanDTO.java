@@ -13,8 +13,8 @@ public class LoanDTO {
     private Long id;
     private Long accountId;
     private LocalDate startDate;
-    private Long typeLoansId;
+    private LoanTypeDTO loanTypeDTO;
     private Double totalLoan;
-    private Double amountPy;
+    private Double amountPay;
     private Double outstandingAmt;
 }

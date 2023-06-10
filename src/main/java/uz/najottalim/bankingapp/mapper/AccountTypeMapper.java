@@ -1,10 +1,12 @@
 package uz.najottalim.bankingapp.mapper;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import uz.najottalim.bankingapp.dto.AccountTypeDTO;
 import uz.najottalim.bankingapp.models.AccountType;
 
 @Component
+@RequiredArgsConstructor
 public class AccountTypeMapper {
     public AccountType toEntity(AccountTypeDTO accountTypeDTO){
         if (accountTypeDTO == null) return null;

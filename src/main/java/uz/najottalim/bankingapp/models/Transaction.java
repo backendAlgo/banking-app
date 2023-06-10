@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Table(name = "transactions")
 public class Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
     @JoinColumn(name = "account_id")
@@ -26,5 +26,6 @@ public class Transaction {
     private Double withdrawal;
     private Double deposit;
     private Double closingBalance;
+
 
 }

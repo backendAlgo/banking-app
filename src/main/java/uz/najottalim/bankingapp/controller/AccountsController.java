@@ -24,8 +24,9 @@ public class AccountsController {
 
     @GetMapping
     public ResponseEntity<List<AccountDTO>> getAllAccount(@RequestParam Optional<Integer> page,
-                                                          @RequestParam Optional<Integer> size){
-        return accountService.getAllAccount(page, size);
+                                                          @RequestParam Optional<Integer> size,
+                                                          @RequestParam Optional<String> columnName){
+        return accountService.getAllAccount(columnName,page, size);
     }
 
     @PostMapping

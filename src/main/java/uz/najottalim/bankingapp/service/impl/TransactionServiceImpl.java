@@ -8,6 +8,8 @@ import uz.najottalim.bankingapp.dto.TransactionDTO;
 import uz.najottalim.bankingapp.repository.TransactionRepository;
 import uz.najottalim.bankingapp.service.TransactionService;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
@@ -20,7 +22,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public ResponseEntity<TransactionDTO> getAllTransaction() {
+    public ResponseEntity<TransactionDTO> getAllTransaction(Optional<String> columnName, Optional<Integer> pageNum, Optional<Integer> pageSize) {
         return null;
     }
 

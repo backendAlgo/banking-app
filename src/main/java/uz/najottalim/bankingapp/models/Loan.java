@@ -16,18 +16,14 @@ import java.time.LocalDate;
 @Table(name = "loans")
 public class Loan {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "account_id")
     private Long accountId;
-    @Column(name = "start_date")
     private LocalDate startDate;
-    @Column(name = "type_loans_id")
-    private Long typeLoansId;
-    @Column(name = "total_loan")
+    @ManyToOne
+    @JoinColumn(name = "type_loans_id")
+    private LoanType loanType;
     private Double totalLoan;
-    @Column(name = "amount_py")
-    private Double amountPy;
-    @Column(name = "outstanding_amt")
+    private Double amountPay;
     private Double outstandingAmt;
 }

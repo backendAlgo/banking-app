@@ -13,8 +13,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "account")
 public class Account {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
     private String name;
     private String email;
@@ -24,7 +26,6 @@ public class Account {
     @JoinColumn(name = "account_type_id")
     private AccountType accountType;
     private String address;
-
-
+    private String password;
 
 }

@@ -35,8 +35,7 @@ public class SecurityConfig {
                                 .authenticated()
                                 .requestMatchers(
                                         "/accounts/**",
-                                        "/notices",
-                                        "/contacts")
+                                        "/notices")
                                 .permitAll()
                                 .anyRequest()
                                 .denyAll()
@@ -48,27 +47,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public UserDetailsService myCustomerUserDetailsManager() {
-        UserDetails userDetails1 = User.builder().username("mirshod")
-                .password("12345")
-                .build();
-        UserDetails userDetails2 = User.builder().username("sherzod")
-                .password("12345")
-                .build();
-//        DaoAuthenticationProvider
-        InMemoryUserDetailsManager inMemoryUserDetailsManager =
-                new InMemoryUserDetailsManager(userDetails1, userDetails2);
-//        DaoAuthenticationProvider
-        return inMemoryUserDetailsManager;
-    }
-    // 12345 -> hash12345
-    // mirshod, bazadahash12345
-
-
-    // kiritdi, mirshod, 12345
-    // bazada kegan username: mirshod, password: 12345
-    // tekshir vaqtida: 12345->lajsldjalsdjalsd, bazada kelgan: 12345
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();

@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface  AccountService {
     ResponseEntity<AccountDTO> getAccountById(Long id);
 
-    
+    ResponseEntity<List<AccountDTO>> getAllAccount(Optional<String> columnName, Optional<Integer> page, Optional<Integer> size);
 
     ResponseEntity<AccountDTO> addAccount(AccountDTO accountDTO);
 
@@ -17,5 +17,4 @@ public interface  AccountService {
 
     ResponseEntity<AccountDTO> deleteAccount(Long id);
 
-    ResponseEntity<List<AccountDTO>> getAllAccount(Optional<Integer> page, Optional<Integer> size);
 }

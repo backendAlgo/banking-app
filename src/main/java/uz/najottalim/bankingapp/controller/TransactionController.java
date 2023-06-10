@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import uz.najottalim.bankingapp.dto.TransactionDTO;
 import uz.najottalim.bankingapp.service.TransactionService;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("balances")
 public class TransactionController {
@@ -19,8 +21,10 @@ public class TransactionController {
     }
 
     @GetMapping
-    public ResponseEntity<TransactionDTO> getAllTransaction(){
-        return transactionService.getAllTransaction();
+    public ResponseEntity<TransactionDTO> getAllTransaction(@RequestParam Optional<Integer> pageNum,
+                                                            @RequestParam Optional<Integer> pageSize,
+                                                            @RequestParam Optional<String> columnName){
+        return transactionService.getAllTransaction(columnName,pageNum,pageSize);
     }
 
     @PutMapping
