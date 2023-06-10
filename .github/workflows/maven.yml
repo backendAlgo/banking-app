@@ -40,7 +40,7 @@ jobs:
       - name: Save the artifact
         uses: actions/upload-artifact@master
         with:
-          name: ofb-scoring
+          name: banking-app
           path: banking-app-${{github.sha}}.jar
 
 
@@ -53,4 +53,4 @@ jobs:
         with:
           name: banking-app
       - name: Fake deploy
-        run: ls ofb-scoring*.jar
+        run: ls banking-app*.jar
