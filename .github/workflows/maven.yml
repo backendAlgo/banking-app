@@ -35,13 +35,13 @@ jobs:
         run: mvn clean package
 
       - name: Rename the artifact
-        run: cp target/ofb-scoring-0.0.1-SNAPSHOT.jar ofb-scoring-${{github.sha}}.jar
+        run: cp target/banking-app-0.0.1-SNAPSHOT.jar banking-app-${{github.sha}}.jar
 
       - name: Save the artifact
         uses: actions/upload-artifact@master
         with:
           name: ofb-scoring
-          path: ofb-scoring-${{github.sha}}.jar
+          path: banking-app-${{github.sha}}.jar
 
 
   fake-deploy:
