@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -17,9 +18,13 @@ public class Loans {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long accountId;
-    private Date startDate;
-    private Long typeLoansId;
+    private LocalDate startDate;
+    @ManyToOne
+    @Column(name = "type_loans_id")
+    private LoansType typeLoansId;
     private Double totalLoan;
     private Double amountPay;
+    @ManyToOne
+    private Accounts accounts;
 
 }

@@ -24,4 +24,9 @@ public class Cards {
     private Double totalLimit;
     private Double amountUsed;
     private Double availableAmt;
+    @ManyToOne
+    private CardType cardType;
+    @ManyToOne
+    private Accounts accounts;
+
 }

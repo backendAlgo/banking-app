@@ -14,17 +14,15 @@ public class Accounts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name")
     private String name;
-    @Column(name = "email")
     private String email;
+    @Column(name = "mobil_number")
     private String mobileNumber;
     @Column(name = "account_number")
     private String accountNumber;
-//    @ManyToMany
-//    @JoinColumn(name = "account_type_id")
     private Long accountTypeId;
+    @ManyToOne
+    private AccountType accountType;
     private String addres;
-//    private AccountType accountType;
-
+    private String password;
 }
