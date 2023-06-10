@@ -22,7 +22,10 @@ public class NoticesController {
     public ResponseEntity<NoticeDTO> getNoticeById(@PathVariable Long id) {
         return noticeService.getNoticeById(id);
     }
-
+    @GetMapping("/check")
+    public String check() {
+        return "notices page";
+    }
     @GetMapping
     public ResponseEntity<List<NoticeDTO>> getAllNotice(@RequestParam Optional<String> columnName,
                                                         @RequestParam Optional<Integer> pageNum,

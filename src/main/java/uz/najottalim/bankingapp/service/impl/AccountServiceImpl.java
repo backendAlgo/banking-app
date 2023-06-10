@@ -1,10 +1,13 @@
 package uz.najottalim.bankingapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.najottalim.bankingapp.dto.AccountDTO;
 import uz.najottalim.bankingapp.mapper.AccountMapper;
@@ -19,12 +22,16 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public ResponseEntity<AccountDTO> getAccountById(Long id) {
+//        log.info("authenticate: {}", SecurityContextHolder.getContext().getAuthentication());
+//        log.info("Username: {}", SecurityContextHolder.getContext().getAuthentication().getName());
         Optional<Account> accountOptional = accountRepository.findById(id);
         if (accountOptional.isEmpty()){
             return ResponseEntity.badRequest().build();
@@ -54,7 +61,9 @@ public class AccountServiceImpl implements AccountService {
         if(accountDTO == null) {
             throw new NoSuchElementException("account not found");
         }
-        Account account = accountRepository.save(accountMapper.toEntity(accountDTO));
+        accountDTO.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
+
+//        Account account = accountRepository.save(accountMapper.toEntity(accountDTO));
         return ResponseEntity.ok(accountMapper.toDto(account));
     }
 
