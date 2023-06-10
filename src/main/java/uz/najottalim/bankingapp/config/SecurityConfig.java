@@ -45,20 +45,20 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public UserDetailsService myCustomerUserDetailsManager() {
-        UserDetails userDetails1 = User.builder().username("mirshod")
-                .password("12345")
-                .build();
-        UserDetails userDetails2 = User.builder().username("sherzod")
-                .password("12345")
-                .build();
-//        DaoAuthenticationProvider
-        InMemoryUserDetailsManager inMemoryUserDetailsManager =
-                new InMemoryUserDetailsManager(userDetails1, userDetails2);
-//        DaoAuthenticationProvider
-        return inMemoryUserDetailsManager;
-    }
+    //@Bean
+//    public UserDetailsService myCustomerUserDetailsManager() {
+//        UserDetails userDetails1 = User.builder().username("mirshod")
+//                .password("12345")
+//                .build();
+//        UserDetails userDetails2 = User.builder().username("sherzod")
+//                .password("12345")
+//                .build();
+////        DaoAuthenticationProvider
+//        InMemoryUserDetailsManager inMemoryUserDetailsManager =
+//                new InMemoryUserDetailsManager(userDetails1, userDetails2);
+////        DaoAuthenticationProvider
+//        return inMemoryUserDetailsManager;
+//    }
     // 12345 -> hash12345
     // mirshod, bazadahash12345
 
