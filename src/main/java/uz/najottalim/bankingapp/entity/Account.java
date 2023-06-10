@@ -13,9 +13,9 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String email;
+    private String password;
     @Column(name = "mobile_number")
     private String mobileNumber;
     @Column(name = "account_number")

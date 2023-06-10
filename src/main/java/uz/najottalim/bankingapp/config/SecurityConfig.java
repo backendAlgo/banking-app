@@ -24,6 +24,7 @@ public class SecurityConfig {
 //        DefaultLoginPageGeneratingFilter
 //        AuthenticationManagerBuilder
 //                DaoAuthenticationProvider
+//        DaoAuthenticationProvider
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
@@ -43,25 +44,34 @@ public class SecurityConfig {
         );
 //        UserDetailsManager
 //        UserDetailsService
+//        DaoAuthenticationProvider
+//        ProviderManager
+//        UsernamePasswordAuthenticationFilter
+//        UserDetailsServicex`
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();
     }
+//    @Bean
+//    public UserDetailsService springJdbcVersionForUserDetailsManager(DataSource source) {
+//        return new JdbcUserDetailsManager(source);
+//    }
 
-    @Bean
-    public UserDetailsService myCustomerUserDetailsManager() {
-        UserDetails userDetails1 = User.builder().username("mirshod")
-                .password("12345")
-                .build();
-        UserDetails userDetails2 = User.builder().username("sherzod")
-                .password("12345")
-                .build();
-//        DaoAuthenticationProvider
-        InMemoryUserDetailsManager inMemoryUserDetailsManager =
-                new InMemoryUserDetailsManager(userDetails1, userDetails2);
-//        DaoAuthenticationProvider
-        return inMemoryUserDetailsManager;
-    }
+
+//    @Bean
+//    public UserDetailsService myCustomerUserDetailsManager() {
+//        UserDetails userDetails1 = User.builder().username("mirshod")
+//                .password("12345")
+//                .build();
+//        UserDetails userDetails2 = User.builder().username("sherzod")
+//                .password("12345")
+//                .build();
+////        DaoAuthenticationProvider
+//        InMemoryUserDetailsManager inMemoryUserDetailsManager =
+//                new InMemoryUserDetailsManager(userDetails1, userDetails2);
+////        DaoAuthenticationProvider
+//        return inMemoryUserDetailsManager;
+//    }
     // 12345 -> hash12345
     // mirshod, bazadahash12345
 
