@@ -5,7 +5,8 @@ create table account (
                          mobile_number varchar(15),
                          account_number varchar(10),
                          account_type_id number,
-                         address varchar(255)
+                         address varchar(255),
+                         password varchar2(100)
 );
 
 create table account_type (
