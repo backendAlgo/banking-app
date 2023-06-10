@@ -21,7 +21,7 @@ public class Loan {
     private Double amountPay;
     private Double outstandingAmt;
     @ManyToOne
-    @Column(name = "type_loans_id ")
+    @JoinColumn(name = "type_loans_id ")
     private LoanType loanType;
 
     @ManyToOne

@@ -1,4 +1,4 @@
-package uz.najottalim.bankingapp.dto.accountsdto;
+package uz.najottalim.bankingapp.dto.accountTypeDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,5 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountsDto {
+public class AccountTypeDto {
+    private Long id;
+    private String name;
 }

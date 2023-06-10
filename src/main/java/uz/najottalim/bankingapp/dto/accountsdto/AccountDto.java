@@ -1,26 +1,22 @@
-package uz.najottalim.bankingapp.entity;
+package uz.najottalim.bankingapp.dto.accountsdto;
 
-import jakarta.persistence.*;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uz.najottalim.bankingapp.dto.accountTypeDto.AccountTypeDto;
+import uz.najottalim.bankingapp.entity.AccountType;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Data
-public class Account {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class AccountDto {
     private Long id;
     private String name;
     private String email;
     private String password;
     private String mobileNumber;
     private String accountNumber;
-    @ManyToOne
-    @JoinColumn(name = "account_type_id")
-    private AccountType accountType;
+    private AccountTypeDto accountTypeDto;
     private String address;
-
 }
