@@ -11,16 +11,20 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Table(name = "card")
 public class Card {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long accountId;
     private String cardNumber;
     private LocalDate cardExpiredDate;
+    @ManyToOne
+    @JoinColumn(name = "card_type_id")
+    private CardType cardType;
     private Double totalLimit;
     private Double amountUsed;
     private Double availableAmt;
 
-    @ManyToOne
-    private Account account;
+
 }

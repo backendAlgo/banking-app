@@ -6,17 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-@Table(name = "account_type")
-public class AccountType {
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "type_loans")
+public class LoanType {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
-    @ManyToOne
-    private Account account;
 }

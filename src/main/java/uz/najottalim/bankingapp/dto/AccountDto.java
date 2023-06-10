@@ -5,19 +5,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.time.LocalDate;
-
-
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @ToString
-public class MessageDto {
+public class AccountDto {
     private Long id;
     private String name;
     private String email;
-    private String subject;
-    private String message;
-    private LocalDate sentDate;
-    private StatusTypeDto statusTypeDTO;
+    private String mobileNumber;
+    private String accountNumber;
+    private AccountTypeDto accountTypeDTO;
+    private String address;
+    private String password;
 }

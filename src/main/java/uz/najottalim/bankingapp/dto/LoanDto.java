@@ -11,12 +11,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class TransactionDto {
+public class LoanDto {
     private Long id;
     private Long accountId;
-    private LocalDate transactionDate;
-    private String summary;
-    private Double withdrawal;
-    private Double deposit;
-    private Double closingBalance;
+    private LocalDate startDate;
+    private LoanTypeDto loanTypeDTO;
+    private Double totalLoan;
+    private Double amountPay;
+    private Double outstandingAmt;
 }

@@ -1,25 +1,27 @@
 package uz.najottalim.bankingapp.Entity;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uz.najottalim.bankingapp.Entity.AccountType;
 
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Table(name = "account")
 public class Account {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String email;
     private String mobileNumber;
     private String accountNumber;
-    private String address;
-    @OneToMany
-    @JoinColumn(name = "account")
+    @ManyToOne
+    @JoinColumn(name = "account_type_id")
     private AccountType accountType;
+    private String address;
+
 }

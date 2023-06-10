@@ -1,19 +1,16 @@
 package uz.najottalim.bankingapp.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
-
-public class LoansType {
+@NoArgsConstructor
+@Data
+@Table(name = "card_type")
+public class CardType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

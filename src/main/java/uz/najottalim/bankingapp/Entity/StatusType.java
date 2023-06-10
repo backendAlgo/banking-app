@@ -9,14 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "account_type")
-public class AccountType {
-
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Table(name = "status_type")
+public class StatusType {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
-    @ManyToOne
-    private Account account;
 }
+

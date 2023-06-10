@@ -5,19 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.time.LocalDate;
-
-
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @ToString
-public class MessageDto {
+public class LoanTypeDto {
     private Long id;
     private String name;
-    private String email;
-    private String subject;
-    private String message;
-    private LocalDate sentDate;
-    private StatusTypeDto statusTypeDTO;
 }
