@@ -24,4 +24,13 @@ public class AccountServiceImpl implements AccountService {
         List<Account> all = accountRepository.findAll();
         return ResponseEntity.ok(all.stream().map(AccountMapper::toDto).collect(Collectors.toList()));
     }
+
+    @Override
+    public ResponseEntity<AccountDTO> addAccount(AccountDTO accountDTO) {
+
+        Account account = AccountMapper.toEntity(accountDTO);
+        Account account1 = accountRepository.save(account);
+
+        return ResponseEntity.ok(AccountMapper.toDto(account1));
+    }
 }

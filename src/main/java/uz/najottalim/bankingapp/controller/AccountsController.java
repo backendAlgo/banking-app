@@ -25,5 +25,10 @@ public class AccountsController {
         return accountService.getAllAccounts();
     }
 
+    @PostMapping
+    public ResponseEntity<AccountDTO> addAccount(@RequestBody AccountDTO accountDTO){
+        return accountService.addAccount(accountDTO);
+    }
+
 
 }
