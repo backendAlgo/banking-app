@@ -15,7 +15,7 @@ public class LoanMapper {
        if(loanDTO == null) return null;
        return new Loan(
                loanDTO.getId(),
-               loanDTO.getAccountId(),
+               null,
                loanDTO.getStartDate(),
                loanTypeMapper.toEntity(loanDTO.getLoanTypeDTO()),
                loanDTO.getTotalLoan(),
@@ -28,7 +28,7 @@ public class LoanMapper {
        if(loan == null) return null;
        return new LoanDTO(
                loan.getId(),
-               loan.getAccountId(),
+               null,
                loan.getStartDate(),
                loanTypeMapper.toDto(loan.getLoanType()),
                loan.getTotalLoan(),

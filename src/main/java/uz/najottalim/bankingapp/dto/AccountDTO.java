@@ -1,6 +1,7 @@
 package uz.najottalim.bankingapp.dto;
 
 import lombok.*;
+import uz.najottalim.bankingapp.models.Role;
 
 @Getter
 @Setter
@@ -16,4 +17,5 @@ public class AccountDTO {
     private AccountTypeDTO accountTypeDTO;
     private String address;
     private String password;
+    private Role role;
 }

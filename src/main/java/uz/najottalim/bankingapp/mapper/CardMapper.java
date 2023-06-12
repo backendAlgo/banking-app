@@ -10,11 +10,13 @@ import uz.najottalim.bankingapp.models.Card;
 public class CardMapper {
 
     public final CardTypeMapper cardTypeMapper;
+
+    public final AccountMapper accountMapper;
     public Card toEntity(CardDTO cardDTO){
         if(cardDTO == null) return null;
         return new Card(
                 cardDTO.getId(),
-                cardDTO.getAccountId(),
+                null,
                 cardDTO.getCardNumber(),
                 cardDTO.getCardExpiredDate(),
                 cardTypeMapper.toEntity(cardDTO.getCardTypeDTO()),
@@ -28,7 +30,8 @@ public class CardMapper {
         if(card == null) return null;
         return new CardDTO(
                 card.getId(),
-                card.getAccountId(),
+                null
+                ,
                 card.getCardNumber(),
                 card.getCardExpiredDate(),
                 cardTypeMapper.toDto(card.getCardType()),

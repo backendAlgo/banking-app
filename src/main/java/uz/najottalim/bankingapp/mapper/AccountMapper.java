@@ -19,7 +19,8 @@ public class AccountMapper {
                 accountDTO.getAccountNumber(),
                 accountTypeMapper.toEntity(accountDTO.getAccountTypeDTO()),
                 accountDTO.getAddress(),
-                accountDTO.getPassword()
+                accountDTO.getPassword(),
+                null
         );
     }
 

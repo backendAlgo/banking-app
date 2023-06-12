@@ -9,18 +9,18 @@ import uz.najottalim.bankingapp.models.Transaction;
 @RequiredArgsConstructor
 public class TransactionMapper {
     private final AccountTypeMapper accountTypeMapper;
-//    public Transaction toEntity(TransactionDTO transactionDTO){
-//        if(transactionDTO == null) return null;
-//        return new Transaction(
-//                transactionDTO.getId(),
-//                transactionDTO.getAccountId(),
-//                transactionDTO.getTransactionDate(),
-//                transactionDTO.getSummary(),
-//                transactionDTO.getWithdrawal(),
-//                transactionDTO.getDeposit(),
-//                transactionDTO.getClosingBalance()
-//        );
-//    }
+    public Transaction toEntity(TransactionDTO transactionDTO){
+        if(transactionDTO == null) return null;
+        return new Transaction(
+                transactionDTO.getId(),
+                null,
+                transactionDTO.getTransactionDate(),
+                transactionDTO.getSummary(),
+                transactionDTO.getWithdrawal(),
+                transactionDTO.getDeposit(),
+                transactionDTO.getClosingBalance()
+        );
+    }
 
     public TransactionDTO toDto(Transaction transaction){
         if(transaction == null) return null;

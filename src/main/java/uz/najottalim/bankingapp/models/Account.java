@@ -23,9 +23,11 @@ public class Account {
     private String mobileNumber;
     private String accountNumber;
     @ManyToOne
-    @JoinColumn(name = "account_type_id")
+    @JoinColumn(name = "account_type_id", nullable = false)
     private AccountType accountType;
     private String address;
     private String password;
+    @OneToOne
+    private Role role;
 
 }

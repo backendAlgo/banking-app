@@ -6,7 +6,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.najottalim.bankingapp.dto.AccountDTO;
@@ -15,6 +19,7 @@ import uz.najottalim.bankingapp.models.Account;
 import uz.najottalim.bankingapp.repository.AccountRepository;
 import uz.najottalim.bankingapp.service.AccountService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -27,6 +32,23 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
     private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Account account = (Account) accountRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("cannot load user: "));
+
+//       TODO: 1. berilgan userni email bo'yicha oling, role_id mas
+//       TODO: 2. role_iddan foydalanib, hamma authoritielarni oling
+        List<String> authorities = new ArrayList<>();
+//        GrantedAuthority
+        return new User(account.getEmail(), account.getPassword(),
+                authorities.stream().map(
+                                SimpleGrantedAuthority::new
+                        )
+                        .collect(Collectors.toList())
+        );
+    }
 
     @Override
     public ResponseEntity<AccountDTO> getAccountById(Long id) {
@@ -63,7 +85,8 @@ public class AccountServiceImpl implements AccountService {
         }
         accountDTO.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
 
-//        Account account = accountRepository.save(accountMapper.toEntity(accountDTO));
+        Account account = accountRepository.save(accountMapper.toEntity(accountDTO));
+
         return ResponseEntity.ok(accountMapper.toDto(account));
     }
 
@@ -89,5 +112,6 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.delete(accountOptional.get());
         return ResponseEntity.ok(accountMapper.toDto(accountOptional.get()));
     }
+
 
 }

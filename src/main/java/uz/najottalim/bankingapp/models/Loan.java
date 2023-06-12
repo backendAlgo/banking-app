@@ -18,7 +18,8 @@ public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long accountId;
+    @ManyToOne
+    private Account account;
     private LocalDate startDate;
     @ManyToOne
     @JoinColumn(name = "type_loans_id")
