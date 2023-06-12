@@ -7,5 +7,5 @@ import uz.najottalim.bankingapp.model.Role;
 import java.util.List;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
-
+    List<Role> findRoleByParentRole(Role role);
 }

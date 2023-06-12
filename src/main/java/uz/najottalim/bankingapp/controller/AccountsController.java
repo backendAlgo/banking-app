@@ -21,23 +21,25 @@ import java.util.stream.Collectors;
 public class AccountsController {
 
     private final AccountService accountService;
+
     @GetMapping
-    public ResponseEntity<List<AccountDTO>> getAll(){
+    public ResponseEntity<List<AccountDTO>> getAll() {
         return accountService.getAllAccounts();
     }
 
-    @PostMapping
-    public ResponseEntity<AccountDTO> addAccount(@RequestBody AccountDTO accountDTO){
+    @PostMapping("/register")
+    public ResponseEntity<AccountDTO> addAccount(@RequestBody AccountDTO accountDTO) {
         return accountService.addAccount(accountDTO);
     }
 
     @PutMapping
-    public RequestEntity<AccountDTO> updateAccount(@RequestBody AccountDTO accountDTO){
+    public ResponseEntity<AccountDTO> updateAccount(@RequestBody AccountDTO accountDTO) {
         return null;
     }
+
     @DeleteMapping("/{id}")
-    public RequestEntity<AccountDTO> deleteAccount(@PathVariable Long id){
-        return null;
+    public ResponseEntity<AccountDTO> deleteAccount(@PathVariable Long id) {
+        return ResponseEntity.ok(accountService.getAllAccounts().getBody().get(0));
     }
 
 

@@ -3,6 +3,7 @@ package uz.najottalim.bankingapp.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import uz.najottalim.bankingapp.model.Account;
 import uz.najottalim.bankingapp.model.Authority;
 import uz.najottalim.bankingapp.model.Role;
 import uz.najottalim.bankingapp.repository.AccountRepository;
+import uz.najottalim.bankingapp.repository.AuthorityRepository;
 import uz.najottalim.bankingapp.repository.RoleRepository;
 import uz.najottalim.bankingapp.service.AccountService;
 
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 public class AccountServiceImpl implements AccountService, UserDetailsService {
     final private AccountRepository accountRepository;
     final private RoleRepository roleRepository;
+    final private AuthorityRepository authorityRepository;
 
 
     @Override
@@ -38,7 +41,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     public ResponseEntity<AccountDTO> addAccount(AccountDTO accountDTO) {
-        accountDTO.setRoleDTO(new RoleDTO(1l, "user"));
+        accountDTO.setRoleDTO(new RoleDTO(1L, "ROLE_USER"));
         Account account = AccountMapper.toEntity(accountDTO);
         Account account1 = accountRepository.save(account);
 
@@ -54,12 +57,20 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
         Role role = roleRepository.findById(account.getRole().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Role not found"));
-        List<Authority> authorities = role.getAuthorities();
 
-        List<SimpleGrantedAuthority> grantedAuthorities = authorities.stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getName()))
-                .collect(Collectors.toList());
+        List<Role> childRolesAndOwnRole = new ArrayList<>(roleRepository.findRoleByParentRole(role));
+        childRolesAndOwnRole.add(role);
 
-        return new User(account.getEmail(), account.getPassword(), grantedAuthorities);
+        List<SimpleGrantedAuthority> allAuthorities = new ArrayList<>(childRolesAndOwnRole.stream()
+                .flatMap(rr -> authorityRepository.findByRoles(rr).stream())
+                .distinct()
+                .map(aa -> new SimpleGrantedAuthority(aa.getName()))
+                .toList());
+
+        allAuthorities.addAll(childRolesAndOwnRole.stream()
+                .map(aa -> new SimpleGrantedAuthority(aa.getName()))
+                .toList()
+        );
+        return new User(account.getEmail(), account.getPassword(), allAuthorities);
     }
 }

@@ -21,4 +21,19 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     private List<Authority> authorities;
 
+    @ManyToOne
+    @JoinColumn(name = "parent_role_id")
+    private Role parentRole;
+
+//    @OneToMany(mappedBy = "parentRole")
+//    private List<Role> childRoles;
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", parentRole=" + parentRole +
+                '}';
+    }
 }
