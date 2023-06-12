@@ -83,9 +83,10 @@ public class AccountServiceImpl implements AccountService {
         if(accountDTO == null) {
             throw new NoSuchElementException("account not found");
         }
-        accountDTO.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
+        AccountDTO passwordChangedAccount = accountDTO.withPassword(passwordEncoder.encode(accountDTO.password()));
 
-        Account account = accountRepository.save(accountMapper.toEntity(accountDTO));
+
+        Account account = accountRepository.save(accountMapper.toEntity(passwordChangedAccount));
 
         return ResponseEntity.ok(accountMapper.toDto(account));
     }
@@ -96,7 +97,7 @@ public class AccountServiceImpl implements AccountService {
         if (optionalAccount.isEmpty()){
             throw new NoSuchElementException("account not found");
         }
-        accountDTO.setId(id);
+        accountDTO.withId(id);
         return ResponseEntity.ok(accountMapper
                 .toDto(accountRepository
                         .save(accountMapper

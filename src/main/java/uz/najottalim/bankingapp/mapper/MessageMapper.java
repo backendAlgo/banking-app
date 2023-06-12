@@ -14,13 +14,13 @@ public class MessageMapper {
     public Message toEntity(MessageDTO messageDTO){
         if(messageDTO == null) return null;
         return new Message(
-                messageDTO.getId(),
-                messageDTO.getName(),
-                messageDTO.getEmail(),
-                messageDTO.getSubject(),
-                messageDTO.getMessage(),
-                messageDTO.getSentDate(),
-                statusTypeMapper.toEntity(messageDTO.getStatusTypeDTO())
+                messageDTO.id(),
+                messageDTO.name(),
+                messageDTO.email(),
+                messageDTO.subject(),
+                messageDTO.message(),
+                messageDTO.sentDate(),
+                statusTypeMapper.toEntity(messageDTO.statusTypeDTO())
 
         );
     }

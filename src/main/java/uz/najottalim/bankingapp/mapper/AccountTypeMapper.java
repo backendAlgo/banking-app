@@ -8,11 +8,11 @@ import uz.najottalim.bankingapp.models.AccountType;
 @Component
 @RequiredArgsConstructor
 public class AccountTypeMapper {
-    public AccountType toEntity(AccountTypeDTO accountTypeDTO){
+    public AccountType toEntity(AccountTypeDTO accountTypeDTO) {
         if (accountTypeDTO == null) return null;
         return new AccountType(
-                accountTypeDTO.getId(),
-                accountTypeDTO.getName()
+                accountTypeDTO.id(),
+                accountTypeDTO.name()
         );
     }
 
@@ -21,6 +21,7 @@ public class AccountTypeMapper {
         return new AccountTypeDTO(
                 accountType.getId(),
                 accountType.getName()
+
         );
     }
 }

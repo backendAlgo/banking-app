@@ -11,11 +11,11 @@ public class NoticeMapper {
     public Notice toEntity(NoticeDTO noticeDTO){
         if(noticeDTO == null) return null;
         return new Notice(
-                noticeDTO.getId(),
-                noticeDTO.getTitle(),
-                noticeDTO.getBody(),
-                noticeDTO.getImageUrl(),
-                noticeDTO.getCreateDate()
+                noticeDTO.id(),
+                noticeDTO.title(),
+                noticeDTO.body(),
+                noticeDTO.imageUrl(),
+                noticeDTO.createDate()
         );
     }
 

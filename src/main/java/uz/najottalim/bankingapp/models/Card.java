@@ -23,7 +23,7 @@ public class Card {
     private String cardNumber;
     private LocalDate cardExpiredDate;
     @ManyToOne
-    @JoinColumn(name = "card_type_id")
+//    @JoinColumn(name = "card_type_id")
     private CardType cardType;
     private Double totalLimit;
     private Double amountUsed;

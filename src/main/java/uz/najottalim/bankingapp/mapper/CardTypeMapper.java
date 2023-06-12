@@ -11,8 +11,8 @@ public class CardTypeMapper {
     public CardType toEntity(CardTypeDTO cardTypeDTO){
         if(cardTypeDTO == null) return null;
         return new CardType(
-                cardTypeDTO.getId(),
-                cardTypeDTO.getName()
+                cardTypeDTO.id(),
+                cardTypeDTO.name()
         );
     }
 

@@ -12,18 +12,26 @@ public class TransactionMapper {
     public Transaction toEntity(TransactionDTO transactionDTO){
         if(transactionDTO == null) return null;
         return new Transaction(
-                transactionDTO.getId(),
-                null,
-                transactionDTO.getTransactionDate(),
-                transactionDTO.getSummary(),
-                transactionDTO.getWithdrawal(),
-                transactionDTO.getDeposit(),
-                transactionDTO.getClosingBalance()
+                transactionDTO.id(),
+                transactionDTO.account(),
+                transactionDTO.transactionDate(),
+                transactionDTO.summary(),
+                transactionDTO.withdrawal(),
+                transactionDTO.deposit(),
+                transactionDTO.closingBalance()
         );
     }
 
     public TransactionDTO toDto(Transaction transaction){
         if(transaction == null) return null;
-        return new TransactionDTO();
+        return new TransactionDTO(
+                transaction.getId(),
+                transaction.getAccount(),
+                transaction.getTransactionDate(),
+                transaction.getSummary(),
+                transaction.getWithdrawal(),
+                transaction.getDeposit(),
+                transaction.getClosingBalance()
+        );
     }
 }

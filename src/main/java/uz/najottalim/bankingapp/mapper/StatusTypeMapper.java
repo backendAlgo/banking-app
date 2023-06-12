@@ -12,8 +12,8 @@ public class StatusTypeMapper {
     public StatusType toEntity(StatusTypeDTO statusTypeDTO){
         if(statusTypeDTO == null) return null;
         return new StatusType(
-                statusTypeDTO.getId(),
-                statusTypeDTO.getName()
+                statusTypeDTO.id(),
+                statusTypeDTO.name()
         );
     }
 

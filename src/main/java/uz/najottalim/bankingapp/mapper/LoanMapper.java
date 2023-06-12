@@ -10,17 +10,18 @@ import uz.najottalim.bankingapp.models.Loan;
 public class LoanMapper {
 
     private final LoanTypeMapper loanTypeMapper;
+    private final AccountMapper accountMapper;
 
    public Loan toEntity(LoanDTO loanDTO){
        if(loanDTO == null) return null;
        return new Loan(
-               loanDTO.getId(),
-               null,
-               loanDTO.getStartDate(),
-               loanTypeMapper.toEntity(loanDTO.getLoanTypeDTO()),
-               loanDTO.getTotalLoan(),
-               loanDTO.getAmountPay(),
-               loanDTO.getOutstandingAmt()
+               loanDTO.id(),
+               loanDTO.account(),
+               loanDTO.startDate(),
+               loanTypeMapper.toEntity(loanDTO.loanTypeDTO()),
+               loanDTO.totalLoan(),
+               loanDTO.amountPay(),
+               loanDTO.outstandingAmt()
        );
    }
 
@@ -28,7 +29,7 @@ public class LoanMapper {
        if(loan == null) return null;
        return new LoanDTO(
                loan.getId(),
-               null,
+               loan.getAccount(),
                loan.getStartDate(),
                loanTypeMapper.toDto(loan.getLoanType()),
                loan.getTotalLoan(),

@@ -27,7 +27,9 @@ public class Account {
     private AccountType accountType;
     private String address;
     private String password;
-    @OneToOne
+    @ManyToOne
+
+
     private Role role;
 
 }

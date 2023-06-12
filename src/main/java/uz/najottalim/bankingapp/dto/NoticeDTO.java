@@ -4,15 +4,11 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-public class NoticeDTO {
-    private Long id;
-    private String title;
-    private String body;
-    private String imageUrl;
-    private LocalDate createDate;
+
+public record NoticeDTO (
+    Long id,
+    String title,
+    String body,
+    String imageUrl,
+    LocalDate createDate){
 }

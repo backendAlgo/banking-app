@@ -12,14 +12,14 @@ public class AccountMapper {
     public Account toEntity(AccountDTO accountDTO){
         if(accountDTO == null) return null;
         return new Account(
-                accountDTO.getId(),
-                accountDTO.getName(),
-                accountDTO.getEmail(),
-                accountDTO.getMobileNumber(),
-                accountDTO.getAccountNumber(),
-                accountTypeMapper.toEntity(accountDTO.getAccountTypeDTO()),
-                accountDTO.getAddress(),
-                accountDTO.getPassword(),
+                accountDTO.id(),
+                accountDTO.name(),
+                accountDTO.email(),
+                accountDTO.mobileNumber(),
+                accountDTO.accountNumber(),
+                accountTypeMapper.toEntity(accountDTO.accountTypeDTO()),
+                accountDTO.address(),
+                accountDTO.password(),
                 null
         );
     }
@@ -34,7 +34,8 @@ public class AccountMapper {
                 account.getAccountNumber(),
                 accountTypeMapper.toDto(account.getAccountType()),
                 account.getAddress(),
-                null
+                null,
+                account.getRole()
         );
     }
 }

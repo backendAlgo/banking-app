@@ -12,8 +12,8 @@ public class LoanTypeMapper {
     public LoanType toEntity(LoanTypeDTO loanTypeDTO){
         if(loanTypeDTO == null) return null;
         return new LoanType(
-                loanTypeDTO.getId(),
-                loanTypeDTO.getName()
+                loanTypeDTO.id(),
+                loanTypeDTO.name()
         );
     }
 

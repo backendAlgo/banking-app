@@ -12,17 +12,18 @@ public class CardMapper {
     public final CardTypeMapper cardTypeMapper;
 
     public final AccountMapper accountMapper;
-    public Card toEntity(CardDTO cardDTO){
-        if(cardDTO == null) return null;
+
+    public Card toEntity(CardDTO cardDTO) {
+        if (cardDTO == null) return null;
         return new Card(
-                cardDTO.getId(),
-                null,
-                cardDTO.getCardNumber(),
-                cardDTO.getCardExpiredDate(),
-                cardTypeMapper.toEntity(cardDTO.getCardTypeDTO()),
-                cardDTO.getTotalLimit(),
-                cardDTO.getAmountUsed(),
-                cardDTO.getAvailableAmt()
+                cardDTO.id(),
+                cardDTO.account(),
+                cardDTO.cardNumber(),
+                cardDTO.cardExpiredDate(),
+                cardTypeMapper.toEntity(cardDTO.cardTypeDTO()),
+                cardDTO.totalLimit(),
+                cardDTO.amountUsed(),
+                cardDTO.availableAmt()
         );
     }
 
@@ -30,14 +31,14 @@ public class CardMapper {
         if(card == null) return null;
         return new CardDTO(
                 card.getId(),
-                null
-                ,
+                card.getAccount(),
                 card.getCardNumber(),
                 card.getCardExpiredDate(),
                 cardTypeMapper.toDto(card.getCardType()),
                 card.getTotalLimit(),
                 card.getAmountUsed(),
                 card.getAvailableAmt()
+
         );
     }
 }

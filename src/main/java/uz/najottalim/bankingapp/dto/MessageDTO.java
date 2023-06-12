@@ -4,17 +4,12 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-public class MessageDTO {
-    private Long id;
-    private String name;
-    private String email;
-    private String subject;
-    private String message;
-    private LocalDate sentDate;
-    private StatusTypeDTO statusTypeDTO;
+public record MessageDTO (
+    Long id,
+    String name,
+    String email,
+    String subject,
+    String message,
+    LocalDate sentDate,
+    StatusTypeDTO statusTypeDTO){
 }
