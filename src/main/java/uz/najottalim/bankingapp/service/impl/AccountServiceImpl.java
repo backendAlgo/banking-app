@@ -52,9 +52,14 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         Account account = accountRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("cannot load user: "));
 
+        Role role = roleRepository.findById(account.getRole().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Role not found"));
+        List<Authority> authorities = role.getAuthorities();
 
-        return User.builder().username(account.getEmail())
-                .password(account.getPassword())
-                .authorities(account.getRole().getName()).build();
+        List<SimpleGrantedAuthority> grantedAuthorities = authorities.stream()
+                .map(authority -> new SimpleGrantedAuthority(authority.getName()))
+                .collect(Collectors.toList());
+
+        return new User(account.getEmail(), account.getPassword(), grantedAuthorities);
     }
 }
