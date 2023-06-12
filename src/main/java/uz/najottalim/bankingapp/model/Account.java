@@ -22,6 +22,10 @@ public class Account {
     @JoinColumn(name = "account_type_id")
     private AccountType accountType;
 
+    @OneToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
 
 
 

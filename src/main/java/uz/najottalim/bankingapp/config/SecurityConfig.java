@@ -2,6 +2,7 @@ package uz.najottalim.bankingapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,12 +28,19 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
                 (requests) ->
-                        requests.requestMatchers(
+                        requests
+                                .requestMatchers(HttpMethod.POST, "/accounts")
+                                .permitAll()
+
+                                .requestMatchers("/accounts/{id}")
+                                .hasAuthority("user")
+                                .requestMatchers(
                                         "/accounts",
                                         "/balances",
                                         "/loans",
                                         "/cards")
-                                .authenticated()
+                                .hasAuthority("super_admin")
+
                                 .requestMatchers(
                                         "/notices",
                                         "/contacts")

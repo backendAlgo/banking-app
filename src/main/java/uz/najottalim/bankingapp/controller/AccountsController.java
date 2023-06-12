@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.najottalim.bankingapp.dto.AccountDTO;
@@ -28,6 +29,15 @@ public class AccountsController {
     @PostMapping
     public ResponseEntity<AccountDTO> addAccount(@RequestBody AccountDTO accountDTO){
         return accountService.addAccount(accountDTO);
+    }
+
+    @PutMapping
+    public RequestEntity<AccountDTO> updateAccount(@RequestBody AccountDTO accountDTO){
+        return null;
+    }
+    @DeleteMapping("/{id}")
+    public RequestEntity<AccountDTO> deleteAccount(@PathVariable Long id){
+        return null;
     }
 
 
