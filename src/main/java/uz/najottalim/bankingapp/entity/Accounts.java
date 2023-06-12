@@ -16,6 +16,7 @@ public class Accounts {
     private Long id;
     private String name;
     private String email;
+    private String password;
     @Column(name = "mobil_number")
     private String mobileNumber;
     @Column(name = "account_number")
@@ -24,5 +25,6 @@ public class Accounts {
     @ManyToOne
     private AccountType accountType;
     private String addres;
-    private String password;
+    @ManyToOne
+    private Role role;
 }
