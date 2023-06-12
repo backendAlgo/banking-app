@@ -1,6 +1,7 @@
 package uz.najottalim.bankingapp.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration;
 import org.springframework.http.ResponseEntity;
@@ -16,25 +17,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.handler.DefaultWebFilterChain;
+import uz.najottalim.bankingapp.Dto.AccountsDto;
+import uz.najottalim.bankingapp.service.AccountService;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/accounts")
+@RequiredArgsConstructor
 @Slf4j
 public class AccountsController {
-
+    private final AccountService accountService;
     @GetMapping
     public String accountsController() {
         return "accounts";
     }
-
-    @GetMapping("/{id}")
-    public Integer getBalance(@PathVariable Long id) {
-        return 100;
+    @GetMapping
+    public ResponseEntity<List<AccountsDto>> getAllAccounts(){
+        return accountService.getAllAccounts();
     }
-
 //    @GetMapping("/hello")
 //    public String hello(HttpServletRequest request) {
 //        log.info("path: {}", request.getPathInfo());

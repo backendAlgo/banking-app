@@ -1,5 +1,4 @@
 package uz.najottalim.bankingapp.entity;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,19 +6,20 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Entity
 @Data
-@NoArgsConstructor(force = true)
 @AllArgsConstructor
-public class Loans {
+@NoArgsConstructor
+@Entity
+@Table(name = "massages")
+public class Massage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+    private String name;
+    private String email;
+    private String subject;
+    private String message;
+    private LocalDate sentDate;
     @ManyToOne
-    private Integer accountId;
-    private LocalDate startDate;
-    private Integer typeLoansId;
-    private Double totalLoan;
-    private Double amountPay;
-    private Double outstandingAmt;
+    private MassagesType statusType;
 }
