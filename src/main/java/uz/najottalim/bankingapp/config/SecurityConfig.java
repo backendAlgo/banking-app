@@ -2,16 +2,25 @@ package uz.najottalim.bankingapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authorization.AuthorizationDecision;
+import org.springframework.security.authorization.AuthorizationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
+import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
 
-import javax.sql.DataSource;
+import java.util.function.Supplier;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -20,41 +29,47 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 //        DefaultLoginPageGeneratingFilter
-//        AuthenticationManagerBuilder
-//                DaoAuthenticationProvider
-//        DaoAuthenticationProvider
-        http.authorizeHttpRequests(
-                (requests) ->
-                        requests.requestMatchers(
-                                        "/accounts",
-                                        "/balances",
-                                        "/loans",
-                                        "/cards")
-                                .authenticated()
-                                .requestMatchers(
-                                        "/notices",
-                                        "/contacts")
-                                .permitAll()
-                                .anyRequest()
-                                .denyAll()
-        );
-//        UserDetailsManager
-//        UserDetailsService
-//        DaoAuthenticationProvider
-//        ProviderManager
-//        UsernamePasswordAuthenticationFilter
-//        UserDetailsServicex`
+        AuthenticationManagerBuilder
+                DaoAuthenticationProvider;
+
+        http
+                .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
+                        (requests) ->
+                                requests
+                                        .requestMatchers(HttpMethod.POST, "/accounts/register")
+                                        .permitAll()
+//                                        .requestMatchers("/accounts",
+//                                                "/balances",
+//                                                "/loans",
+//                                                "/cards"
+//                                        )
+//                                        .authenticated()
+                                        .requestMatchers(HttpMethod.DELETE,
+                                                "/accounts/**",
+                                                "/balances/**",
+                                                "/loans/**",
+                                                "/cards/**"
+                                        )
+                                        .hasRole("ADMIN")
+                                        .requestMatchers(
+                                                "/accounts/**",
+                                                "/balances/**",
+                                                "/loans/**",
+                                                "/cards/**")
+                                        .hasRole("USER")
+                                        .requestMatchers(
+                                                "/notices",
+                                                "/contacts")
+                                        .permitAll()
+                                        .anyRequest()
+                                        .denyAll()
+                );
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();
     }
-//    @Bean
-//    public UserDetailsService springJdbcVersionForUserDetailsManager(DataSource source) {
-//        return new JdbcUserDetailsManager(source);
-//    }
 
-
-//    @Bean
+    //@Bean
 //    public UserDetailsService myCustomerUserDetailsManager() {
 //        UserDetails userDetails1 = User.builder().username("mirshod")
 //                .password("12345")

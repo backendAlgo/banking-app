@@ -13,4 +13,5 @@ public class ContactsController {
     public String accountsController() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
+
 }
