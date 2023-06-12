@@ -1,4 +1,4 @@
-package uz.najottalim.bankingapp.entity;
+package uz.najottalim.bankingapp.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -24,4 +24,7 @@ public class Account {
     @JoinColumn(name = "account_type_id",nullable = false)
     private AccountType accountType;
     private String address;
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 }

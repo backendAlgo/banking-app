@@ -2,19 +2,23 @@ package uz.najottalim.bankingapp.service.impl;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.najottalim.bankingapp.dto.AccountDto;
-import uz.najottalim.bankingapp.entity.Account;
+import uz.najottalim.bankingapp.dto.RoleDto;
+import uz.najottalim.bankingapp.model.Account;
 import uz.najottalim.bankingapp.mapper.AccountMapping;
+import uz.najottalim.bankingapp.model.Authority;
+import uz.najottalim.bankingapp.model.Role;
 import uz.najottalim.bankingapp.repository.AccountRepository;
+import uz.najottalim.bankingapp.repository.AuthorityRepository;
+import uz.najottalim.bankingapp.repository.RoleRepository;
 import uz.najottalim.bankingapp.service.AccountService;
 
 import java.util.ArrayList;
@@ -26,13 +30,33 @@ import java.util.Optional;
 public class AccountServiceImpl implements AccountService, UserDetailsService {
     private final AccountRepository accountRepository;
     private final AccountMapping accountMapping = new AccountMapping();
+    private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
+    private final AuthorityRepository authorityRepository;
 
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Account account = accountRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        return new User(account.getEmail(),account.getPassword(), new ArrayList<>(List.of(new SimpleGrantedAuthority("default"))));
+
+        Role role = roleRepository.findById(account.getRole().getId()).orElseThrow(() -> new IllegalArgumentException("Role not found"));
+
+        List<Role> childRolesAndOwnRole = new ArrayList<>(roleRepository.findRoleByParentRole(role));
+        childRolesAndOwnRole.add(role);
+
+        List<SimpleGrantedAuthority> allAuthorities = new ArrayList<>(childRolesAndOwnRole.stream()
+                .flatMap(rr -> authorityRepository.findByRoles(rr).stream())
+                .distinct()
+                .map(aa -> new SimpleGrantedAuthority(aa.getName()))
+                .toList());
+
+        allAuthorities.addAll(childRolesAndOwnRole.stream()
+                .map(aa -> new SimpleGrantedAuthority(aa.getName()))
+                .toList()
+        );
+
+        return new User(account.getName(), account.getPassword(), allAuthorities);
     }
 
     @Override
@@ -51,11 +75,12 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     }
 
     @Override
-    public ResponseEntity<AccountDto> save(AccountDto accountDto) {
-        if (accountDto == null){
-            return null;
-        }
-        return ResponseEntity.ok(accountMapping.toDto(accountRepository.save(accountMapping.toEntity(accountDto))));
+    public ResponseEntity<AccountDto> save(AccountDto accountDTO) {
+        accountDTO.setRoleDto(new RoleDto(1, "ROLE_USER"));
+        Account account = accountMapping.toEntity(accountDTO);
+        Account account1 = accountRepository.save(account);
+
+        return ResponseEntity.ok(accountMapping.toDto(account1));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package uz.najottalim.bankingapp.entity;
+package uz.najottalim.bankingapp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;

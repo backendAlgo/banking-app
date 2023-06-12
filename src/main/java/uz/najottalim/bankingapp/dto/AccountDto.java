@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.ResponseEntity;
 
 @Data
 @AllArgsConstructor
@@ -29,5 +28,5 @@ public class AccountDto {
     private AccountTypeDto accountTypeDto;
     @NotBlank(message = "address must be not blank")
     private String address;
-
+    private RoleDto roleDto;
 }

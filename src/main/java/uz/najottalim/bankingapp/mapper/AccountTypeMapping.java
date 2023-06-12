@@ -1,7 +1,7 @@
 package uz.najottalim.bankingapp.mapper;
 
 import uz.najottalim.bankingapp.dto.AccountTypeDto;
-import uz.najottalim.bankingapp.entity.AccountType;
+import uz.najottalim.bankingapp.model.AccountType;
 
 import java.util.Collections;
 

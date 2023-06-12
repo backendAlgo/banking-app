@@ -2,6 +2,7 @@ package uz.najottalim.bankingapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,33 +22,38 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-//        DefaultLoginPageGeneratingFilter
-//        AuthenticationManagerBuilder
-//                DaoAuthenticationProvider
-//        DaoAuthenticationProvider
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(
-                (requests) ->
-                        requests.requestMatchers(
-                                        "/balances",
-                                        "/loans",
-                                        "/cards")
-                                .authenticated()
-                                .requestMatchers(
-                                        "/accounts/**",
-                                        "/notices",
-                                        "/contacts")
-                                .permitAll()
-                                .anyRequest()
-                                .denyAll()
-        );
-//        UserDetailsManager
-//        UserDetailsService
-//        DaoAuthenticationProvider
-//        ProviderManager
-//        UsernamePasswordAuthenticationFilter
-//        UserDetailsServicex`
+                .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
+                        (requests) ->
+                                requests
+                                        .requestMatchers(HttpMethod.POST, "/accounts/register")
+                                        .permitAll()
+//                                        .requestMatchers("/accounts",
+//                                                "/balances",
+//                                                "/loans",
+//                                                "/cards"
+//                                        )
+//                                        .authenticated()
+                                        .requestMatchers(HttpMethod.DELETE,
+                                                "/accounts/**",
+                                                "/balances/**",
+                                                "/loans/**",
+                                                "/cards/**"
+                                        )
+                                        .hasRole("ADMIN")
+                                        .requestMatchers(
+                                                "/accounts/**",
+                                                "/balances/**",
+                                                "/loans/**",
+                                                "/cards/**")
+                                        .hasRole("USER")
+                                        .requestMatchers(
+                                                "/notices",
+                                                "/contacts")
+                                        .permitAll()
+                                        .anyRequest()
+                                        .denyAll()
+                );
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();
