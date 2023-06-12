@@ -22,5 +22,7 @@ public class Account {
     @JoinColumn(name = "account_type_id")
     private AccountType accountType;
     private String address;
+    @ManyToOne
+    private Role role;
 
 }

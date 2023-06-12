@@ -1,5 +1,6 @@
-package uz.najottalim.bankingapp.dto.accountTypeDto;
+package uz.najottalim.bankingapp.dto.messagedto;
 
+import jdk.jfr.Name;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountTypeDto {
+public class MassagesStatusTypeDto {
     private Long id;
     private String name;
 }
