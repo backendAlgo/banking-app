@@ -10,13 +10,17 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.najottalim.bankingapp.dto.AccountDTO;
 import uz.najottalim.bankingapp.mapper.AccountMapper;
 import uz.najottalim.bankingapp.models.Account;
+import uz.najottalim.bankingapp.models.Role;
 import uz.najottalim.bankingapp.repository.AccountRepository;
+import uz.najottalim.bankingapp.repository.AuthorityRepository;
+import uz.najottalim.bankingapp.repository.RoleRepository;
 import uz.najottalim.bankingapp.service.AccountService;
 
 import java.util.ArrayList;
@@ -28,26 +32,37 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl implements AccountService, UserDetailsService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
     private final PasswordEncoder passwordEncoder;
+    final private RoleRepository roleRepository;
+    final private AuthorityRepository authorityRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+
         Account account = (Account) accountRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("cannot load user: "));
 
-//       TODO: 1. berilgan userni email bo'yicha oling, role_id mas
-//       TODO: 2. role_iddan foydalanib, hamma authoritielarni oling
-        List<String> authorities = new ArrayList<>();
-//        GrantedAuthority
-        return new User(account.getEmail(), account.getPassword(),
-                authorities.stream().map(
-                                SimpleGrantedAuthority::new
-                        )
-                        .collect(Collectors.toList())
+        Role role = roleRepository.findById(account.getRole().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Role not found"));
+
+        List<Role> childRolesAndOwnRole = new ArrayList<>(roleRepository.findRoleByParentRole(role));
+        childRolesAndOwnRole.add(role);
+
+        List<SimpleGrantedAuthority> allAuthorities = new ArrayList<>(childRolesAndOwnRole.stream()
+                .flatMap(rr -> authorityRepository.findByRoles(rr).stream())
+                .distinct()
+                .map(aa -> new SimpleGrantedAuthority(aa.getName()))
+                .toList());
+
+        allAuthorities.addAll(childRolesAndOwnRole.stream()
+                .map(aa -> new SimpleGrantedAuthority(aa.getName()))
+                .toList()
         );
+        return new User(account.getEmail(), account.getPassword(), allAuthorities);
     }
 
     @Override
