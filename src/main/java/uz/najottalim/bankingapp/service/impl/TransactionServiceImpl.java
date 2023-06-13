@@ -10,4 +10,8 @@ import uz.najottalim.bankingapp.service.TransactionService;
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 898856bb5b024bfdc0280f323c6babf2b445cf88

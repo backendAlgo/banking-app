@@ -14,4 +14,8 @@ public class NewDTO {
     private String body;
     private String imageUrl;
     private LocalDate sentDate;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 898856bb5b024bfdc0280f323c6babf2b445cf88

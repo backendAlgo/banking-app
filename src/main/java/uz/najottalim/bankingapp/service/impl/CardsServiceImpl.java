@@ -11,4 +11,8 @@ import uz.najottalim.bankingapp.service.CardService;
 public class CardsServiceImpl implements CardService {
     @Autowired
     private CardRepository cardsRepository;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 898856bb5b024bfdc0280f323c6babf2b445cf88

@@ -16,4 +16,8 @@ public class AccountTypeMapper {
         return new AccountTypeDTO(accountType.getId(),
                 accountType.getName());
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 898856bb5b024bfdc0280f323c6babf2b445cf88
