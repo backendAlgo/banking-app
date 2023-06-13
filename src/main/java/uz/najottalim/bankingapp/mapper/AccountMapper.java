@@ -11,7 +11,7 @@ import uz.najottalim.bankingapp.model.Account;
 
 public class AccountMapper {
 
-    public static Account toEntity(AccountDTO accountDTO){
+    public static Account toEntity(AccountDTO accountDTO) {
         return new Account(accountDTO.getId(),
                 accountDTO.getName(),
                 accountDTO.getEmail(),
@@ -23,7 +23,8 @@ public class AccountMapper {
                 RoleMapper.toEntity(accountDTO.getRoleDTO())
         );
     }
-    public static AccountDTO toDto(Account account){
+
+    public static AccountDTO toDto(Account account) {
         return new AccountDTO(account.getId(),
                 account.getName(),
                 account.getEmail(),
@@ -36,9 +37,4 @@ public class AccountMapper {
 
 
     }
-
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 898856bb5b024bfdc0280f323c6babf2b445cf88

@@ -8,9 +8,4 @@ import uz.najottalim.bankingapp.service.NewService;
 @RequiredArgsConstructor
 public class NewServiceImpl implements NewService {
 
-
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 898856bb5b024bfdc0280f323c6babf2b445cf88

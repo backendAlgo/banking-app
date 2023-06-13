@@ -20,8 +20,4 @@ public class TransactionDTO {
     private Double closingBalance;
     private AccountDTO accountDTO;
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 898856bb5b024bfdc0280f323c6babf2b445cf88

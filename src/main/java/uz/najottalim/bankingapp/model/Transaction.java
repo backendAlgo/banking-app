@@ -38,8 +38,3 @@ public class Transaction {
 //    primary key (id)
 
 }
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 898856bb5b024bfdc0280f323c6babf2b445cf88

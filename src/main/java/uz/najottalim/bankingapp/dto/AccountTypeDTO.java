@@ -12,8 +12,4 @@ import lombok.Setter;
 public class AccountTypeDTO {
     private Long id;
     private String name;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 898856bb5b024bfdc0280f323c6babf2b445cf88

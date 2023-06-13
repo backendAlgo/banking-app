@@ -25,8 +25,5 @@ public class New {
 //    body varchar2(4000),
 //    image_url varchar(255),
 //    create_date date,
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 898856bb5b024bfdc0280f323c6babf2b445cf88
+

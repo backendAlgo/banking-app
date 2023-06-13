@@ -8,8 +8,4 @@ import java.util.List;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
     List<Role> findRoleByParentRole(Role role);
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 898856bb5b024bfdc0280f323c6babf2b445cf88

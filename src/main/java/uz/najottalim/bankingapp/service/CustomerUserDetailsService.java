@@ -9,11 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Service;
-<<<<<<< HEAD
 import uz.najottalim.bankingapp.model.Account;
-=======
-import uz.najottalim.bankingapp.models.Account;
->>>>>>> 898856bb5b024bfdc0280f323c6babf2b445cf88
 import uz.najottalim.bankingapp.repository.AccountRepository;
 
 import java.util.ArrayList;
