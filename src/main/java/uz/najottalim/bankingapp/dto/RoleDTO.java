@@ -1,16 +1,13 @@
 package uz.najottalim.bankingapp.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import uz.najottalim.bankingapp.models.Authority;
+import uz.najottalim.bankingapp.models.Role;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class RoleDTO {
-    private Long id;
-    private String name;
+import java.util.List;
 
+public record RoleDTO(
+        Long id,
+        String name
+
+) {
 }
