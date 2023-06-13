@@ -2,6 +2,7 @@ package uz.najottalim.bankingapp.servise.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import uz.najottalim.bankingapp.dto.accountsdto.AccountDto;
 import uz.najottalim.bankingapp.entity.Account;
+import uz.najottalim.bankingapp.exception.LimitAccessException;
 import uz.najottalim.bankingapp.exception.NoResourceFoundException;
 import uz.najottalim.bankingapp.repository.AccountRepository;
 import uz.najottalim.bankingapp.servise.AccountService;
@@ -36,11 +38,18 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     public ResponseEntity<AccountDto> getById(Long id) {
         Optional<Account> account = accountRepository.findById(id);
         Account account1 = account.orElseThrow(NoResourceFoundException::new);
+
+        if (
+                !SecurityContextHolder.getContext().getAuthentication().getName()
+                .equals(account1.getEmail()
+                )) throw new LimitAccessException("Access limitation");
+
         return ResponseEntity.ok(AccountMapper.toDto(account1));
     }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accountRepository.findByEmail(username).orElseThrow();
+        Account account = accountRepository
+                .findByEmail(username).orElseThrow(()->new UsernameNotFoundException("user not found"));
         return User.builder()
                 .username(account.getEmail())
                 .password(account.getPassword())
