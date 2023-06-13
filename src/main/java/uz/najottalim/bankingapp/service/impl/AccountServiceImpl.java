@@ -1,9 +1,7 @@
 package uz.najottalim.bankingapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +22,7 @@ import uz.najottalim.bankingapp.service.AccountService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -61,16 +60,16 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         List<Role> childRolesAndOwnRole = new ArrayList<>(roleRepository.findRoleByParentRole(role));
         childRolesAndOwnRole.add(role);
 
-        List<SimpleGrantedAuthority> allAuthorities = new ArrayList<>(childRolesAndOwnRole.stream()
-                .flatMap(rr -> authorityRepository.findByRoles(rr).stream())
-                .distinct()
-                .map(aa -> new SimpleGrantedAuthority(aa.getName()))
-                .toList());
+        List<SimpleGrantedAuthority> allAuthorities = childRolesAndOwnRole
+                .stream()
+                .flatMap(roleItem -> Stream.concat(
+                        Stream.of(roleItem.getName()),
+                        roleItem.getAuthorities()
+                                .stream()
+                                .map(Authority::getName)))
+                .map(SimpleGrantedAuthority::new)
+                .toList();
 
-        allAuthorities.addAll(childRolesAndOwnRole.stream()
-                .map(aa -> new SimpleGrantedAuthority(aa.getName()))
-                .toList()
-        );
         return new User(account.getEmail(), account.getPassword(), allAuthorities);
     }
 }

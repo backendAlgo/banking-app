@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Entity
 @AllArgsConstructor
@@ -18,11 +16,8 @@ public class Authority {
     private Long id;
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "roles_authority",
-            joinColumns = {@JoinColumn(table = "authorities", referencedColumnName = "id", name = "auth_id")},
-            inverseJoinColumns = {
-                    @JoinColumn(table = "roles", referencedColumnName = "id", name = "role_id")})
-    private List<Role> roles;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(name = "role_id")
+    private Role role;
 
 }
