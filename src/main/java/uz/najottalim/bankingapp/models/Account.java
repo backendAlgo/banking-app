@@ -28,8 +28,6 @@ public class Account {
     private String address;
     private String password;
     @ManyToOne
-
-
     private Role role;
 
 }

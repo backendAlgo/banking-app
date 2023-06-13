@@ -15,15 +15,30 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "role")
 public class Role {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
     private String name;
-    @ManyToMany
-    @JoinTable(
-            name = "roles_authority",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "auth_id")
-    )
-    private List<Authorities> authorities;
+
+    @ManyToMany(mappedBy = "roles")
+    private List<Authority> authorities;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_role_id")
+    private Role parentRole;
+
+//    @OneToMany(mappedBy = "parentRole")
+//    private List<Role> childRoles;
+
+
+
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", parentRole=" + parentRole +
+                '}';
+    }
 }

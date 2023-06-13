@@ -20,7 +20,7 @@ public class AccountMapper {
                 accountTypeMapper.toEntity(accountDTO.accountTypeDTO()),
                 accountDTO.address(),
                 accountDTO.password(),
-                null
+                accountDTO.role()
         );
     }
 
