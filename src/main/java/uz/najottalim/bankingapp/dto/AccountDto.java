@@ -1,9 +1,7 @@
 package uz.najottalim.bankingapp.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import uz.najottalim.bankingapp.Entity.Role;
 
 @Data
 @AllArgsConstructor
@@ -15,7 +13,9 @@ public class AccountDto {
     private String email;
     private String mobileNumber;
     private String accountNumber;
+    private String password;
     private AccountTypeDto accountTypeDTO;
     private String address;
-    private String password;
+    private Role role;
+
 }

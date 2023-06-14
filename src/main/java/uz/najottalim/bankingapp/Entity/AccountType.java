@@ -16,7 +16,6 @@ public class AccountType {
     @Id
     private Long id;
     private String name;
-
     @ManyToOne
     private Account account;
 }
