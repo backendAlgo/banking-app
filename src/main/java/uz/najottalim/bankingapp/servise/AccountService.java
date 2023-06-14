@@ -9,4 +9,6 @@ public interface AccountService {
     ResponseEntity<List<AccountDto>> getAllAccounts();
 
     ResponseEntity<AccountDto> getById(Long id);
+
+    ResponseEntity<AccountDto> addAccount(AccountDto accountDto);
 }

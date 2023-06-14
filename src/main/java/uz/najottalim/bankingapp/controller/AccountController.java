@@ -3,10 +3,7 @@ package uz.najottalim.bankingapp.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.najottalim.bankingapp.dto.accountsdto.AccountDto;
 import uz.najottalim.bankingapp.servise.AccountService;
 
@@ -25,5 +22,10 @@ public class AccountController {
     @GetMapping("/{id}")
     public ResponseEntity<AccountDto> getById(@PathVariable Long id){
         return accountService.getById(id);
+    }
+
+    @PostMapping()
+    public ResponseEntity<AccountDto> addAccount (@RequestBody AccountDto accountDto){
+        return accountService.addAccount(accountDto);
     }
 }

@@ -7,14 +7,19 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.najottalim.bankingapp.dto.accountsdto.AccountDto;
 import uz.najottalim.bankingapp.entity.Account;
+import uz.najottalim.bankingapp.entity.Role;
 import uz.najottalim.bankingapp.exception.LimitAccessException;
 import uz.najottalim.bankingapp.exception.NoResourceFoundException;
 import uz.najottalim.bankingapp.repository.AccountRepository;
+import uz.najottalim.bankingapp.repository.RoleRepository;
 import uz.najottalim.bankingapp.servise.AccountService;
 import uz.najottalim.bankingapp.servise.mapper.AccountMapper;
+import uz.najottalim.bankingapp.servise.mapper.RoleMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +29,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService, UserDetailsService {
     private final AccountRepository accountRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder ;
     @Override
     public ResponseEntity<List<AccountDto>> getAllAccounts() {
          return ResponseEntity.ok(
@@ -46,6 +53,22 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
         return ResponseEntity.ok(AccountMapper.toDto(account1));
     }
+
+    @Override
+    public ResponseEntity<AccountDto> addAccount(AccountDto accountDto) {
+
+        Role defaoultRole = roleRepository.
+                findById(1).
+                orElseThrow(()->new NoResourceFoundException("No default Role found"));
+
+        if(accountDto.getRoleDto() == null){
+            accountDto.setRoleDto(
+                    RoleMapper.toDtoWithAuthorities(defaoultRole));
+        }
+        accountDto.setPassword(passwordEncoder.encode(accountDto.getPassword()));
+        return ResponseEntity.ok(AccountMapper.toDto(accountRepository.save(AccountMapper.toEntity(accountDto))));
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountRepository

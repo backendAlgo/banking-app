@@ -2,9 +2,8 @@ package uz.najottalim.bankingapp.exceptionhandler;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import uz.najottalim.bankingapp.dto.errordto.ErrorDto;
 import uz.najottalim.bankingapp.exception.LimitAccessException;
 import uz.najottalim.bankingapp.exception.NoResourceFoundException;
@@ -29,9 +28,9 @@ public class ExceptionsHandler {
         return ErrorDto.builder().error(ex.getMessage()).build();
     }
 
-    @ExceptionHandler(Throwable.class)
+    @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorDto throwableHandler(Throwable ex){
+    public ErrorDto throwableHandler(Exception ex){
         return ErrorDto.builder().error(ex.getMessage()).build();
     }
     

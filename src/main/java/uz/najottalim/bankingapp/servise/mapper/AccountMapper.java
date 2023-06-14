@@ -13,9 +13,6 @@ import java.util.Optional;
 
 @Service
 public class AccountMapper {
-    @Autowired
-    static RoleRepository roleRepository;
-
     public static AccountDto toDto(Account account){
 
         return new AccountDto(
@@ -27,12 +24,10 @@ public class AccountMapper {
                 account.getAccountNumber(),
                 AccountTypeMapper.toDto(account.getAccountType()),
                 account.getAddress(),
-                RoleMapper.toDto(account.getRole()));
+                RoleMapper.toDtoWithAuthorities(account.getRole()));
     }
 
     public static Account toEntity(AccountDto accountDto){
-        Optional<Role> defaultRole = roleRepository.findByName("user");
-        if(defaultRole.isEmpty()) throw new NoResourceFoundException("No default role found");
         return new Account(accountDto.getId(),
                 accountDto.getName(),
                 accountDto.getEmail(),
@@ -41,6 +36,6 @@ public class AccountMapper {
                 accountDto.getAccountNumber(),
                 AccountTypeMapper.toEntity(accountDto.getAccountTypeDto()),
                 accountDto.getAddress(),
-                accountDto.getRoleDto() == null?defaultRole.get():RoleMapper.toEntity(accountDto.getRoleDto()));
+                RoleMapper.toEntity(accountDto.getRoleDto()));
     }
 }

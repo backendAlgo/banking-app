@@ -1,28 +1,23 @@
 package uz.najottalim.bankingapp.config;
 
-import lombok.NoArgsConstructor;
+
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
+
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
-import org.springframework.security.web.server.savedrequest.NoOpServerRequestCache;
-import uz.najottalim.bankingapp.entity.Role;
 import uz.najottalim.bankingapp.repository.RoleRepository;
 
-import java.util.Optional;
+
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -33,7 +28,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
-        http.csrf(AbstractHttpConfigurer::disable)
+                http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
 
                 (requests) ->requests
@@ -43,22 +38,31 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/accounts").permitAll()
 
                         .requestMatchers(
+                                HttpMethod.GET,
                                         "/accounts/{id}",
                                         "/balances/{id}",
                                         "/loans/{id}",
                                         "/cards/{id}").hasAuthority("user")
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/accounts/{id}",
+                                "/balances/{id}",
+                                "/loans/{id}",
+                                "/cards/{id}").hasAuthority("user")
 
-                        .requestMatchers("accounts/**").hasAuthority("super-admin")
+                        .requestMatchers(HttpMethod.GET,"accounts/**").hasAnyAuthority("super-admin","admin")
+                        .requestMatchers(HttpMethod.POST,"accounts").hasAnyAuthority("super-admin","admin")
+                        .requestMatchers(HttpMethod.DELETE,"accounts/**").hasAuthority("super-admin")
 
-                        .anyRequest().denyAll()
+                        .anyRequest().permitAll()
+
         );
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();
     }
-
     @Bean
     public PasswordEncoder myPasswordEncoder(){
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 }
