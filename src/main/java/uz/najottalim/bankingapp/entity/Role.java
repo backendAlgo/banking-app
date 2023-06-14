@@ -11,10 +11,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Role {
+public class  Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String name;
 
     @ManyToMany
@@ -24,4 +24,14 @@ public class Role {
             inverseJoinColumns = @JoinColumn(name = "authority_id")
     )
     List<Authority> authorities;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_role_id")
+    private Role parentRole;
+
+
+    public Role(Long id, String name) {
+        this.id=id;
+        this.name=name;
+    }
 }

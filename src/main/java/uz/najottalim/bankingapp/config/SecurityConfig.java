@@ -16,7 +16,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
 import uz.najottalim.bankingapp.Repository.RoleRepository;
-
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -28,22 +28,34 @@ public class SecurityConfig {
 //        DefaultLoginPageGeneratingFilter
 //
 
-        http.authorizeHttpRequests(
+        http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
                 (requests) ->
                         requests
-                                .requestMatchers(HttpMethod.POST,"/accounts")
+                                .requestMatchers(HttpMethod.POST, "/accounts/register")
                                 .permitAll()
+//                                        .requestMatchers("/accounts",
+//                                                "/balances",
+//                                                "/loans",
+//                                                "/cards"
+//                                        )
+//                                        .authenticated()
+                                .requestMatchers(HttpMethod.DELETE,
+                                        "/accounts/**",
+                                        "/balances/**",
+                                        "/loans/**",
+                                        "/cards/**"
+                                )
+                                .hasRole("ADMIN")
+                                .requestMatchers(
+                                        "/accounts/**",
+                                        "/balances/**",
+                                        "/loans/**",
+                                        "/cards/**")
+                                .hasRole("USER")
                                 .requestMatchers(
                                         "/notices",
                                         "/contacts")
                                 .permitAll()
-                                .requestMatchers("/accounts/{id}")
-                                .hasAuthority("user")
-                                .requestMatchers(
-                                        "/accounts",
-                                        "/loans",
-                                        "/cards")
-                                .hasAuthority("Admin")
                                 .anyRequest()
                                 .denyAll()
         );

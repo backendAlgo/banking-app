@@ -21,5 +21,6 @@ public class Transaction {
     private Double deposit;
     private Double closingBalance;
     @ManyToOne
+    @JoinColumn(name = "account_id")
     private Account account;
 }

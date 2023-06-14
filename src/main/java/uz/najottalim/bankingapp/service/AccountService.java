@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface AccountService {
     ResponseEntity<List<AccountsDto>> getAllAccounts();
+
+    ResponseEntity<String> addAccount(AccountsDto accountsDto);
 }

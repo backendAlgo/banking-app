@@ -12,10 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.handler.DefaultWebFilterChain;
 import uz.najottalim.bankingapp.Dto.AccountsDto;
 import uz.najottalim.bankingapp.service.AccountService;
@@ -25,26 +22,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/accounts")
+@RequestMapping("accounts")
 @RequiredArgsConstructor
-@Slf4j
 public class AccountsController {
     private final AccountService accountService;
-    @GetMapping
-    public String accountsController() {
-        return "accounts";
-    }
-    @GetMapping
+    @GetMapping("")
     public ResponseEntity<List<AccountsDto>> getAllAccounts(){
         return accountService.getAllAccounts();
     }
-//    @GetMapping("/hello")
-//    public String hello(HttpServletRequest request) {
-//        log.info("path: {}", request.getPathInfo());
-//        log.info("request: {}", request.getRequestURI());
-//        log.info("cookie: {}", Arrays.stream(request.getCookies())
-//                .map(cookie -> cookie.getValue())
-//                .collect(Collectors.toList()));
-//        return "Hello, Spring Security";
-//    }
+    @GetMapping
+    public ResponseEntity<String> addAccount(@RequestBody AccountsDto accountsDto){
+        return accountService.addAccount(accountsDto);
+    }
+
 }

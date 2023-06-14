@@ -22,7 +22,9 @@ public class Cards {
     private Double amountUsed;
     private Double availableAmt;
     @ManyToOne
+    @JoinColumn(name = "card_type_id")
     private CardType cardType;
     @ManyToOne
+    @JoinColumn(name = "account_id")
     private Account account;
 }

@@ -9,5 +9,5 @@ import uz.najottalim.bankingapp.service.CardService;
 @RequestMapping("cards")
 @RequiredArgsConstructor
 public class CardController {
-    private final CardService cardService;
+//    private final CardService cardService;
 }
