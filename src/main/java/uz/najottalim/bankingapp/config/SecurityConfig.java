@@ -50,6 +50,24 @@ public class SecurityConfig {
                                                 "/loans/**",
                                                 "/cards/**"
                                         )
+                                        .hasRole("SUPER_ADMIN")
+                                        .requestMatchers(HttpMethod.PUT,
+                                                "/accounts/**"
+                                        )
+                                        .hasRole("USER")
+                                        .requestMatchers(HttpMethod.POST,
+                                                "/accounts/**",
+                                                "/balances/**",
+                                                "/loans/**",
+                                                "/cards/**"
+                                        )
+                                        .hasRole("ADMIN")
+                                        .requestMatchers(HttpMethod.PUT,
+                                                "/accounts/**",
+                                                "/balances/**",
+                                                "/loans/**",
+                                                "/cards/**"
+                                        )
                                         .hasRole("ADMIN")
                                         .requestMatchers(
                                                 "/accounts/**",

@@ -1,20 +1,19 @@
 package uz.najottalim.bankingapp.models;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "account")
 public class Account {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -23,7 +22,12 @@ public class Account {
     private String email;
     private String mobileNumber;
     private String accountNumber;
-    private Integer accountTypeId;
+    @ManyToOne
+    @JoinColumn(name = "account_type_id", nullable = false)
+    private AccountType accountType;
     private String address;
     private String password;
+    @ManyToOne
+    private Role role;
+
 }

@@ -1,40 +1,41 @@
 package uz.najottalim.bankingapp.mapper;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import uz.najottalim.bankingapp.dto.AccountDTO;
-import uz.najottalim.bankingapp.model.Account;
+import uz.najottalim.bankingapp.models.Account;
 
-
+@Component
+@RequiredArgsConstructor
 public class AccountMapper {
-
-    public static Account toEntity(AccountDTO accountDTO){
-        return new Account(accountDTO.getId(),
-                accountDTO.getName(),
-                accountDTO.getEmail(),
-                accountDTO.getMobileNumber(),
-                accountDTO.getAccountNumber(),
-                accountDTO.getAddress(),
-                accountDTO.getPassword(),
-                AccountTypeMapper.toEntity(accountDTO.getAccountTypeDTO()),
-                RoleMapper.toEntity(accountDTO.getRoleDTO())
+    private final AccountTypeMapper accountTypeMapper;
+    public Account toEntity(AccountDTO accountDTO){
+        if(accountDTO == null) return null;
+        return new Account(
+                accountDTO.id(),
+                accountDTO.name(),
+                accountDTO.email(),
+                accountDTO.mobileNumber(),
+                accountDTO.accountNumber(),
+                accountTypeMapper.toEntity(accountDTO.accountTypeDTO()),
+                accountDTO.address(),
+                accountDTO.password(),
+                accountDTO.role()
         );
     }
-    public static AccountDTO toDto(Account account){
-        return new AccountDTO(account.getId(),
+
+    public AccountDTO toDto(Account account){
+        if(account == null) return null;
+        return new AccountDTO(
+                account.getId(),
                 account.getName(),
                 account.getEmail(),
                 account.getMobileNumber(),
                 account.getAccountNumber(),
+                accountTypeMapper.toDto(account.getAccountType()),
                 account.getAddress(),
-                account.getPassword(),
-                AccountTypeMapper.toDto(account.getAccountType()),
-                RoleMapper.toDto(account.getRole()));
-
-
+                null,
+                account.getRole()
+        );
     }
-
 }
