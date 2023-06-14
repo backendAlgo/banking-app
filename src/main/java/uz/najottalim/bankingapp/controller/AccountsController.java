@@ -27,6 +27,11 @@ public class AccountsController {
         return accountService.getAllAccounts();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<AccountDTO> getById(@PathVariable Long id){
+        return accountService.getById(id);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<AccountDTO> addAccount(@RequestBody AccountDTO accountDTO) {
         return accountService.addAccount(accountDTO);
