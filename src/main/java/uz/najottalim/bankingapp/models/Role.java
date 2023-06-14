@@ -2,25 +2,24 @@ package uz.najottalim.bankingapp.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import uz.najottalim.bankingapp.models.Authority;
 
 import java.util.List;
 
+@Data
 @Entity
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "role")
+@Table(name = "roles")
 public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "roles")
+    @OneToMany
     private List<Authority> authorities;
 
     @ManyToOne
@@ -29,9 +28,6 @@ public class Role {
 
 //    @OneToMany(mappedBy = "parentRole")
 //    private List<Role> childRoles;
-
-
-
 
     @Override
     public String toString() {

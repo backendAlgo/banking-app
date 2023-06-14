@@ -44,6 +44,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
 
+
         Account account = (Account) accountRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("cannot load user: "));
 
@@ -53,14 +54,15 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         List<Role> childRolesAndOwnRole = new ArrayList<>(roleRepository.findRoleByParentRole(role));
         childRolesAndOwnRole.add(role);
 
-        List<SimpleGrantedAuthority> allAuthorities = new ArrayList<>(childRolesAndOwnRole.stream()
+        List<SimpleGrantedAuthority> allAuthorities = childRolesAndOwnRole
+                .stream()
                 .flatMap(roleItem -> Stream.concat(
                         Stream.of(roleItem.getName()),
                         roleItem.getAuthorities()
                                 .stream()
                                 .map(Authority::getName)))
                 .map(SimpleGrantedAuthority::new)
-                .toList());
+                .toList();
 
         return new User(account.getEmail(), account.getPassword(), allAuthorities);
     }
