@@ -9,5 +9,5 @@ import uz.najottalim.bankingapp.service.TransactionService;
 @RequestMapping("transaction")
 @RequiredArgsConstructor
 public class TransactionController {
-    private final TransactionService transactionService;
+//    private final TransactionService transactionService;
 }

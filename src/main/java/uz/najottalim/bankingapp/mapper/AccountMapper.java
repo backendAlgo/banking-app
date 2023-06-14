@@ -1,9 +1,21 @@
-package uz.najottalim.bankingapp.service.mapper;
+package uz.najottalim.bankingapp.mapper;
 
 import uz.najottalim.bankingapp.Dto.AccountsDto;
 import uz.najottalim.bankingapp.entity.Account;
 
 public class AccountMapper {
+    public static Account toEntity(AccountsDto accountsDto){
+        return  new Account(
+                accountsDto.getId(),
+                accountsDto.getName(),
+                accountsDto.getEmail(),
+                accountsDto.getPassword(),
+                accountsDto.getMobileNumber(),
+                accountsDto.getAccountNumber(),
+                accountsDto.getAddress(),
+                AccountTypeMapper.toEntity(accountsDto.getAccountTypeDto())
+        );
+    }
     public static AccountsDto toDto(Account account) {
         return new AccountsDto(
                 account.getId(),

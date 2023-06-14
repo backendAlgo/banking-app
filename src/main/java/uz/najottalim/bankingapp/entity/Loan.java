@@ -22,7 +22,7 @@ public class Loan {
     @ManyToOne
     @JoinColumn(name = "type_loans_id ")
     private LoanType loanType;
-
     @ManyToOne
+    @JoinColumn(name = "account_id")
     private Account account;
 }

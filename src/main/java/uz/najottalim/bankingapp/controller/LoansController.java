@@ -9,5 +9,5 @@ import uz.najottalim.bankingapp.service.LoansService;
 @RequestMapping("loans")
 @RequiredArgsConstructor
 public class LoansController {
-    private final LoansService loansService;
+//    private final LoansService loansService;
 }

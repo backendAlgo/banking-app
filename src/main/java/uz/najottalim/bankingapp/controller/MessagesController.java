@@ -9,6 +9,6 @@ import uz.najottalim.bankingapp.service.MessagesService;
 @RequestMapping("messages")
 @RequiredArgsConstructor
 public class MessagesController {
-    private final MessagesService messagesService;
+//    private final MessagesService messagesService;
 
 }

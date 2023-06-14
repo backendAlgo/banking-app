@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/contacts")
 public class ContactsController {
-    @GetMapping
-    public String accountsController() {
-        return "contacts";
-    }
+//    @GetMapping
+//    public String accountsController() {
+//        return "contacts";
+//    }
 }

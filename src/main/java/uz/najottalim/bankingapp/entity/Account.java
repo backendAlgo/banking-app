@@ -28,5 +28,15 @@ public class Account {
     private Role role;
 
 
-
+    public Account(Long id, String name, String email, String password,
+                   String mobileNumber, String accountNumber, String address, AccountType entity) {
+        this.id=id;
+        this.name=name;
+        this.email=email;
+        this.address =address;
+        this.accountType =entity;
+        this.password=password;
+        this.mobileNumber=mobileNumber;
+        this.accountNumber=accountNumber;
+    }
 }

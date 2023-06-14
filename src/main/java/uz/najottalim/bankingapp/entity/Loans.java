@@ -14,11 +14,10 @@ import java.time.LocalDate;
 public class Loans {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @ManyToOne
-    private Integer accountId;
+    private Long id;
+    private Long accountId;
     private LocalDate startDate;
-    private Integer typeLoansId;
+    private Long typeLoansId;
     private Double totalLoan;
     private Double amountPay;
     private Double outstandingAmt;
