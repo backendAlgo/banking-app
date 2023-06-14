@@ -16,10 +16,9 @@ public class Account {
     private String name;
     private String email;
     private String password;
-    @Column(name = "mobile_number")
     private String mobileNumber;
-    @Column(name = "account_number")
     private String accountNumber;
+
     @ManyToOne
     @JoinColumn(name = "account_type_id",nullable = false)
     private AccountType accountType;

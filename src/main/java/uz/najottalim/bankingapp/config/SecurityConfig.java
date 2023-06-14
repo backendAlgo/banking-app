@@ -34,7 +34,7 @@ public class SecurityConfig {
 //                                                "/cards"
 //                                        )
 //                                        .authenticated()
-                                        .requestMatchers(HttpMethod.DELETE,
+                                        .requestMatchers(HttpMethod.GET,
                                                 "/accounts/**",
                                                 "/balances/**",
                                                 "/loans/**",
@@ -42,7 +42,7 @@ public class SecurityConfig {
                                         )
                                         .hasRole("ADMIN")
                                         .requestMatchers(
-                                                "/accounts/**",
+                                                "/account/{id}",
                                                 "/balances/**",
                                                 "/loans/**",
                                                 "/cards/**")

@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "role")
+@Table(name = "roles")
 public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -24,6 +24,8 @@ public class Role {
     @ManyToOne
     @JoinColumn(name = "parent_role_id")
     private Role parentRole;
+
+
 
     @Override
     public String toString() {
