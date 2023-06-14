@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import uz.najottalim.bankingapp.dto.AccountDTO;
 import uz.najottalim.bankingapp.mapper.AccountMapper;
 import uz.najottalim.bankingapp.models.Account;
+import uz.najottalim.bankingapp.models.Authority;
 import uz.najottalim.bankingapp.models.Role;
 import uz.najottalim.bankingapp.repository.AccountRepository;
 import uz.najottalim.bankingapp.repository.AuthorityRepository;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -53,15 +55,14 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         childRolesAndOwnRole.add(role);
 
         List<SimpleGrantedAuthority> allAuthorities = new ArrayList<>(childRolesAndOwnRole.stream()
-                .flatMap(rr -> authorityRepository.findByRoles(rr).stream())
-                .distinct()
-                .map(aa -> new SimpleGrantedAuthority(aa.getName()))
+                .flatMap(roleItem -> Stream.concat(
+                        Stream.of(roleItem.getName()),
+                        roleItem.getAuthorities()
+                                .stream()
+                                .map(Authority::getName)))
+                .map(SimpleGrantedAuthority::new)
                 .toList());
 
-        allAuthorities.addAll(childRolesAndOwnRole.stream()
-                .map(aa -> new SimpleGrantedAuthority(aa.getName()))
-                .toList()
-        );
         return new User(account.getEmail(), account.getPassword(), allAuthorities);
     }
 
