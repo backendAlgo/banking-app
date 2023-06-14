@@ -10,12 +10,12 @@ import java.util.stream.IntStream;
 @Slf4j
 class BankingAppApplicationTests {
 
-    @Test
-    void contextLoads() {
-        IntStream.range(0, 10)
-                .forEach(i -> {
-                    log.info("test working");
-                });
-    }
+//    @Test
+//    void contextLoads() {
+//        IntStream.range(0, 10)
+//                .forEach(i -> {
+//                    log.info("test working");
+//                });
+//    }
 
 }

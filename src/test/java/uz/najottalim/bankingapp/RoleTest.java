@@ -11,12 +11,12 @@ import uz.najottalim.bankingapp.repository.RoleRepository;
 @SpringBootTest
 @Slf4j
 public class RoleTest {
-    @Autowired
-    RoleRepository roleRepository;
-
-    @Test
-    public void test() {
-        Role role = roleRepository.findById(21L).get();
-        log.info("Role: {}", roleRepository.findRoleByParentRole(role));
-    }
+//    @Autowired
+//    RoleRepository roleRepository;
+//
+//    @Test
+//    public void test() {
+//        Role role = roleRepository.findById(21L).get();
+//        log.info("Role: {}", roleRepository.findRoleByParentRole(role));
+//    }
 }

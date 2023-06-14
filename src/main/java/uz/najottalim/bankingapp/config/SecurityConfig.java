@@ -1,5 +1,6 @@
 package uz.najottalim.bankingapp.config;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,7 +20,11 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Supplier;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -33,17 +38,21 @@ public class SecurityConfig {
                 DaoAuthenticationProvider;
 
         http
-                .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration configuration = new CorsConfiguration();
+                    configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+                    configuration.setAllowedMethods(List.of("*"));
+                    configuration.setAllowCredentials(true);
+                    configuration.setAllowedHeaders(List.of("*"));
+                    configuration.setMaxAge(3600L);
+                    return configuration;
+                }))
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
                         (requests) ->
                                 requests
                                         .requestMatchers(HttpMethod.POST, "/accounts/register")
                                         .permitAll()
-//                                        .requestMatchers("/accounts",
-//                                                "/balances",
-//                                                "/loans",
-//                                                "/cards"
-//                                        )
-//                                        .authenticated()
                                         .requestMatchers(HttpMethod.DELETE,
                                                 "/accounts/**",
                                                 "/balances/**",

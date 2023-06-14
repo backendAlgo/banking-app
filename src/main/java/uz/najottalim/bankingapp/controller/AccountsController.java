@@ -34,6 +34,7 @@ public class AccountsController {
 
     @PutMapping
     public ResponseEntity<AccountDTO> updateAccount(@RequestBody AccountDTO accountDTO) {
+        log.info("{}", accountDTO);
         return null;
     }
 
