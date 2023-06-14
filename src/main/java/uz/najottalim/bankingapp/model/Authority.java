@@ -1,17 +1,18 @@
 package uz.najottalim.bankingapp.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
-import java.util.List;
 
 @Entity
 @Table(name = "authority")
+@Data
 public class Authority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-
-    @ManyToMany(mappedBy = "authorities")
-    private List<Role> roles;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
 }

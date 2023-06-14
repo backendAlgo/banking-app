@@ -5,10 +5,10 @@ import org.springframework.stereotype.Repository;
 import uz.najottalim.bankingapp.model.Authority;
 import uz.najottalim.bankingapp.model.Role;
 
-import java.util.Collection;
+
 import java.util.List;
 
 @Repository
 public interface AuthorityRepository extends JpaRepository<Authority,Integer> {
-    List<Authority> findByRoles(Role role);
+    List<Authority> findByRole(Role role);
 }

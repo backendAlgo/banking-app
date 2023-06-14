@@ -1,6 +1,5 @@
 package uz.najottalim.bankingapp.model;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,24 +7,30 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Entity
 @Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "role")
 public class Role {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Id
+    private Long id;
     private String name;
 
     @OneToMany(mappedBy = "role")
-    private List<Account> accounts;
-
-    @ManyToMany
-    @JoinTable(
-            name = "role_auth",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "auth_id")
-    )
     private List<Authority> authorities;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_role_id")
+    private Role parentRole;
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", parentRole=" + parentRole +
+                '}';
+    }
 }

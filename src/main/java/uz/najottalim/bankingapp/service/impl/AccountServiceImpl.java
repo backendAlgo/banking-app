@@ -8,13 +8,12 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.najottalim.bankingapp.dto.AccountDto;
 import uz.najottalim.bankingapp.dto.RoleDto;
+import uz.najottalim.bankingapp.exception.NoResourceNotFoundException;
 import uz.najottalim.bankingapp.model.Account;
 import uz.najottalim.bankingapp.mapper.AccountMapping;
-import uz.najottalim.bankingapp.model.Authority;
 import uz.najottalim.bankingapp.model.Role;
 import uz.najottalim.bankingapp.repository.AccountRepository;
 import uz.najottalim.bankingapp.repository.AuthorityRepository;
@@ -30,7 +29,6 @@ import java.util.Optional;
 public class AccountServiceImpl implements AccountService, UserDetailsService {
     private final AccountRepository accountRepository;
     private final AccountMapping accountMapping = new AccountMapping();
-    private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final AuthorityRepository authorityRepository;
 
@@ -46,7 +44,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         childRolesAndOwnRole.add(role);
 
         List<SimpleGrantedAuthority> allAuthorities = new ArrayList<>(childRolesAndOwnRole.stream()
-                .flatMap(rr -> authorityRepository.findByRoles(rr).stream())
+                .flatMap(rr -> authorityRepository.findByRole(rr).stream())
                 .distinct()
                 .map(aa -> new SimpleGrantedAuthority(aa.getName()))
                 .toList());
@@ -63,7 +61,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     public ResponseEntity<AccountDto> findById(Long id) {
         Optional<Account> byId = accountRepository.findById(id);
         if (byId.isEmpty()){
-
+            throw new NoResourceNotFoundException("Email must not be empty");
         }
         return ResponseEntity.ok(accountMapping.toDto(byId.get()));
     }
@@ -76,7 +74,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     public ResponseEntity<AccountDto> save(AccountDto accountDTO) {
-        accountDTO.setRoleDto(new RoleDto(1, "ROLE_USER"));
+        accountDTO.setRoleDto(new RoleDto(1L, "ROLE_USER"));
         Account account = accountMapping.toEntity(accountDTO);
         Account account1 = accountRepository.save(account);
 
@@ -87,7 +85,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     public void delete(Long id) {
         Optional<Account> byId = accountRepository.findById(id);
         if (byId.isEmpty()) {
-
+            throw new NoResourceNotFoundException("Email must not be empty");
         } else {
             System.out.println(accountMapping.toDto(byId.get()));
             accountRepository.delete(byId.get());
@@ -98,7 +96,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     public ResponseEntity<AccountDto> update(AccountDto accountDto) {
         Optional<Account> byId = accountRepository.findById(accountDto.getId());
         if (byId.isEmpty()){
-            return null;
+            throw new NoResourceNotFoundException("Email must not be empty");
         }
         return null;
     }
