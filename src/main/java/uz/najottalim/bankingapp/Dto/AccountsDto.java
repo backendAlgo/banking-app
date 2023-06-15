@@ -17,6 +17,5 @@ public class AccountsDto {
     private AccountTypeDto accountTypeDto;
     private String address;
 
-    public  getRoleDTO() {
-    }
+
 }

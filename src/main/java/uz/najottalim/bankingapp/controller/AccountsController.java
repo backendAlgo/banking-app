@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("accounts")
+@RequestMapping("/accounts")
 @RequiredArgsConstructor
 public class AccountsController {
     private final AccountService accountService;
@@ -30,7 +30,7 @@ public class AccountsController {
     public ResponseEntity<List<AccountsDto>> getAllAccounts(){
         return accountService.getAllAccounts();
     }
-    @GetMapping
+    @GetMapping("/register")
     public ResponseEntity<String> addAccount(@RequestBody AccountsDto accountsDto){
         return accountService.addAccount(accountsDto);
     }

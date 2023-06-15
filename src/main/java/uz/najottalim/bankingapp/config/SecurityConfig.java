@@ -4,17 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.session.DisableEncodeUrlFilter;
 import uz.najottalim.bankingapp.Repository.RoleRepository;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -23,6 +19,10 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final RoleRepository roleRepository;
+    private final WordSplitterFilter wordSplitterFilter;
+    private final RequestTimeFilter requestTimeFilter;
+    private final CustomLoggingFilter customLoggingFilter;
+    private final JwtSecurityGeneratorFilter jwtSecurityGeneratorFilter;
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 //        DefaultLoginPageGeneratingFilter
@@ -61,6 +61,10 @@ public class SecurityConfig {
         );
 //        UserDetailsManager
 //        UserDetailsService
+        http.addFilterBefore(customLoggingFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(jwtSecurityGeneratorFilter, BasicAuthenticationFilter.class);
+        http.addFilterBefore(requestTimeFilter, DisableEncodeUrlFilter.class);
+        http.addFilterBefore(wordSplitterFilter, BasicAuthenticationFilter.class);
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();
