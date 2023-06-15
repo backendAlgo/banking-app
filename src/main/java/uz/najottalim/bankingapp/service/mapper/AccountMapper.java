@@ -18,6 +18,17 @@ public class AccountMapper {
                 accounts.getAddres(),
                 RoleMapper.toDto(accounts.getRole()));
     }
+    public static Accounts toEntity(AccountDto accountDto){
+        return new Accounts(accountDto.getId(),
+                accountDto.getName(),
+                accountDto.getEmail(),
+                accountDto.getPassword(),
+                accountDto.getMobileNumber(),
+                accountDto.getAccountNumber(),
+                AccountTypeMapper.toEntity(accountDto.getAccountTypeDto()),
+                accountDto.getAddress(),
+                RoleMapper.toEntity(accountDto.getRoleDto()));
+    }
 
 
 }

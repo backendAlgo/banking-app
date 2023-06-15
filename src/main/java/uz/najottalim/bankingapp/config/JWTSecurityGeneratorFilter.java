@@ -1,14 +1,14 @@
 package uz.najottalim.bankingapp.config;
+import uz.najottalim.bankingapp.utility.JwtUtility;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.realm.SecretKeyCredentialHandler;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
-import uz.najottalim.bankingapp.utility.JwtUtility;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -22,7 +22,8 @@ public class JWTSecurityGeneratorFilter extends OncePerRequestFilter {
     private final JwtUtility jwtUtility;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        Authentication authentication = SecretKeyCredentialHandler.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
 
         if(authentication != null){
             String generate = jwtUtility.generate(
