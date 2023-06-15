@@ -3,18 +3,15 @@ package uz.najottalim.bankingapp.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.session.DisableEncodeUrlFilter;
+import uz.najottalim.bankingapp.utility.JsonUtility;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -28,12 +25,6 @@ public class SecurityConfig {
                                 requests
                                         .requestMatchers(HttpMethod.POST, "/accounts/register")
                                         .permitAll()
-//                                        .requestMatchers("/accounts",
-//                                                "/balances",
-//                                                "/loans",
-//                                                "/cards"
-//                                        )
-//                                        .authenticated()
                                         .requestMatchers(HttpMethod.GET,
                                                 "/accounts/**",
                                                 "/balances/**",
@@ -54,6 +45,12 @@ public class SecurityConfig {
                                         .anyRequest()
                                         .denyAll()
                 );
+        http.addFilterBefore(new RequestTimeFilter(), DisableEncodeUrlFilter.class);
+        http.addFilterBefore(new WordSplitterFilter(), BasicAuthenticationFilter.class);
+        http.addFilterBefore(new CustomLoggingFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(new JwtSecurityGeneratorFilter(new JsonUtility()), BasicAuthenticationFilter.class);
+
+
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();
