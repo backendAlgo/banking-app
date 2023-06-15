@@ -1,18 +1,31 @@
 package uz.najottalim.bankingapp.mapper;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import uz.najottalim.bankingapp.dto.RoleDTO;
-import uz.najottalim.bankingapp.model.Role;
+import uz.najottalim.bankingapp.models.Role;
 
+@Component
+@RequiredArgsConstructor
 public class RoleMapper {
-    public static Role toEntity(RoleDTO roleDTO) {
-        return new Role(roleDTO.getId(),
-                roleDTO.getName(),
+
+    public Role toEntity(RoleDTO roleDTO){
+        if(roleDTO == null) return null;
+        return new Role(
+                roleDTO.id(),
+                roleDTO.name(),
                 null,
-                null);
+                null,
+                null
+        );
     }
 
-    public static RoleDTO toDto(Role role) {
-        return new RoleDTO(role.getId(),
-                role.getName());
+    public RoleDTO toDto(Role role){
+        if(role == null) return null;
+        return new RoleDTO(
+                role.getId(),
+                role.getName()
+        );
     }
+
 }

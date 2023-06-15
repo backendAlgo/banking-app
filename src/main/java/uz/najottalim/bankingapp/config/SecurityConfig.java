@@ -8,9 +8,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import uz.najottalim.bankingapp.utility.JsonUtility;
+
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -40,24 +38,6 @@ public class SecurityConfig {
                                                 "/loans/**",
                                                 "/cards/**"
                                         )
-                                        .hasRole("SUPER_ADMIN")
-                                        .requestMatchers(HttpMethod.PUT,
-                                                "/accounts/**"
-                                        )
-                                        .hasRole("USER")
-                                        .requestMatchers(HttpMethod.POST,
-                                                "/accounts/**",
-                                                "/balances/**",
-                                                "/loans/**",
-                                                "/cards/**"
-                                        )
-                                        .hasRole("ADMIN")
-                                        .requestMatchers(HttpMethod.PUT,
-                                                "/accounts/**",
-                                                "/balances/**",
-                                                "/loans/**",
-                                                "/cards/**"
-                                        )
                                         .hasRole("ADMIN")
                                         .requestMatchers(
                                                 "/accounts/**",
@@ -74,8 +54,8 @@ public class SecurityConfig {
                 );
 //        UsernamePasswordAuthenticationFilter
 //        DefaultLoginPageGeneratingFilter
-        http.addFilterBefore(new CustomLoggingFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.addFilterAfter(new JwtSecurityGeneratorFilter(new JsonUtility()), BasicAuthenticationFilter.class);
+//        http.addFilterBefore(new CustomLoggingFilter(), UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterAfter(new JwtSecurityGeneratorFilter(new JsonUtility()), BasicAuthenticationFilter.class);
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();

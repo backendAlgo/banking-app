@@ -1,22 +1,20 @@
 package uz.najottalim.bankingapp.dto;
 
-import jakarta.persistence.ManyToOne;
 import lombok.*;
-import uz.najottalim.bankingapp.model.Account;
+import uz.najottalim.bankingapp.models.Account;
+import uz.najottalim.bankingapp.models.CardType;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class CardDTO {
-    private Long id;
-    private String cardNumber;
-    private LocalDate cardExpiredDate;
-    private Double totalLimit;
-    private Double amountUsed;
-    private Double availableAmt;
 
-    private AccountDTO accountDTO;
+public record CardDTO (
+     Long id,
+     Account account,
+     String cardNumber,
+     LocalDate cardExpiredDate,
+     CardTypeDTO cardTypeDTO,
+     Double totalLimit,
+     Double amountUsed,
+     Double availableAmt){
+
 }

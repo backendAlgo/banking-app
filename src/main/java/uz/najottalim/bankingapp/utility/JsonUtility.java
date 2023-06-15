@@ -11,11 +11,11 @@ import java.util.Date;
 
 @Component
 public class JsonUtility {
-    private static final int expireInMs = 60 * 1000;
+    private static final Integer expireInMs = 60 * 1000;
 
     private final static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    public String generate(String username, String authorities) {
+    public String generate(String username, String authorities){
         String jwtToken = Jwts.builder()
                 .setSubject("FOR-LOGIN")
                 .setIssuer("BANKING-APP")
@@ -27,7 +27,6 @@ public class JsonUtility {
                 .compact();
         return jwtToken;
     }
-
     public boolean validate(String token) {
         if (getUsername(token) != null && isExpired(token)) {
             return true;

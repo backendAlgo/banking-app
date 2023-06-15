@@ -1,15 +1,9 @@
 package uz.najottalim.bankingapp.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class AccountTypeDTO {
-    private Long id;
-    private String name;
+public record AccountTypeDTO (
+    Long id,
+    String name){
+
 }

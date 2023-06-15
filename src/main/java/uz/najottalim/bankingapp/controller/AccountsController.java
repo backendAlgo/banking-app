@@ -1,51 +1,46 @@
 package uz.najottalim.bankingapp.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.najottalim.bankingapp.dto.AccountDTO;
 import uz.najottalim.bankingapp.service.AccountService;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/accounts")
 @Slf4j
 @RequiredArgsConstructor
 public class AccountsController {
-
     private final AccountService accountService;
 
-    @GetMapping
-    public ResponseEntity<List<AccountDTO>> getAll() {
-        return accountService.getAllAccounts();
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<AccountDTO> getById(@PathVariable Long id){
-        return accountService.getById(id);
+    public ResponseEntity<AccountDTO> getAccountById(@PathVariable Long id){
+        return accountService.getAccountById(id);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<AccountDTO> addAccount(@RequestBody AccountDTO accountDTO) {
+    @GetMapping
+    public ResponseEntity<List<AccountDTO>> getAllAccount(@RequestParam Optional<Integer> page,
+                                                          @RequestParam Optional<Integer> size,
+                                                          @RequestParam Optional<String> columnName){
+        return accountService.getAllAccount(columnName,page, size);
+    }
+
+    @PostMapping
+    public ResponseEntity<AccountDTO> addAccount(@RequestBody AccountDTO accountDTO){
         return accountService.addAccount(accountDTO);
     }
 
-    @PutMapping
-    public ResponseEntity<AccountDTO> updateAccount(@RequestBody AccountDTO accountDTO) {
-        return null;
+    @PutMapping("/{id}")
+    public ResponseEntity<AccountDTO> updateAccount(@RequestBody AccountDTO accountDTO, @PathVariable Long id){
+        return accountService.updateAccount(accountDTO,id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<AccountDTO> deleteAccount(@PathVariable Long id) {
-        return ResponseEntity.ok(accountService.getAllAccounts().getBody().get(0));
+    public ResponseEntity<AccountDTO> deleteAccount(@PathVariable Long id){
+        return accountService.deleteAccount(id);
     }
-
-
 }
