@@ -31,7 +31,7 @@ public class JwtSecurityGeneratorFilter extends OncePerRequestFilter {
             String jwtToken = jsonUtility.generate(authentication.getName(),
                     authentication.getAuthorities()
                             .stream()
-                            .map(GrantedAuthority::getAuthority)
+                            .map(grantedAuthority -> grantedAuthority.getAuthority())
                             .collect(Collectors.joining(", "))
             );
             response.setHeader("Authorization", jwtToken);
