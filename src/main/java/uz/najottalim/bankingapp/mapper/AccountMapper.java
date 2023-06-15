@@ -9,6 +9,7 @@ import uz.najottalim.bankingapp.models.Account;
 @RequiredArgsConstructor
 public class AccountMapper {
     private final AccountTypeMapper accountTypeMapper;
+    private final RoleMapper roleMapper;
     public Account toEntity(AccountDTO accountDTO){
         if(accountDTO == null) return null;
         return new Account(
@@ -20,7 +21,7 @@ public class AccountMapper {
                 accountTypeMapper.toEntity(accountDTO.accountTypeDTO()),
                 accountDTO.address(),
                 accountDTO.password(),
-                accountDTO.role()
+                roleMapper.toEntity(accountDTO.role())
         );
     }
 
@@ -35,7 +36,7 @@ public class AccountMapper {
                 accountTypeMapper.toDto(account.getAccountType()),
                 account.getAddress(),
                 null,
-                account.getRole()
+                roleMapper.toDto(account.getRole())
         );
     }
 }

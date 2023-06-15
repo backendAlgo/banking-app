@@ -58,7 +58,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
                 .stream()
                 .flatMap(roleItem -> Stream.concat(
                         Stream.of(roleItem.getName()),
-                        roleItem.getAuthorities()
+                        authorityRepository.findByRole(roleItem)
                                 .stream()
                                 .map(Authority::getName)))
                 .map(SimpleGrantedAuthority::new)

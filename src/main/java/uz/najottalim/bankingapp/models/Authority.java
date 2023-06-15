@@ -19,6 +19,6 @@ public class Authority {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "role_id")
+    @JoinColumn(name = "role_id")
     private Role role;
 }
