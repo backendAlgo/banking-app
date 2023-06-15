@@ -36,7 +36,7 @@ public class JwtSecurityGeneratorFilter extends OncePerRequestFilter {
                             .collect(Collectors.joining(", "))
             );
 
-            response.setHeader("Authorization", jwtToken);
+            response.setHeader("Auth", jwtToken);
         }
 
         filterChain.doFilter(request,response);
