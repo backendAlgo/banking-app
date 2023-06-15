@@ -1,31 +1,28 @@
 package uz.najottalim.bankingapp.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import uz.najottalim.bankingapp.dto.accountsDTO.AccountDto;
+import uz.najottalim.bankingapp.service.AccountService;
+import java.util.*;
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/accounts")
 public class AccountsController {
-
+    private final AccountService accountService;
     @GetMapping
-    public String accountsController() {
-        return "accounts";
+    public ResponseEntity<List<AccountDto>> getAllAccounts(){
+        return accountService.getAllAccounts();
     }
-
     @GetMapping("/{id}")
-    public Integer getBalance(@PathVariable Long id) {
-        return 100;
+    public ResponseEntity<AccountDto> getById(@PathVariable Long id){
+        return accountService.getById(id);
     }
 
-//    @GetMapping("/hello")
-//    public String hello(HttpServletRequest request) {
-//        log.info("path: {}", request.getPathInfo());
-//        log.info("request: {}", request.getRequestURI());
-//        log.info("cookie: {}", Arrays.stream(request.getCookies())
-//                .map(cookie -> cookie.getValue())
-//                .collect(Collectors.toList()));
-//        return "Hello, Spring Security";
-//    }
+    @PostMapping()
+    public ResponseEntity<AccountDto> addAccount (@RequestBody AccountDto accountDto){
+        return accountService.addAccount(accountDto);
+    }
+
 }

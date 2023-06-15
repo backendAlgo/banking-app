@@ -1,61 +1,68 @@
 package uz.najottalim.bankingapp.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.session.DisableEncodeUrlFilter;
+import uz.najottalim.bankingapp.repository.RoleRepository;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@RequiredArgsConstructor
+@EnableWebSecurity(debug = true)
 public class SecurityConfig {
+    private final RoleRepository roleRepository;
+    private final JWTSecurityGeneratorFilter jwtSecurityGeneratorFilter;
+    private final RequestTimeFilter requestTimeFilter;
+    private final WordSplitterFilter wordSplitterFilter;
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(
-                (requests) ->
-                        requests.requestMatchers(
-                                        "/accounts",
-                                        "/balances",
-                                        "/loans",
-                                        "/cards")
-                                .authenticated()
+
+        http.csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
+
+                        (requests) ->requests
+
+                                .requestMatchers("/notices", "/contacts").permitAll()
+
+                                .requestMatchers(HttpMethod.POST,"/accounts").permitAll()
+
                                 .requestMatchers(
-                                        "/notices",
-                                        "/contacts")
-                                .permitAll()
-                                .anyRequest()
-                                .denyAll()
-        );
+                                        HttpMethod.GET,
+                                        "/accounts/{id}",
+                                        "/balances/{id}",
+                                        "/loans/{id}",
+                                        "/cards/{id}").hasAuthority("user")
+                                .requestMatchers(
+                                        HttpMethod.PUT,
+                                        "/accounts/{id}",
+                                        "/balances/{id}",
+                                        "/loans/{id}",
+                                        "/cards/{id}").hasAuthority("user")
+
+                                .requestMatchers(HttpMethod.GET,"accounts/**").hasAnyAuthority("super-admin","admin")
+                                .requestMatchers(HttpMethod.POST,"accounts").hasAnyAuthority("super-admin","admin")
+                                .requestMatchers(HttpMethod.DELETE,"accounts/**").hasAuthority("super-admin")
+
+                                .anyRequest().permitAll()
+
+                );
+        http.addFilterBefore(wordSplitterFilter, BasicAuthenticationFilter.class);
+        http.addFilterBefore(requestTimeFilter, DisableEncodeUrlFilter.class);
+        http.addFilterAfter(jwtSecurityGeneratorFilter, BasicAuthenticationFilter.class);
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();
     }
-
-    @Bean
-    public UserDetailsService myCustomerUserDetailsManager() {
-        UserDetails userDetails1 = User.builder().username("mirshod")
-                .password("12345")
-                .build();
-        UserDetails userDetails2 = User.builder().username("sherzod")
-                .password("12345")
-                .build();
-        InMemoryUserDetailsManager inMemoryUserDetailsManager =
-                new InMemoryUserDetailsManager(userDetails1, userDetails2);
-        return inMemoryUserDetailsManager;
-    }
-    // 12345 -> hash12345
-    // mirshod, bazadahash12345
-
-
-    // kiritdi, mirshod, 12345
-    // bazada kegan username: mirshod, password: 12345
-    // tekshir vaqtida: 12345->lajsldjalsdjalsd, bazada kelgan: 12345
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
