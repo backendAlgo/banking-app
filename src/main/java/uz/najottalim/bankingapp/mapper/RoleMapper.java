@@ -15,6 +15,7 @@ public class RoleMapper {
                 roleDTO.id(),
                 roleDTO.name(),
                 null,
+                null,
                 null
         );
     }

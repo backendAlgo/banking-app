@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
-    Optional<Object> findByEmail(String email);
+    Optional<Account> findByEmail(String email);
 
 //    @Query(value = """
 //            insert into account  (name, email, mobile_number, account_number, account_type_id, address, role_id)

@@ -18,7 +18,10 @@ public class Role {
     private Long id;
     private String name;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
+    private List<Account> accounts;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "role")
     private List<Authority> authorities;
 
     @ManyToOne

@@ -27,7 +27,7 @@ public class Account {
     private AccountType accountType;
     private String address;
     private String password;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
 
