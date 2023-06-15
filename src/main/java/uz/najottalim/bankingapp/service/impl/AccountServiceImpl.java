@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import uz.najottalim.bankingapp.dto.AccountDTO;
 import uz.najottalim.bankingapp.dto.RoleDTO;
+import uz.najottalim.bankingapp.exceptions.NoResourceFoundException;
 import uz.najottalim.bankingapp.mapper.AccountMapper;
 import uz.najottalim.bankingapp.model.Account;
 import uz.najottalim.bankingapp.model.Authority;
@@ -21,6 +22,7 @@ import uz.najottalim.bankingapp.service.AccountService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -45,6 +47,15 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         Account account1 = accountRepository.save(account);
 
         return ResponseEntity.ok(AccountMapper.toDto(account1));
+    }
+
+    @Override
+    public ResponseEntity<AccountDTO> getById(Long id) {
+        Optional<Account> account = accountRepository.findById(id);
+        if(account.isEmpty()){
+            throw new NoResourceFoundException("Not Data Found");
+        }
+        return ResponseEntity.ok(AccountMapper.toDto(account.get()));
     }
 
     @Override
