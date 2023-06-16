@@ -12,7 +12,7 @@ public record AccountDTO (
     AccountTypeDTO accountTypeDTO,
     String address,
     String password,
-    RoleDTO role
+    String role
     ){
 
 }
