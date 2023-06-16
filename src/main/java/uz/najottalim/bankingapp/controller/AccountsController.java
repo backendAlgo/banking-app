@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class AccountsController {
-
     private final AccountService accountService;
+
 
     @GetMapping
     public ResponseEntity<List<AccountDTO>> getAll() {

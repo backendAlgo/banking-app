@@ -20,32 +20,35 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
-
+import org.springframework.web.cors.CorsConfiguration;
+import java.util.List;
 import java.util.function.Supplier;
-
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-//        DefaultLoginPageGeneratingFilter
-//        AuthenticationManagerBuilder
-//        DaoAuthenticationProvider
+        DefaultLoginPageGeneratingFilter
+        AuthenticationManagerBuilder;
+//       DaoAuthenticationProvider
 
         http
-                .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
-
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration configuration = new CorsConfiguration();
+                    configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+                    configuration.setAllowedMethods(List.of("*"));
+                    configuration.setAllowCredentials(true);
+                    configuration.setAllowedHeaders(List.of("*"));
+                    configuration.setMaxAge(3600L);
+                    return configuration;
+                }))
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
                         (requests) ->
                                 requests
                                         .requestMatchers(HttpMethod.POST, "/accounts/register")
                                         .permitAll()
-//                                        .requestMatchers("/accounts",
-//                                                "/balances",
-//                                                "/loans",
-//                                                "/cards"
-//                                        )
-//                                        .authenticated()
                                         .requestMatchers(HttpMethod.DELETE,
                                                 "/accounts/**",
                                                 "/balances/**",
@@ -65,26 +68,7 @@ public class SecurityConfig {
                                         .permitAll()
                                         .anyRequest()
                                         .denyAll()
-
                 );
-//        http.authorizeHttpRequests(
-//                (requests) ->
-//                        requests.requestMatchers(
-//                                        "/accounts",
-//                                        "/balances",
-//                                        "/loans",
-//                                        "/cards")
-//                                .authenticated()
-//                                .requestMatchers(
-//                                        "/notices",
-//                                        "/contacts")
-//                                .permitAll()
-//                                .anyRequest()
-//                                .denyAll()
-//        );
-//        UserDetailsManager
-//        UserDetailsService
-
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();
@@ -93,7 +77,7 @@ public class SecurityConfig {
 //    @Bean
 
 
-    //@Bean
+//    @Bean
 //    public UserDetailsService myCustomerUserDetailsManager() {
 //        UserDetails userDetails1 = User.builder().username("mirshod")
 //                .password("12345")
@@ -106,7 +90,7 @@ public class SecurityConfig {
 //                new InMemoryUserDetailsManager(userDetails1, userDetails2);
 ////        DaoAuthenticationProvider
 //        return inMemoryUserDetailsManager;
-//    }
+//   }
 //    // tekshir vaqtida: 12345->lajsldjalsdjalsd, bazada kelgan: 12345
     // 12345 -> hash12345
     // mirshod, bazadahash12345
