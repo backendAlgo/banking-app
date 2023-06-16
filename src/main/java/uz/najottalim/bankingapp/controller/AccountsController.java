@@ -3,6 +3,8 @@ package uz.najottalim.bankingapp.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import uz.najottalim.bankingapp.dto.AccountDTO;
 import uz.najottalim.bankingapp.service.AccountService;
@@ -19,6 +21,8 @@ public class AccountsController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AccountDTO> getAccountById(@PathVariable Long id){
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        authentication.getName();
         return accountService.getAccountById(id);
     }
 
