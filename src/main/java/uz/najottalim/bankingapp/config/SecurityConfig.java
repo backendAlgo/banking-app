@@ -1,37 +1,53 @@
 package uz.najottalim.bankingapp.config;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import uz.najottalim.bankingapp.utility.JsonUtility;
 
+
+import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class SecurityConfig {
     @Bean
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, JsonUtility jsonUtility) throws Exception {
 //        DefaultLoginPageGeneratingFilter
 //        AuthenticationManagerBuilder
 //                DaoAuthenticationProvider;
 
         http
+                .cors(cors -> {
+                    cors.configurationSource(request -> {
+                        CorsConfiguration configuration = new CorsConfiguration();
+                        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+                        configuration.setAllowedMethods(List.of("*"));
+                        configuration.setAllowCredentials(true);
+                        configuration.setAllowedHeaders(List.of("*"));
+                        configuration.setExposedHeaders(List.of("Authorization"));
+                        return configuration;
+                    });
+                })
                 .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
                         (requests) ->
                                 requests
                                         .requestMatchers(HttpMethod.POST, "/accounts/register")
                                         .permitAll()
-//                                        .requestMatchers("/accounts",
-//                                                "/balances",
-//                                                "/loans",
-//                                                "/cards"
-//                                        )
-//                                        .authenticated()
+                                        .requestMatchers("/user")
+                                        .authenticated()
                                         .requestMatchers(HttpMethod.DELETE,
                                                 "/accounts/**",
                                                 "/balances/**",
@@ -55,7 +71,9 @@ public class SecurityConfig {
 //        UsernamePasswordAuthenticationFilter
 //        DefaultLoginPageGeneratingFilter
 //        http.addFilterBefore(new CustomLoggingFilter(), UsernamePasswordAuthenticationFilter.class);
-//        http.addFilterAfter(new JwtSecurityGeneratorFilter(new JsonUtility()), BasicAuthenticationFilter.class);
+//        UsernamePasswordAuthenticationFilter
+        http.addFilterBefore(new JwtSecurityCheckFilter(jsonUtility), BasicAuthenticationFilter.class);
+        http.addFilterAfter(new JwtSecurityGeneratorFilter(jsonUtility), BasicAuthenticationFilter.class);
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();

@@ -10,8 +10,9 @@ import uz.najottalim.bankingapp.models.Account;
 public class AccountMapper {
     private final AccountTypeMapper accountTypeMapper;
     private final RoleMapper roleMapper;
-    public Account toEntity(AccountDTO accountDTO){
-        if(accountDTO == null) return null;
+
+    public Account toEntity(AccountDTO accountDTO) {
+        if (accountDTO == null) return null;
         return new Account(
                 accountDTO.id(),
                 accountDTO.name(),
@@ -21,12 +22,11 @@ public class AccountMapper {
                 accountTypeMapper.toEntity(accountDTO.accountTypeDTO()),
                 accountDTO.address(),
                 accountDTO.password(),
-                roleMapper.toEntity(accountDTO.role())
-        );
+                null);
     }
 
-    public AccountDTO toDto(Account account){
-        if(account == null) return null;
+    public AccountDTO toDto(Account account) {
+        if (account == null) return null;
         return new AccountDTO(
                 account.getId(),
                 account.getName(),
@@ -36,7 +36,7 @@ public class AccountMapper {
                 accountTypeMapper.toDto(account.getAccountType()),
                 account.getAddress(),
                 null,
-                roleMapper.toDto(account.getRole())
+                account.getRole().getName()
         );
     }
 }
