@@ -4,9 +4,13 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.security.Key;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 
 @Component
@@ -42,6 +46,14 @@ public class JsonUtility {
         return claims.getSubject();
     }
 
+    public Collection<? extends GrantedAuthority> getAuthorities(String token) {
+        Claims claims = getClaims(token);
+        return Arrays.stream(claims.get("authorities", String.class)
+                        .split(", ")).
+                map(SimpleGrantedAuthority::new)
+                .toList();
+    }
+
     public boolean isExpired(String token) {
         Claims claims = getClaims(token);
 
@@ -49,6 +61,11 @@ public class JsonUtility {
     }
 
     private Claims getClaims(String token) {
-        return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
     }
 }

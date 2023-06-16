@@ -18,7 +18,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class SecurityConfig {
     @Bean
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, JsonUtility jsonUtility) throws Exception {
 //        DefaultLoginPageGeneratingFilter
 //        AuthenticationManagerBuilder
 //                DaoAuthenticationProvider;
@@ -57,10 +57,11 @@ public class SecurityConfig {
                 );
 //        UsernamePasswordAuthenticationFilter
 //        DefaultLoginPageGeneratingFilter
+        http.addFilterBefore(new JwtSecurityCheckFilter(jsonUtility), BasicAuthenticationFilter.class);
         http.addFilterBefore(new RequestTimeFilter(), DisableEncodeUrlFilter.class);
         http.addFilterBefore(new WordSplitterFilter(), BasicAuthenticationFilter.class);
         http.addFilterBefore(new CustomLoggingFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.addFilterAfter(new JwtSecurityGeneratorFilter(new JsonUtility()), BasicAuthenticationFilter.class);
+        http.addFilterAfter(new JwtSecurityGeneratorFilter(jsonUtility), BasicAuthenticationFilter.class);
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();
