@@ -6,7 +6,7 @@ import uz.najottalim.bankingapp.model.Role;
 public class RoleMapper {
     public static Role toEntity(RoleDTO roleDTO) {
         return new Role(roleDTO.getId(),
-                roleDTO.getName(),
+            roleDTO.getName(),
                 null,
                 null);
     }

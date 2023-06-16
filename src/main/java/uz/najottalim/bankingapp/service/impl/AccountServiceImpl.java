@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -63,7 +64,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
 
-        Account account = accountRepository.findByEmail(email)
+        Account account = (Account) accountRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("cannot load user: "));
 
         Role role = roleRepository.findById(account.getRole().getId())
@@ -72,16 +73,16 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         List<Role> childRolesAndOwnRole = new ArrayList<>(roleRepository.findRoleByParentRole(role));
         childRolesAndOwnRole.add(role);
 
-        List<SimpleGrantedAuthority> allAuthorities = new ArrayList<>(childRolesAndOwnRole.stream()
-                .flatMap(rr -> authorityRepository.findByRoles(rr).stream())
-                .distinct()
-                .map(aa -> new SimpleGrantedAuthority(aa.getName()))
-                .toList());
+        List<SimpleGrantedAuthority> allAuthorities = childRolesAndOwnRole
+                .stream()
+                .flatMap(roleItem -> Stream.concat(
+                        Stream.of(roleItem.getName()),
+                        authorityRepository.findByRole(roleItem)
+                                .stream()
+                                .map(Authority::getName)))
+                .map(SimpleGrantedAuthority::new)
+                .toList();
 
-        allAuthorities.addAll(childRolesAndOwnRole.stream()
-                .map(aa -> new SimpleGrantedAuthority(aa.getName()))
-                .toList()
-        );
         return new User(account.getEmail(), account.getPassword(), allAuthorities);
     }
 }

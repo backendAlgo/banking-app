@@ -1,4 +1,0 @@
-package uz.najottalim.bankingapp.model;
-
-public class A {
-}

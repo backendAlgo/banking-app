@@ -25,8 +25,10 @@ public class JsonUtility {
                 .setExpiration(new Date(System.currentTimeMillis() + expireInMs))
                 .signWith(key)
                 .compact();
+
         return jwtToken;
     }
+
 
     public boolean validate(String token) {
         if (getUsername(token) != null && isExpired(token)) {
@@ -42,6 +44,7 @@ public class JsonUtility {
 
     public boolean isExpired(String token) {
         Claims claims = getClaims(token);
+
         return claims.getExpiration().after(new Date(System.currentTimeMillis()));
     }
 

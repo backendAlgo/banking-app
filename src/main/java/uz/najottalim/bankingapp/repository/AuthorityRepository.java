@@ -12,5 +12,6 @@ import java.util.Optional;
 
 @Repository
 public interface AuthorityRepository extends JpaRepository<Authority, Long> {
-    List<Authority> findByRoles(Role role);
+    //List<Authority> findByRoles(Role role);
+    List<Authority> findByRole(Role role);
 }

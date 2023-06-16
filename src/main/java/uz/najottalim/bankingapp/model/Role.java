@@ -18,7 +18,7 @@ public class Role {
     private Long id;
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     private List<Authority> authorities;
 
     @ManyToOne
