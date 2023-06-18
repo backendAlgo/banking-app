@@ -12,28 +12,20 @@ import javax.persistence.*;
 @Setter
 @Data
 public class Account {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "email")
     private String email;
-
-    @Column(name = "mobile_number")
     private String mobileNumber;
-
-    @Column(name = "account_number")
     private String accountNumber;
-
-    @Column(name = "account_type_id")
-    private Long accountTypeId;
-
-    @Column(name = "address")
     private String address;
-    @ManyToOne(fetch = FetchType.LAZY)
+    private String password;
+    @ManyToOne
     @JoinColumn(name = "account_type_id")
     private AccountType accountType;
+
+    @OneToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 }

@@ -11,7 +11,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Data
-public class News {
+public class Notice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

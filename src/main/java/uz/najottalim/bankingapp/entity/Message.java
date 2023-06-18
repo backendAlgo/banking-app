@@ -32,5 +32,5 @@ public class Message {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_type_id")
-    private StatusType statusType;
+    private Role statusType;
 }

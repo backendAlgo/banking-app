@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountTypeDto {
+public class RoleDto {
     private Long id;
     private String name;
 }

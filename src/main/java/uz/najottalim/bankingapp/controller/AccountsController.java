@@ -1,47 +1,46 @@
 package uz.najottalim.bankingapp.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.web.DefaultSecurityFilterChain;
-import org.springframework.security.web.FilterChainProxy;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.intercept.AuthorizationFilter;
-import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
-import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.handler.DefaultWebFilterChain;
+import org.springframework.web.bind.annotation.*;
+import uz.najottalim.bankingapp.dto.AccountDTO;
+import uz.najottalim.bankingapp.service.AccountService;
+import uz.najottalim.bankingapp.service.impl.AccountServiceimpl;
+import java.util.Optional;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @RestController
 @RequestMapping("/accounts")
 @Slf4j
+@RequiredArgsConstructor
 public class AccountsController {
 
+    private final AccountService accountService;
+
     @GetMapping
-    public String accountsController() {
-        return "accounts";
+    public ResponseEntity<List<AccountDTO>> getAll() {
+        return accountService.getAllAccounts();
     }
 
     @GetMapping("/{id}")
-    public Integer getBalance(@PathVariable Long id) {
-        return 100;
+    public ResponseEntity<AccountDTO> getById(@PathVariable Long id){
+        return accountService.getById(id);
     }
 
-//    @GetMapping("/hello")
-//    public String hello(HttpServletRequest request) {
-//        log.info("path: {}", request.getPathInfo());
-//        log.info("request: {}", request.getRequestURI());
-//        log.info("cookie: {}", Arrays.stream(request.getCookies())
-//                .map(cookie -> cookie.getValue())
-//                .collect(Collectors.toList()));
-//        return "Hello, Spring Security";
-//    }
+    @PostMapping("/register")
+    public ResponseEntity<AccountDTO> addAccount(@RequestBody AccountDTO accountDTO) {
+        return accountService.addAccount(accountDTO);
+    }
+
+    @PutMapping
+    public ResponseEntity<AccountDTO> updateAccount(@RequestBody AccountDTO accountDTO) {
+        return null;
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<AccountDTO> deleteAccount(@PathVariable Long id) {
+        return ResponseEntity.ok(accountService.getAllAccounts().getBody().get(0));
+    }
 }
