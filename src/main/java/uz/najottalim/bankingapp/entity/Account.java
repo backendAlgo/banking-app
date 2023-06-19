@@ -1,21 +1,32 @@
 package uz.najottalim.bankingapp.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import uz.najottalim.bankingapp.entity.AccountType;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "account")
 public class Account {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
     private String name;
     private String email;
     private String mobileNumber;
     private String accountNumber;
-    private Integer accountTypeId;
+    @ManyToOne
+    @JoinColumn(name = "account_type_id")
+    private AccountType accountType;
     private String address;
+    private String password;
 
 }

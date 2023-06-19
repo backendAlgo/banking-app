@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Data
 public class News {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
     private String title;

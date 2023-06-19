@@ -1,16 +1,15 @@
 package uz.najottalim.bankingapp.dto;
-
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class AccountDto {
     @NotBlank(message = "id can  not be null")
-    private Integer id;
+    private Long id;
     @NotBlank(message = "name can  not be null")
     private String name;
     @NotBlank(message = "email can  not be null")
@@ -19,8 +18,11 @@ public class AccountDto {
     private String mobileNumber;
     @NotBlank(message = "accountNumber can  not be null")
     private String accountNumber;
-    @NotBlank(message = "accountTypeId can  not be null")
-    private Integer accountTypeId;
+    @NotBlank(message = "accountTypeDto can  not be null")
+    private AccountTypeDto accountTypeDto;
     @NotBlank(message = "address can  not be null")
     private String address;
+    @NotBlank(message = "password can not be null")
+    private String password;
 }
+

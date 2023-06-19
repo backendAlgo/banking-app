@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Entity
 public class Transactions {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
     private Integer accountId;
