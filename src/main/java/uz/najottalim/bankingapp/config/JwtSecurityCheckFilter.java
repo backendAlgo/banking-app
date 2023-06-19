@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,10 +26,13 @@ public class JwtSecurityCheckFilter extends OncePerRequestFilter {
     public JwtSecurityCheckFilter(JWTUtility jsonUtility) {
         this.jsonUtility = jsonUtility;
     }
+//    DaoAuthenticationProvider
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Custom-Authorization");
+        // qandaydir ma'lumotni localhost:8081/chegirma servicega call qilib ol
+        // keyin chegirmalarni
         if (token != null) {
             try {
                 if (jsonUtility.validate(token)) {
@@ -46,8 +50,6 @@ public class JwtSecurityCheckFilter extends OncePerRequestFilter {
             } catch (Exception ex) {
                 log.info("Exception occurred: ", ex);
                 throw new BadCredentialsException("not correct JWT token", ex);
-            } finally {
-                filterChain.doFilter(request, response);
             }
         }
         filterChain.doFilter(request, response);

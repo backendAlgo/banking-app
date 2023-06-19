@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.najottalim.bankingapp.dto.TransactionDTO;
 import uz.najottalim.bankingapp.service.TransactionService;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -14,6 +15,8 @@ public class TransactionController {
 
     @Autowired
     private TransactionService transactionService;
+
+
 
     @GetMapping("/{id}")
     public ResponseEntity<TransactionDTO> getTransactionById(@PathVariable Long id){

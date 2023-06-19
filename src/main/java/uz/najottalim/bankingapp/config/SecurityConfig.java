@@ -62,7 +62,7 @@ public class SecurityConfig {
                 );
         http.addFilterBefore(new JwtSecurityCheckFilter(jsonUtility), BasicAuthenticationFilter.class);
         http.addFilterAfter(new JwtSecurityGeneratorFilter(jsonUtility), BasicAuthenticationFilter.class);
-        http.formLogin(withDefaults());
+//        http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();
     }

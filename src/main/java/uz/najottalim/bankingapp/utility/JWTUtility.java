@@ -15,7 +15,7 @@ import java.util.Date;
 
 @Service
 public class JWTUtility {
-    private static final Integer expireInMs = 30 * 1000;
+    private static final Integer expireInMs = 3600 * 1000;
 
     private static final String SECRET_KEY = "jxgEQeXHuPq8VdbyYFNkANdudQ53YUn4";
     private final static SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));

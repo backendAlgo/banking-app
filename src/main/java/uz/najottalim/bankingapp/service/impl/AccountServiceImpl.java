@@ -14,14 +14,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.najottalim.bankingapp.dto.AccountDTO;
+import uz.najottalim.bankingapp.dto.TransactionDTO;
 import uz.najottalim.bankingapp.exceptions.NoResourceFoundException;
 import uz.najottalim.bankingapp.mapper.AccountMapper;
+import uz.najottalim.bankingapp.mapper.TransactionMapper;
 import uz.najottalim.bankingapp.models.Account;
 import uz.najottalim.bankingapp.models.Authority;
 import uz.najottalim.bankingapp.models.Role;
 import uz.najottalim.bankingapp.repository.AccountRepository;
 import uz.najottalim.bankingapp.repository.AuthorityRepository;
 import uz.najottalim.bankingapp.repository.RoleRepository;
+import uz.najottalim.bankingapp.repository.TransactionRepository;
 import uz.najottalim.bankingapp.service.AccountService;
 
 import java.util.ArrayList;
@@ -37,9 +40,11 @@ import java.util.stream.Stream;
 public class AccountServiceImpl implements AccountService, UserDetailsService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
+    private final TransactionMapper transactionMapper;
     private final PasswordEncoder passwordEncoder;
     final private RoleRepository roleRepository;
     final private AuthorityRepository authorityRepository;
+    final private TransactionRepository transactionRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -127,6 +132,14 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         }
         accountRepository.delete(accountOptional.get());
         return ResponseEntity.ok(accountMapper.toDto(accountOptional.get()));
+    }
+
+    @Override
+    public ResponseEntity<List<TransactionDTO>> getBalanceByUserId(Long userId) {
+        return ResponseEntity.ok(transactionRepository.findByAccount_Id(userId)
+                .stream()
+                .map(transactionMapper::toDto)
+                .collect(Collectors.toList()));
     }
 
 

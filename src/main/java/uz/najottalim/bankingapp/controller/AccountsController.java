@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import uz.najottalim.bankingapp.dto.AccountDTO;
+import uz.najottalim.bankingapp.dto.TransactionDTO;
 import uz.najottalim.bankingapp.service.AccountService;
 
 import java.util.List;
@@ -46,5 +47,10 @@ public class AccountsController {
     @DeleteMapping("/{id}")
     public ResponseEntity<AccountDTO> deleteAccount(@PathVariable Long id){
         return accountService.deleteAccount(id);
+    }
+
+    @GetMapping("/{userId}/balances")
+    public ResponseEntity<List<TransactionDTO>> getTransactionByUserId(@PathVariable Long userId) {
+        return accountService.getBalanceByUserId(userId);
     }
 }
