@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.najottalim.bankingapp.dto.AccountDTO;
+import uz.najottalim.bankingapp.exceptions.NoResourceFoundException;
 import uz.najottalim.bankingapp.mapper.AccountMapper;
 import uz.najottalim.bankingapp.models.Account;
 import uz.najottalim.bankingapp.models.Authority;
@@ -42,17 +43,25 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
-
-
         Account account = (Account) accountRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("cannot load user: "));
 
         Role role = roleRepository.findById(account.getRole().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Role not found"));
 
-        List<Role> childRolesAndOwnRole = new ArrayList<>(roleRepository.findRoleByParentRole(role));
+        List<Role> childRolesAndOwnRole = new ArrayList<>();
         childRolesAndOwnRole.add(role);
+        List<Role> parentRole = new ArrayList<>();
+        parentRole.add(role);
+        while (true){
+            List<Role> roles = getRoles(parentRole);
+            if (roles.isEmpty()){
+                break;
+            }
+            childRolesAndOwnRole.addAll(roles);
+            parentRole = roles;
+        }
+
 
         List<SimpleGrantedAuthority> allAuthorities = childRolesAndOwnRole
                 .stream()
@@ -67,13 +76,21 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         return new User(account.getEmail(), account.getPassword(), allAuthorities);
     }
 
+    private List<Role> getRoles(List<Role> parentRole){
+        List<Role> allRoles = new ArrayList<>();
+        for (Role role : parentRole) {
+            allRoles.addAll(roleRepository.findRoleByParentRole(role));
+        }
+        return allRoles;
+    }
+
     @Override
     public ResponseEntity<AccountDTO> getAccountById(Long id) {
 //        log.info("authenticate: {}", SecurityContextHolder.getContext().getAuthentication());
 //        log.info("Username: {}", SecurityContextHolder.getContext().getAuthentication().getName());
         Optional<Account> accountOptional = accountRepository.findById(id);
-        if (accountOptional.isEmpty()){
-            return ResponseEntity.badRequest().build();
+        if (accountOptional.isEmpty()) {
+            throw new NoResourceFoundException();
         }
         return ResponseEntity.ok(accountMapper.toDto(accountOptional.get()));
     }
@@ -97,7 +114,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     public ResponseEntity<AccountDTO> addAccount(AccountDTO accountDTO) {
-        if(accountDTO == null) {
+        if (accountDTO == null) {
             throw new NoSuchElementException("account not found");
         }
         AccountDTO passwordChangedAccount = accountDTO.withPassword(passwordEncoder.encode(accountDTO.password()));
@@ -111,7 +128,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     @Override
     public ResponseEntity<AccountDTO> updateAccount(AccountDTO accountDTO, Long id) {
         Optional<Account> optionalAccount = accountRepository.findById(id);
-        if (optionalAccount.isEmpty()){
+        if (optionalAccount.isEmpty()) {
             throw new NoSuchElementException("account not found");
         }
         accountDTO.withId(id);
@@ -124,7 +141,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     @Override
     public ResponseEntity<AccountDTO> deleteAccount(Long id) {
         Optional<Account> accountOptional = accountRepository.findById(id);
-        if(accountOptional.isEmpty()){
+        if (accountOptional.isEmpty()) {
             throw new NoSuchElementException("account not found");
         }
         accountRepository.delete(accountOptional.get());
