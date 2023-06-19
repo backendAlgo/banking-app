@@ -26,7 +26,7 @@ public class  JwtSecurityCheckFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader("Custom-Authorization");
         if(token!=null){
             try {
                     if (jsonUtility.validate(token)){

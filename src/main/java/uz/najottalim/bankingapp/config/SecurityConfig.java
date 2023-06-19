@@ -11,8 +11,12 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.session.DisableEncodeUrlFilter;
+import org.springframework.web.cors.CorsConfiguration;
 import uz.najottalim.bankingapp.Repository.RoleRepository;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+
+import java.util.List;
+
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
@@ -28,7 +32,19 @@ public class SecurityConfig {
 //        DefaultLoginPageGeneratingFilter
 //
 
-        http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
+        http
+                .cors(cors -> {
+                    cors.configurationSource(request -> {
+                        CorsConfiguration configuration = new CorsConfiguration();
+                        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+                        configuration.setAllowedMethods(List.of("*"));
+                        configuration.setAllowCredentials(true);
+                        configuration.setAllowedHeaders(List.of("*"));
+                        configuration.setExposedHeaders(List.of("Custom-Authorization"));
+                        return configuration;
+                    });
+                }).csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
                 (requests) ->
                         requests
                                 .requestMatchers(HttpMethod.POST, "/accounts/register")
