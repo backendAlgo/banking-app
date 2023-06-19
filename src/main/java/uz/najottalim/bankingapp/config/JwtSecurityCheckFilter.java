@@ -21,12 +21,12 @@ import java.util.Collection;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class JwtSecurityCheckFilter extends OncePerRequestFilter {
+public class  JwtSecurityCheckFilter extends OncePerRequestFilter {
     private  final JsonUtility jsonUtility;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = request.getHeader("Custom-Authorization");
+        String token = request.getHeader("Authorization");
         if(token!=null){
             try {
                     if (jsonUtility.validate(token)){

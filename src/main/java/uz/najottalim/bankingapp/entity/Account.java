@@ -25,12 +25,12 @@ public class Account {
     private AccountType accountType;
     private String address;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "roles")
+    @JoinColumn(name = "role_id")
     private Role roles;
 
 
     public Account(Long id, String name, String email, String password,
-                   String mobileNumber, String accountNumber, String address, AccountType entity) {
+                   String mobileNumber, String accountNumber, String address, AccountType entity, Role role) {
         this.id=id;
         this.name=name;
         this.email=email;
@@ -39,5 +39,6 @@ public class Account {
         this.password=password;
         this.mobileNumber=mobileNumber;
         this.accountNumber=accountNumber;
+        this.roles=role;
     }
 }

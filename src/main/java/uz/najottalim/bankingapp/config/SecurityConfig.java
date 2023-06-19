@@ -64,7 +64,7 @@ public class SecurityConfig {
         http.addFilterBefore(customLoggingFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterAfter(jwtSecurityGeneratorFilter, BasicAuthenticationFilter.class);
         http.addFilterBefore(requestTimeFilter, DisableEncodeUrlFilter.class);
-        http.addFilterBefore(wordSplitterFilter, BasicAuthenticationFilter.class);
+//        http.addFilterBefore(wordSplitterFilter, BasicAuthenticationFilter.class);
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();

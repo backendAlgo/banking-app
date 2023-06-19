@@ -13,7 +13,8 @@ public class AccountMapper {
                 accountsDto.getMobileNumber(),
                 accountsDto.getAccountNumber(),
                 accountsDto.getAddress(),
-                AccountTypeMapper.toEntity(accountsDto.getAccountTypeDto())
+                AccountTypeMapper.toEntity(accountsDto.getAccountTypeDto()),
+                RoleMapper.toEntity(accountsDto.getRole())
         );
     }
     public static AccountsDto toDto(Account account) {
@@ -25,7 +26,9 @@ public class AccountMapper {
                 account.getMobileNumber(),
                 account.getAccountNumber(),
                 AccountTypeMapper.toDto(account.getAccountType()),
-                account.getAddress()
+                account.getAddress(),
+                RoleMapper.toDto(account.getRoles())
+
         );
     }
 }

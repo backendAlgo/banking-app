@@ -1,6 +1,8 @@
 package uz.najottalim.bankingapp.mapper;
 
+import uz.najottalim.bankingapp.Dto.AccountsDto;
 import uz.najottalim.bankingapp.Dto.RoleDTO;
+import uz.najottalim.bankingapp.entity.Account;
 import uz.najottalim.bankingapp.entity.Role;
 
 public class RoleMapper {
@@ -8,6 +10,14 @@ public class RoleMapper {
         return new Role(
                 roleDTO.getId(),
                 roleDTO.getName()
+
+        );
+    }
+    public static RoleDTO toDto(Role role) {
+        return new RoleDTO(
+                role.getId(),
+                role.getName()
+
 
         );
     }
