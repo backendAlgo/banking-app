@@ -20,9 +20,7 @@ public class Loan {
     private Double amountPay;
     private Double outstandingAmt;
     @ManyToOne
-    @JoinColumn(name = "type_loans_id ")
     private LoanType loanType;
     @ManyToOne
-    @JoinColumn(name = "account_id")
     private Account account;
 }

@@ -2,11 +2,13 @@ package uz.najottalim.bankingapp.Dto;import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.With;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@With
 public class AccountsDto {
     private Long id;
     private String name;

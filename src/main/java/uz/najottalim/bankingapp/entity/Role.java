@@ -17,14 +17,10 @@ public class  Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
-    @ManyToMany
-    @JoinTable(
-            name = "role_authority",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "authority_id")
-    )
-    List<Authority> authorities;
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "roles")
+    private List<Authority> authorities;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "roles")
+    private List<Account> accounts;
 
     @ManyToOne
     @JoinColumn(name = "parent_role_id")

@@ -21,6 +21,5 @@ public class Massage {
     private String message;
     private LocalDate sentDate;
     @ManyToOne
-    @JoinColumn(name = "massages_type_id")
     private MassagesType statusType;
 }

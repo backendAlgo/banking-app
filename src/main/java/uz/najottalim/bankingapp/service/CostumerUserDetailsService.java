@@ -28,7 +28,7 @@ public class CostumerUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account =accountRepository.findByEmail(username)
                 .orElseThrow(()->new IllegalArgumentException("Not found Email"));
-        Role role = roleRepository.findById(account.getRole().getId())
+        Role role = roleRepository.findById(account.getRoles().getId())
                 .orElseThrow(()->new IllegalArgumentException("Not found Email"));
         List<Role> childRolesAndOwnRole = new ArrayList<>(roleRepository.findRoleByParentRole(role));
         childRolesAndOwnRole.add(role);

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
-@Table(name = "/card")
+@Table(name = "card")
 public class Cards {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +22,8 @@ public class Cards {
     private Double amountUsed;
     private Double availableAmt;
     @ManyToOne
-    @JoinColumn(name = "card_type_id")
+    //    @JoinColumn(name = "card_type_id")
     private CardType cardType;
     @ManyToOne
-    @JoinColumn(name = "account_id")
     private Account account;
 }
