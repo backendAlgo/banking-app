@@ -38,6 +38,7 @@ public class AccountsController {
         return accountService.addAccount(accountDTO);
     }
 
+
     @PutMapping("/{id}")
     public ResponseEntity<AccountDTO> updateAccount(@RequestBody AccountDTO accountDTO, @PathVariable Long id){
         return accountService.updateAccount(accountDTO,id);
