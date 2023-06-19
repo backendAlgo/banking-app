@@ -54,8 +54,19 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         Role role = roleRepository.findById(account.getRole().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Role not found"));
 
-        List<Role> childRolesAndOwnRole = new ArrayList<>(roleRepository.findRoleByParentRole(role));
+        List<Role> childRolesAndOwnRole = new ArrayList<>();
         childRolesAndOwnRole.add(role);
+        List<Role> parentRole = new ArrayList<>();
+        parentRole.add(role);
+        while (true){
+            List<Role> roles = getRoles(parentRole);
+            if (roles.isEmpty()){
+                break;
+            }
+            childRolesAndOwnRole.addAll(roles);
+            parentRole = roles;
+        }
+
 
         List<SimpleGrantedAuthority> allAuthorities = childRolesAndOwnRole
                 .stream()
@@ -68,6 +79,14 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
                 .toList();
 
         return new User(account.getEmail(), account.getPassword(), allAuthorities);
+    }
+
+    private List<Role> getRoles(List<Role> parentRole){
+        List<Role> allRoles = new ArrayList<>();
+        for (Role role : parentRole) {
+            allRoles.addAll(roleRepository.findRoleByParentRole(role));
+        }
+        return allRoles;
     }
 
     @Override
