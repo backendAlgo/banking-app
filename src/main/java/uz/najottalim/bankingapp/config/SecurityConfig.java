@@ -27,6 +27,7 @@ public class SecurityConfig {
 //    private final RequestTimeFilter requestTimeFilter;
     private final CustomLoggingFilter customLoggingFilter;
     private final JwtSecurityGeneratorFilter jwtSecurityGeneratorFilter;
+    private final JwtSecurityCheckFilter jwtSecurityCheckFilter;
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 //        DefaultLoginPageGeneratingFilter
@@ -81,6 +82,7 @@ public class SecurityConfig {
 //        UserDetailsService
 //        http.addFilterBefore(customLoggingFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterAfter(jwtSecurityGeneratorFilter, BasicAuthenticationFilter.class);
+        http.addFilterBefore(jwtSecurityCheckFilter,BasicAuthenticationFilter.class);
 //        http.addFilterBefore(requestTimeFilter, DisableEncodeUrlFilter.class);
 //        http.addFilterBefore(wordSplitterFilter, BasicAuthenticationFilter.class);
 //        http.formLogin(withDefaults());
