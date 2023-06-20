@@ -16,10 +16,15 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.security.web.session.DisableEncodeUrlFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 import uz.najottalim.bankingapp.repository.RoleRepository;
+
+import java.util.*;
 
 
 
@@ -29,19 +34,31 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @RequiredArgsConstructor
 @EnableWebSecurity(debug = true)
 public class SecurityConfig {
-    private final RoleRepository roleRepository;
+    private final JWTValidatorFilter jwtValidatorFilter;
     private final JWTSecurityGeneratorFilter jwtSecurityGeneratorFilter;
     private final RequestTimeFilter requestTimeFilter;
-    private final WordSplitterFilter wordSplitterFilter;
+
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
         http.csrf(AbstractHttpConfigurer::disable)
+                .cors(cors->{
+                    cors.configurationSource(request -> {
+                        CorsConfiguration configuration = new CorsConfiguration();
+                        configuration.addAllowedOrigin("http://localhost:4200");
+                        configuration.setAllowedMethods(List.of("*"));
+                        configuration.setAllowedHeaders(List.of("*"));
+                        configuration.setMaxAge(3600L);
+                        configuration.setExposedHeaders(List.of("authorization"));
+                        configuration.setAllowCredentials(true);
+                        return configuration;
+                    });
+                })
                 .authorizeHttpRequests(
 
                         (requests) ->requests
 
-                                .requestMatchers("/notices", "/contacts").permitAll()
+                                .requestMatchers("/notices/**", "/contacts").permitAll()
 
                                 .requestMatchers(HttpMethod.POST,"/accounts").permitAll()
 
@@ -65,13 +82,14 @@ public class SecurityConfig {
                                 .anyRequest().permitAll()
 
                 );
-        http.addFilterBefore(wordSplitterFilter, BasicAuthenticationFilter.class);
-        http.addFilterBefore(requestTimeFilter, DisableEncodeUrlFilter.class);
+        http.addFilterBefore(jwtValidatorFilter,BasicAuthenticationFilter.class);
         http.addFilterAfter(jwtSecurityGeneratorFilter, BasicAuthenticationFilter.class);
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
         return http.build();
     }
+
+
     @Bean
     public PasswordEncoder myPasswordEncoder(){
         return new BCryptPasswordEncoder();

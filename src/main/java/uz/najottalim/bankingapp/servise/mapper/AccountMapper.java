@@ -4,6 +4,8 @@ package uz.najottalim.bankingapp.servise.mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uz.najottalim.bankingapp.dto.accountsdto.AccountDto;
+import uz.najottalim.bankingapp.dto.accountsdto.AccountTypeDto;
+import uz.najottalim.bankingapp.dto.accountsdto.UserDto;
 import uz.najottalim.bankingapp.entity.Account;
 import uz.najottalim.bankingapp.entity.Role;
 import uz.najottalim.bankingapp.exception.NoResourceFoundException;
@@ -22,7 +24,7 @@ public class AccountMapper {
                 account.getPassword(),
                 account.getMobileNumber(),
                 account.getAccountNumber(),
-                AccountTypeMapper.toDto(account.getAccountType()),
+                account.getAccountType().getName(),
                 account.getAddress(),
                 RoleMapper.toDtoWithAuthorities(account.getRole()));
     }
@@ -34,8 +36,22 @@ public class AccountMapper {
                 accountDto.getPassword(),
                 accountDto.getMobileNumber(),
                 accountDto.getAccountNumber(),
-                AccountTypeMapper.toEntity(accountDto.getAccountTypeDto()),
-                accountDto.getAddress(),
+                null,//AccountTypeMapper.toEntity(accountDto.getAccountTypeDto()),
+                accountDto.getBranchAddress(),
                 RoleMapper.toEntity(accountDto.getRoleDto()));
+    }
+
+    public static UserDto toUserDto(Account account){
+        return new UserDto(
+                account.getId(),
+                account.getName(),
+                account.getEmail(),
+                account.getPassword(),
+                account.getMobileNumber(),
+                account.getAccountNumber(),
+                account.getAccountType().getName(),
+                account.getAddress(),
+                account.getRole().getName()
+        );
     }
 }

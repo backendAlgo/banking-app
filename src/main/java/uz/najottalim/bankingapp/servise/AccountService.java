@@ -11,4 +11,6 @@ public interface AccountService {
     ResponseEntity<AccountDto> getById(Long id);
 
     ResponseEntity<AccountDto> addAccount(AccountDto accountDto);
+
+    ResponseEntity<AccountDto> updateAccount(Long id,AccountDto accountDto);
 }

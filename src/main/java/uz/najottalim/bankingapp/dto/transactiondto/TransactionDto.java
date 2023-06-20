@@ -1,5 +1,6 @@
 package uz.najottalim.bankingapp.dto.transactiondto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,11 +13,24 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransactionDto {
+    /*
+    public accountNumber: number;
+  public customerId: number;
+  public transactionDt: Date;
+  public transactionSummary: string;
+  public transactionType: string;
+  public transactionAmt: number;
+  public closingBalance: number;
+  */
     private Long id;
+    @JsonProperty(value = "transactionDt")
     private LocalDate transactionDate;
+    @JsonProperty(value = "transactionSummary")
     private String summary;
-    private Double withdrawal;
-    private Double deposit;
+    private Double transactionAmt;
+    private String transactionType;
     private Double closingBalance;
-    private AccountDto accountDto;
+    @JsonProperty(value = "customerId")
+    private Long accountId;
+    private String accountNumber;
 }

@@ -2,6 +2,7 @@ package uz.najottalim.bankingapp.servise.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,13 +45,12 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     @Override
     public ResponseEntity<AccountDto> getById(Long id) {
         Optional<Account> account = accountRepository.findById(id);
-        Account account1 = account.orElseThrow(NoResourceFoundException::new);
+        Account account1 = account.orElseThrow(()->new NoResourceFoundException("No such user found"));
 
         if (
                 !SecurityContextHolder.getContext().getAuthentication().getName()
                 .equals(account1.getEmail()
                 )) throw new LimitAccessException("Access limitation");
-
         return ResponseEntity.ok(AccountMapper.toDto(account1));
     }
 
@@ -67,6 +67,12 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         }
         accountDto.setPassword(passwordEncoder.encode(accountDto.getPassword()));
         return ResponseEntity.ok(AccountMapper.toDto(accountRepository.save(AccountMapper.toEntity(accountDto))));
+    }
+
+    @Override
+    public ResponseEntity<AccountDto> updateAccount(Long id,AccountDto accountDto) {
+        ResponseEntity<AccountDto> byId = getById(id);
+        return null;
     }
 
     @Override

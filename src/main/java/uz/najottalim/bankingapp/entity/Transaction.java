@@ -18,10 +18,12 @@ public class Transaction {
     private Long id;
     private LocalDate transactionDate;
     private String summary;
-    private Double withdrawal;
-    private Double deposit;
+
+    private Double transactionAmt;
     private Double closingBalance;
     @ManyToOne
     private Account account;
+    @ManyToOne
+    private TransactionType transactionType;
 
 }

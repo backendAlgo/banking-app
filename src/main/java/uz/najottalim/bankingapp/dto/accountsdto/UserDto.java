@@ -8,13 +8,18 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountDto {
-    /**public customerId: number;
-     public accountNumber: number;
-     public accountType: string;
-     public branchAddress: string;
+public class UserDto {
+    /**  User model of front:
+     *   public id: number;
+     *   public name: string;
+     *   public mobileNumber: string;
+     *   public email : string;
+     *   public password: string;
+     *   public role : string;
+     *   public statusCd: string;
+     *   public statusMsg : string;
+     *   public authStatus : string;
      **/
-    @JsonProperty(value = "customerId")
     private Long id;
     private String name;
     private String email;
@@ -23,6 +28,6 @@ public class AccountDto {
     private String mobileNumber;
     private String accountNumber;
     private String accountType;
-    private String branchAddress;
-    private RoleDto roleDto;
+    private String address;
+    private String role;
 }

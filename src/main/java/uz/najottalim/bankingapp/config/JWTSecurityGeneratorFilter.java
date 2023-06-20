@@ -5,9 +5,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 import uz.najottalim.bankingapp.utility.JwtUtility;
@@ -22,8 +25,7 @@ public class JWTSecurityGeneratorFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if(authentication != null){
+        if(authentication != null) {
             String generate = jwtUtility.generate(
                     authentication.getName(),
                     authentication.getAuthorities()
@@ -31,8 +33,8 @@ public class JWTSecurityGeneratorFilter extends OncePerRequestFilter {
                             .map(GrantedAuthority::getAuthority)
                             .collect(Collectors.joining(","))
             );
-            response.setHeader("authorization",generate);
+            response.setHeader("authorization", generate);
         }
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 }

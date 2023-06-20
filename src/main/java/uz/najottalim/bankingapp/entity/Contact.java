@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "messages")
-public class Message {
+public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,5 +22,5 @@ public class Message {
     private String message;
     private LocalDate sentDate;
     @ManyToOne
-    private MassagesStatusType statusType;
+    private MessagesStatusType statusType;
 }
