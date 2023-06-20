@@ -22,9 +22,9 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final RoleRepository roleRepository;
-    private final WordSplitterFilter wordSplitterFilter;
-    private final RequestTimeFilter requestTimeFilter;
+//    private final RoleRepository roleRepository;
+//    private final WordSplitterFilter wordSplitterFilter;
+//    private final RequestTimeFilter requestTimeFilter;
     private final CustomLoggingFilter customLoggingFilter;
     private final JwtSecurityGeneratorFilter jwtSecurityGeneratorFilter;
     @Bean
@@ -55,6 +55,8 @@ public class SecurityConfig {
 //                                                "/cards"
 //                                        )
 //                                        .authenticated()
+                                .requestMatchers("/user")
+                                .authenticated()
                                 .requestMatchers(HttpMethod.DELETE,
                                         "/accounts/**",
                                         "/balances/**",
@@ -77,9 +79,9 @@ public class SecurityConfig {
         );
 //        UserDetailsManager
 //        UserDetailsService
-        http.addFilterBefore(customLoggingFilter, UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterBefore(customLoggingFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterAfter(jwtSecurityGeneratorFilter, BasicAuthenticationFilter.class);
-        http.addFilterBefore(requestTimeFilter, DisableEncodeUrlFilter.class);
+//        http.addFilterBefore(requestTimeFilter, DisableEncodeUrlFilter.class);
 //        http.addFilterBefore(wordSplitterFilter, BasicAuthenticationFilter.class);
 //        http.formLogin(withDefaults());
         http.httpBasic(withDefaults());

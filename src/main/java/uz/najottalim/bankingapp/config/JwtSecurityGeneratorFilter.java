@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class JwtSecurityGeneratorFilter extends OncePerRequestFilter {
 
-    private final JsonUtility jsonUtility;
+    private  JsonUtility jsonUtility;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

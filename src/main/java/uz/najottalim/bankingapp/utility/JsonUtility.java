@@ -19,13 +19,13 @@ import javax.crypto.SecretKey;
 
 @Component
 public class JsonUtility {
-    private static  final int expireInMs=60*1000;
+    private static  final int expireInMs=3600*1000;
     private static final String SECRET_KEY = "jxgEQeXHuPq8VdbyYFNkANdudQ53YUn4";
     private static final SecretKey key =Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
     public  String generate(String username,String authorities){
          String jwtToken= Jwts.builder()
-                 .setSubject("For-Login")
-                 .setIssuer("Banking-app")
+                 .setSubject("FOR-LOGIN")
+                 .setIssuer("BANKING-APP")
                  .claim("username",username)
                  .claim("authorities",authorities)
                  .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -55,7 +55,7 @@ public class JsonUtility {
     }
     public boolean isExpired(String token) {
         Claims claims = getClaims(token);
-        return claims.getExpiration().after(new Date(System.currentTimeMillis()));
+        return claims.getExpiration().before(new Date(System.currentTimeMillis()));
     }
 
     private Claims getClaims(String token) {
