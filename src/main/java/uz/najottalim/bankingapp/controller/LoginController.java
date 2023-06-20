@@ -1,5 +1,6 @@
 package uz.najottalim.bankingapp.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,15 +10,13 @@ import uz.najottalim.bankingapp.Repository.AccountRepository;
 import uz.najottalim.bankingapp.mapper.AccountMapper;
 
 @RestController
+@RequiredArgsConstructor
 public class LoginController {
-    @Autowired
-    AccountRepository accountRepository;
-    @Autowired
-    AccountMapper accountMapper;
+    private  final AccountRepository accountRepository;
 
     @GetMapping("/user")
     public AccountsDto loginUser() {
         var auth = SecurityContextHolder.getContext().getAuthentication();
-        return accountMapper.toDto(accountRepository.findByEmail(auth.getName()).orElseThrow(() -> new IllegalArgumentException("cannot be here")));
+        return AccountMapper.toDto(accountRepository.findByEmail(auth.getName()).orElseThrow(() -> new IllegalArgumentException("cannot be here")));
     }
 }

@@ -26,4 +26,13 @@ public class Cards {
     private CardType cardType;
     @ManyToOne
     private Account account;
+
+    public Cards(Long customerId, String cardNumber, Double totalLimit, Double amountUsed, Double availableAmount) {
+        this.id=customerId;
+        this.cardNumber=cardNumber;
+        this.amountUsed=amountUsed;
+        this.totalLimit=totalLimit;
+        this.availableAmt=availableAmount;
+
+    }
 }

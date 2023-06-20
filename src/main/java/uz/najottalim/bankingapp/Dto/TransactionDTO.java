@@ -9,11 +9,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 public class TransactionDTO {
-    private Long id;
-    private Long accountId;
-    private LocalDate transactionDate;
-    private String summary;
-    private Double withdrawal;
-    private Double deposit;
+    private Long customerId;
+    AccountsDto accountNumber;
+    private LocalDate transactionDt;
+    private String transactionSummary;
+    String transactionType;
+    Double transactionAmt;
     private Double closingBalance;
 }

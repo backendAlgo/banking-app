@@ -23,4 +23,14 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
+    public Transaction(Long customerId, LocalDate transactionDt, String transactionSummary,
+                       double withdrawal, double deposit, Double closingBalance) {
+        this.id=customerId;
+        this.transactionDate=transactionDt;
+        this.summary=transactionSummary;
+        this.withdrawal=withdrawal;
+        this.deposit=deposit;
+        this.closingBalance=closingBalance;
+    }
 }

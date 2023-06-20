@@ -1,8 +1,6 @@
 package uz.najottalim.bankingapp.mapper;
 
-import uz.najottalim.bankingapp.Dto.AccountsDto;
 import uz.najottalim.bankingapp.Dto.RoleDTO;
-import uz.najottalim.bankingapp.entity.Account;
 import uz.najottalim.bankingapp.entity.Role;
 
 public class RoleMapper {

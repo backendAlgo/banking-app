@@ -3,11 +3,11 @@ package uz.najottalim.bankingapp.Dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.With;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class AccountTypeDto {
-    private Long id;
-    private String name;
+
+@With
+public record AccountTypeDto (
+    Long id,
+    String name){
 }

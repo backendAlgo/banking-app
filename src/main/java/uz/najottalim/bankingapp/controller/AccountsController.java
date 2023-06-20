@@ -15,6 +15,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.handler.DefaultWebFilterChain;
 import uz.najottalim.bankingapp.Dto.AccountsDto;
+import uz.najottalim.bankingapp.Dto.TransactionDTO;
 import uz.najottalim.bankingapp.service.AccountService;
 
 import java.util.Arrays;
@@ -30,9 +31,17 @@ public class AccountsController {
     public ResponseEntity<List<AccountsDto>> getAllAccounts(){
         return accountService.getAllAccounts();
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<AccountsDto> getAccountById(@PathVariable Long id){
+        return accountService.getAccountById(id);
+    }
     @GetMapping("/register")
     public ResponseEntity<String> addAccount(@RequestBody AccountsDto accountsDto){
         return accountService.addAccount(accountsDto);
+    }
+    @GetMapping("/{userId}/balances")
+    public ResponseEntity<List<TransactionDTO>> getTransactionByUserId(@PathVariable Long userId) {
+        return accountService.getBalanceByUserId(userId);
     }
 
 }
