@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import uz.najottalim.bankingapp.dto.CardDTO;
 import uz.najottalim.bankingapp.models.Card;
+import uz.najottalim.bankingapp.models.CardType;
 
 @Component
 @RequiredArgsConstructor
@@ -16,14 +17,14 @@ public class CardMapper {
     public Card toEntity(CardDTO cardDTO) {
         if (cardDTO == null) return null;
         return new Card(
-                cardDTO.id(),
-                cardDTO.account(),
+                cardDTO.customerId(),
+                null,
                 cardDTO.cardNumber(),
                 cardDTO.cardExpiredDate(),
-                cardTypeMapper.toEntity(cardDTO.cardTypeDTO()),
+                new CardType(cardDTO.cardType()),
                 cardDTO.totalLimit(),
                 cardDTO.amountUsed(),
-                cardDTO.availableAmt()
+                cardDTO.availableAmount()
         );
     }
 
@@ -31,10 +32,9 @@ public class CardMapper {
         if(card == null) return null;
         return new CardDTO(
                 card.getId(),
-                card.getAccount(),
                 card.getCardNumber(),
                 card.getCardExpiredDate(),
-                cardTypeMapper.toDto(card.getCardType()),
+                card.getCardType().getName(),
                 card.getTotalLimit(),
                 card.getAmountUsed(),
                 card.getAvailableAmt()

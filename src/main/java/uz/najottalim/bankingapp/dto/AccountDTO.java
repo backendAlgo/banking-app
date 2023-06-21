@@ -1,9 +1,9 @@
 package uz.najottalim.bankingapp.dto;
 
-import lombok.*;
-import uz.najottalim.bankingapp.models.Role;
+import lombok.With;
 @With
 public record AccountDTO (
+    Long customerId,
     Long id,
     String name,
     String email,

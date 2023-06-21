@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CardService {
-    ResponseEntity<CardDTO> getCardsById(Long id);
+    ResponseEntity<List<CardDTO>> getCardsById(Long id);
 
     ResponseEntity<List<CardDTO>> getAllCards(Optional<String> columnName, Optional<Integer> pageNum, Optional<Integer> pageSize);
 

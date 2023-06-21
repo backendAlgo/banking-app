@@ -1,17 +1,14 @@
 package uz.najottalim.bankingapp.dto;
 
-import lombok.*;
-import uz.najottalim.bankingapp.models.Account;
-
 import java.time.LocalDate;
 
 
 public record LoanDTO (
-    Long id,
-    Account account,
-    LocalDate startDate,
-    LoanTypeDTO loanTypeDTO,
+    Long loanNumber,
+    Long customerId,
+    LocalDate startDt,
+    String loanType,
     Double totalLoan,
-    Double amountPay,
-    Double outstandingAmt){
+    Double amountPaid,
+    Double outstandingAmount){
 }

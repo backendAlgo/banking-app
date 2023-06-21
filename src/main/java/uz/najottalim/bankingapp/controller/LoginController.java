@@ -2,6 +2,7 @@ package uz.najottalim.bankingapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,6 @@ public class LoginController {
     AccountRepository accountRepository;
     @Autowired
     AccountMapper accountMapper;
-
     @GetMapping("/user")
     public AccountDTO loginUser() {
         var auth = SecurityContextHolder.getContext().getAuthentication();

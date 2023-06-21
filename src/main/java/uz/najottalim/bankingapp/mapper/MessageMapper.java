@@ -14,9 +14,9 @@ public class MessageMapper {
     public Message toEntity(MessageDTO messageDTO){
         if(messageDTO == null) return null;
         return new Message(
-                messageDTO.id(),
-                messageDTO.name(),
-                messageDTO.email(),
+                messageDTO.contactId(),
+                messageDTO.contactName(),
+                messageDTO.contactEmail(),
                 messageDTO.subject(),
                 messageDTO.message(),
                 messageDTO.sentDate(),

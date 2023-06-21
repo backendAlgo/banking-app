@@ -9,28 +9,30 @@ import uz.najottalim.bankingapp.models.Transaction;
 @RequiredArgsConstructor
 public class TransactionMapper {
     private final AccountTypeMapper accountTypeMapper;
-    public Transaction toEntity(TransactionDTO transactionDTO){
-        if(transactionDTO == null) return null;
+    private final AccountMapper accountMapper;
+
+    public Transaction toEntity(TransactionDTO transactionDTO) {
+        if (transactionDTO == null) return null;
         return new Transaction(
-                transactionDTO.id(),
-                transactionDTO.account(),
-                transactionDTO.transactionDate(),
-                transactionDTO.summary(),
-                transactionDTO.withdrawal(),
-                transactionDTO.deposit(),
+                transactionDTO.customerId(),
+                accountMapper.toEntity(transactionDTO.account()),
+                transactionDTO.transactionDt(),
+                transactionDTO.transactionSummary(),
+                transactionDTO.transactionType().equals("Withdrawal") ? transactionDTO.transactionAmt() : 0,
+                transactionDTO.transactionType().equals("Deposit") ? transactionDTO.transactionAmt() : 0,
                 transactionDTO.closingBalance()
         );
     }
 
-    public TransactionDTO toDto(Transaction transaction){
-        if(transaction == null) return null;
+    public TransactionDTO toDto(Transaction transaction) {
+        if (transaction == null) return null;
         return new TransactionDTO(
                 transaction.getId(),
-                transaction.getAccount(),
+                accountMapper.toDto(transaction.getAccount()),
                 transaction.getTransactionDate(),
                 transaction.getSummary(),
-                transaction.getWithdrawal(),
-                transaction.getDeposit(),
+                transaction.getDeposit() != null ? "Deposit" : "Withdrawal",
+                transaction.getDeposit() != null ? transaction.getDeposit() : transaction.getWithdrawal(),
                 transaction.getClosingBalance()
         );
     }
