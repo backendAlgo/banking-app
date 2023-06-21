@@ -12,29 +12,29 @@ public class LoanMapper {
     private final LoanTypeMapper loanTypeMapper;
     private final AccountMapper accountMapper;
 
-   public Loan toEntity(LoanDTO loanDTO){
-       if(loanDTO == null) return null;
-       return new Loan(
-               loanDTO.id(),
-               loanDTO.account(),
-               loanDTO.startDate(),
-               loanTypeMapper.toEntity(loanDTO.loanTypeDTO()),
-               loanDTO.totalLoan(),
-               loanDTO.amountPay(),
-               loanDTO.outstandingAmt()
-       );
-   }
+    public Loan toEntity(LoanDTO loanDTO) {
+        if (loanDTO == null) return null;
+        return new Loan(
+                loanDTO.id(),
+                null,
+                loanDTO.startDt(),
+                null,
+                loanDTO.totalLoan(),
+                loanDTO.amountPaid(),
+                loanDTO.outstandingAmount()
+        );
+    }
 
-   public LoanDTO toDto(Loan loan){
-       if(loan == null) return null;
-       return new LoanDTO(
-               loan.getId(),
-               loan.getAccount(),
-               loan.getStartDate(),
-               loanTypeMapper.toDto(loan.getLoanType()),
-               loan.getTotalLoan(),
-               loan.getAmountPay(),
-               loan.getOutstandingAmt()
-       );
-   }
+    public LoanDTO toDto(Loan loan) {
+        if (loan == null) return null;
+        return new LoanDTO(
+                loan.getId(),
+                loan.getAccount().getId(),
+                loan.getStartDate(),
+                loan.getLoanType().getName(),
+                loan.getTotalLoan(),
+                loan.getAmountPay(),
+                loan.getOutstandingAmt()
+        );
+    }
 }

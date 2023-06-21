@@ -16,8 +16,8 @@ public class TransactionMapper {
         return new Transaction(
                 transactionDTO.id(),
                 accountMapper.toEntity(transactionDTO.account()),
-                transactionDTO.transactionDate(),
-                transactionDTO.summary(),
+                transactionDTO.transactionDt(),
+                transactionDTO.transactionSummary(),
                 transactionDTO.transactionType().equals("Withdrawal") ? transactionDTO.transactionAmt() : 0,
                 transactionDTO.transactionType().equals("Deposit") ? transactionDTO.transactionAmt() : 0,
                 transactionDTO.closingBalance()

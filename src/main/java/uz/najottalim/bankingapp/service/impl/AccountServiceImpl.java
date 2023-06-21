@@ -136,7 +136,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     public ResponseEntity<List<TransactionDTO>> getBalanceByUserId(Long userId) {
-        return ResponseEntity.ok(transactionRepository.findByAccount_Id(userId)
+        return ResponseEntity.ok(transactionRepository.findByAccount_IdOrderByTransactionDateDesc(userId)
                 .stream()
                 .map(transactionMapper::toDto)
                 .collect(Collectors.toList()));

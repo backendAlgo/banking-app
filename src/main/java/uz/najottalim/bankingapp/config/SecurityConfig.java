@@ -48,7 +48,6 @@ public class SecurityConfig {
                                         )
                                         .hasRole("ADMIN")
                                         .requestMatchers(
-                                                "/accounts/**",
                                                 "/balances/**",
                                                 "/loans/**",
                                                 "/cards/**")
@@ -57,8 +56,8 @@ public class SecurityConfig {
                                                 "/notices",
                                                 "/contacts")
                                         .permitAll()
-                                        .anyRequest()
-                                        .denyAll()
+                                        .requestMatchers("/accounts/**")
+                                        .authenticated()
                 );
         http.addFilterBefore(new JwtSecurityCheckFilter(jsonUtility), BasicAuthenticationFilter.class);
         http.addFilterAfter(new JwtSecurityGeneratorFilter(jsonUtility), BasicAuthenticationFilter.class);
