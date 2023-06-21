@@ -20,7 +20,7 @@ import java.util.List;
 public class CardsController {
 
     private final CardService cardService;
-    @GetMapping("{id")
+    @GetMapping("{id}")
     public ResponseEntity<List<CardDTO>> getById(@PathVariable Long id){
         return cardService.getById(id);
     }
