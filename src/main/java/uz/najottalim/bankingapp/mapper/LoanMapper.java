@@ -15,7 +15,7 @@ public class LoanMapper {
     public Loan toEntity(LoanDTO loanDTO) {
         if (loanDTO == null) return null;
         return new Loan(
-                loanDTO.id(),
+                loanDTO.loanNumber(),
                 null,
                 loanDTO.startDt(),
                 null,

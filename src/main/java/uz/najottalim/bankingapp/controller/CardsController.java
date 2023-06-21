@@ -19,7 +19,7 @@ public class CardsController {
     private final CardService cardService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<CardDTO> getCardsById(@PathVariable Long id){
+    public ResponseEntity<List<CardDTO>> getCardsById(@PathVariable Long id){
         return cardService.getCardsById(id);
     }
 

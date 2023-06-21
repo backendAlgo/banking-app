@@ -26,14 +26,12 @@ public class CardServiceImpl implements CardService {
     private final CardMapper cardMapper;
 
     @Override
-    public ResponseEntity<CardDTO> getCardsById(Long id) {
-        Optional<Card> cardOptional = cardRepository.findById(id);
-        if(cardOptional.isEmpty()){
-            throw new NoSuchElementException("card not found");
-        }
-        return ResponseEntity.ok(
-                cardMapper.toDto(cardOptional.get())
-        );
+    public ResponseEntity<List<CardDTO>> getCardsById(Long id) {
+        List<Card> cards=cardRepository.findByAccountId(id);
+        List<CardDTO> s = cards.stream()
+                .map(cardMapper::toDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(s);
     }
 
     @Override

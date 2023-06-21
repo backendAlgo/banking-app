@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 
 public record TransactionDTO(
-        Long id,
+        Long customerId,
         AccountDTO account,
         LocalDate transactionDt,
         String transactionSummary,

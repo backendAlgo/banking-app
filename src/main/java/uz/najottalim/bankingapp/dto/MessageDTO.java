@@ -5,9 +5,9 @@ import lombok.*;
 import java.time.LocalDate;
 
 public record MessageDTO (
-    Long id,
-    String name,
-    String email,
+    Long contactId,
+    String contactName,
+    String contactEmail,
     String subject,
     String message,
     LocalDate sentDate,

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -21,16 +22,14 @@ import uz.najottalim.bankingapp.mapper.TransactionMapper;
 import uz.najottalim.bankingapp.models.Account;
 import uz.najottalim.bankingapp.models.Authority;
 import uz.najottalim.bankingapp.models.Role;
+import uz.najottalim.bankingapp.models.Transaction;
 import uz.najottalim.bankingapp.repository.AccountRepository;
 import uz.najottalim.bankingapp.repository.AuthorityRepository;
 import uz.najottalim.bankingapp.repository.RoleRepository;
 import uz.najottalim.bankingapp.repository.TransactionRepository;
 import uz.najottalim.bankingapp.service.AccountService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -46,6 +45,31 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     final private AuthorityRepository authorityRepository;
     final private TransactionRepository transactionRepository;
 
+
+    private void resetData() {
+        List<Account> accounts = accountRepository.findAll();
+        for (Account account : accounts) {
+                List<Transaction> transactions = transactionRepository.findByAccountOrderByTransactionDate(account);
+            Double currentSum = 0D;
+            Iterator<Transaction> iterator = transactions.iterator();
+            while (iterator.hasNext()) {
+                Transaction tr = iterator.next();
+                if (tr.getDeposit() != null) {
+                    currentSum += tr.getDeposit();
+                    tr.setClosingBalance(currentSum);
+                } else if (tr.getWithdrawal() != null) {
+                    if (tr.getWithdrawal() > currentSum) {
+                        iterator.remove();
+                    } else {
+                        currentSum -= tr.getWithdrawal();
+                        tr.setClosingBalance(currentSum);
+                    }
+                }
+            }
+            transactionRepository.saveAll(transactions);
+        }
+    }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Account account = (Account) accountRepository.findByEmail(email)
@@ -58,9 +82,9 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         childRolesAndOwnRole.add(role);
         List<Role> parentRole = new ArrayList<>();
         parentRole.add(role);
-        while (true){
+        while (true) {
             List<Role> roles = getRoles(parentRole);
-            if (roles.isEmpty()){
+            if (roles.isEmpty()) {
                 break;
             }
             childRolesAndOwnRole.addAll(roles);
@@ -81,7 +105,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         return new User(account.getEmail(), account.getPassword(), allAuthorities);
     }
 
-    private List<Role> getRoles(List<Role> parentRole){
+    private List<Role> getRoles(List<Role> parentRole) {
         List<Role> allRoles = new ArrayList<>();
         for (Role role : parentRole) {
             allRoles.addAll(roleRepository.findRoleByParentRole(role));
@@ -136,7 +160,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         if (optionalAccount.isEmpty()) {
             throw new NoSuchElementException("account not found");
         }
-        accountDTO.withId(id);
+        accountDTO.withCustomerId(id);
         return ResponseEntity.ok(accountMapper
                 .toDto(accountRepository
                         .save(accountMapper

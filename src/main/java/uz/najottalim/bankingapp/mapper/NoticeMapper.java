@@ -12,8 +12,8 @@ public class NoticeMapper {
         if(noticeDTO == null) return null;
         return new Notice(
                 noticeDTO.id(),
-                noticeDTO.title(),
-                noticeDTO.body(),
+                noticeDTO.noticeSummary(),
+                noticeDTO.noticeDetails(),
                 noticeDTO.imageUrl(),
                 noticeDTO.createDate()
         );

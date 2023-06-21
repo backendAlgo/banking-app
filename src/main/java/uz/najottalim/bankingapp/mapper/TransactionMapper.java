@@ -14,7 +14,7 @@ public class TransactionMapper {
     public Transaction toEntity(TransactionDTO transactionDTO) {
         if (transactionDTO == null) return null;
         return new Transaction(
-                transactionDTO.id(),
+                transactionDTO.customerId(),
                 accountMapper.toEntity(transactionDTO.account()),
                 transactionDTO.transactionDt(),
                 transactionDTO.transactionSummary(),

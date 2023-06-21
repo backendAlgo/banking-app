@@ -7,8 +7,8 @@ import java.time.LocalDate;
 
 public record NoticeDTO (
     Long id,
-    String title,
-    String body,
+    String noticeSummary,
+    String noticeDetails,
     String imageUrl,
     LocalDate createDate){
 }

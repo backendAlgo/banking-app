@@ -18,4 +18,8 @@ public class CardType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    public CardType(String name) {
+        this.name = name;
+    }
 }

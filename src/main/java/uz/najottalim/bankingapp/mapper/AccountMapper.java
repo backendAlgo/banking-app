@@ -14,7 +14,7 @@ public class AccountMapper {
     public Account toEntity(AccountDTO accountDTO) {
         if (accountDTO == null) return null;
         return new Account(
-                accountDTO.id(),
+                accountDTO.customerId(),
                 accountDTO.name(),
                 accountDTO.email(),
                 accountDTO.mobileNumber(),
@@ -28,6 +28,7 @@ public class AccountMapper {
     public AccountDTO toDto(Account account) {
         if (account == null) return null;
         return new AccountDTO(
+                account.getId(),
                 account.getId(),
                 account.getName(),
                 account.getEmail(),

@@ -55,7 +55,7 @@ public class AccountsController {
 //    @PreAuthorize("hasPermission()")
 //    @PostAuthorize("returnObject.getBody().get(0)\n" +
 //            "                .account().email().equals(#principal.getName())")
-    @PreAuthorize("hasPermission()")
+   //    @PreAuthorize("hasPermission()")
     public ResponseEntity<List<TransactionDTO>> getTransactionByUserId(@PathVariable Long userId, Principal principal) {
         log.info("current authenticated user email: {}", principal.getName());
         return accountService.getBalanceByUserId(userId);
