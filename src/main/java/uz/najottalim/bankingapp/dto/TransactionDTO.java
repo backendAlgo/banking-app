@@ -13,11 +13,21 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class TransactionDTO {
     private Long id;
-    private LocalDate transaction_date;
-    private String summary;
-    private Double withdrawal;
-    private Double deposit;
+    private LocalDate transactionDate;
+    private String transactionSummary;
+
+    private String transactionType;
+    private Double transactionAmt;
     private Double closingBalance;
     private AccountDTO accountDTO;
+
+
+//    Long id,
+//    AccountDTO account,
+//    LocalDate transactionDate,
+//    String summary,
+//    String transactionType,
+//    Double transactionAmt,
+//    Double closingBalance)
 
 }

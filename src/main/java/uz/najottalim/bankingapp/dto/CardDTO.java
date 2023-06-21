@@ -12,11 +12,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class CardDTO {
     private Long id;
+    private Long customerId ;
     private String cardNumber;
     private LocalDate cardExpiredDate;
+    private String cardType;
     private Double totalLimit;
     private Double amountUsed;
-    private Double availableAmt;
-
-    private AccountDTO accountDTO;
+    private Double availableAmount;
 }

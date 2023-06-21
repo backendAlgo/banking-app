@@ -13,17 +13,21 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Table(name = "card")
 public class Card {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
+    private Account account;
     private String cardNumber;
     private LocalDate cardExpiredDate;
+    @ManyToOne
+    @JoinColumn(name = "card_type_id")
+    private CardType cardType;
     private Double totalLimit;
     private Double amountUsed;
     private Double availableAmt;
 
-    @ManyToOne
-    private Account account;
+
 }
 //    account_id number,
 //    card_number varchar(20),

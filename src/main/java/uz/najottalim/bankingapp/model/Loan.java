@@ -17,6 +17,9 @@ public class Loan {
     @Id
     private Long id;
     private LocalDate startDate;
+    @ManyToOne
+    @JoinColumn(name = "type_loans_id")
+    private LoanType loanType;
     private Double totalLoan;
     private Double amountPay;
     private Double outstandingAmt;
@@ -24,8 +27,6 @@ public class Loan {
     @ManyToOne
     private Account account;
 
-    @ManyToOne
-    private TypeLoan typeLoans;
 
 
 

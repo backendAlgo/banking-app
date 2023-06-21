@@ -12,14 +12,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import uz.najottalim.bankingapp.dto.AccountDTO;
 import uz.najottalim.bankingapp.dto.RoleDTO;
+import uz.najottalim.bankingapp.dto.TransactionDTO;
 import uz.najottalim.bankingapp.exceptions.NoResourceFoundException;
 import uz.najottalim.bankingapp.mapper.AccountMapper;
+import uz.najottalim.bankingapp.mapper.TransactionMapper;
 import uz.najottalim.bankingapp.model.Account;
 import uz.najottalim.bankingapp.model.Authority;
 import uz.najottalim.bankingapp.model.Role;
 import uz.najottalim.bankingapp.repository.AccountRepository;
 import uz.najottalim.bankingapp.repository.AuthorityRepository;
 import uz.najottalim.bankingapp.repository.RoleRepository;
+import uz.najottalim.bankingapp.repository.TransactionRepository;
 import uz.najottalim.bankingapp.service.AccountService;
 
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     final private AccountRepository accountRepository;
     final private RoleRepository roleRepository;
     final private AuthorityRepository authorityRepository;
+    final private TransactionRepository transactionRepository;
 
 
     @Override
@@ -44,7 +48,6 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     public ResponseEntity<AccountDTO> addAccount(AccountDTO accountDTO) {
-        accountDTO.setRoleDTO(new RoleDTO(1L, "ROLE_USER"));
         Account account = AccountMapper.toEntity(accountDTO);
         Account account1 = accountRepository.save(account);
 
@@ -84,5 +87,14 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
                 .toList();
 
         return new User(account.getEmail(), account.getPassword(), allAuthorities);
+    }
+
+
+    @Override
+    public ResponseEntity<List<TransactionDTO>> getBalanceByUserId(Long userId) {
+        return ResponseEntity.ok(transactionRepository.findByAccount_Id(userId)
+                .stream()
+                .map(TransactionMapper ::toDto)
+                .collect(Collectors.toList()));
     }
 }

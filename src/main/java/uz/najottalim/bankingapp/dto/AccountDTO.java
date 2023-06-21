@@ -17,7 +17,7 @@ public class AccountDTO {
     private String address;
     private String password;
     private AccountTypeDTO accountTypeDTO;
-    private RoleDTO roleDTO;
+    String role;
 
 
 }

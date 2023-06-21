@@ -8,6 +8,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.najottalim.bankingapp.dto.AccountDTO;
+import uz.najottalim.bankingapp.dto.TransactionDTO;
 import uz.najottalim.bankingapp.service.AccountService;
 
 import java.util.Arrays;
@@ -45,6 +46,12 @@ public class AccountsController {
     @DeleteMapping("/{id}")
     public ResponseEntity<AccountDTO> deleteAccount(@PathVariable Long id) {
         return ResponseEntity.ok(accountService.getAllAccounts().getBody().get(0));
+    }
+
+
+    @GetMapping("/{userId}/balances")
+    public ResponseEntity<List<TransactionDTO>> getTransactionByUserId(@PathVariable Long userId) {
+        return accountService.getBalanceByUserId(userId);
     }
 
 

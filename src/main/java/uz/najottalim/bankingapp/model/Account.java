@@ -22,7 +22,7 @@ public class Account {
     @JoinColumn(name = "account_type_id")
     private AccountType accountType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
 
