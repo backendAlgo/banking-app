@@ -21,8 +21,9 @@ public class CardMapper {
         if(card == null) return null;
         return new CardDTO(
                 card.getId(),
+                card.getAccount().getId(),
                 card.getCardNumber(),
-                CardTypeMapper.toDto(card.getCardType()),
+                card.getCardType().getName(),
                 card.getTotalLimit(),
                 card.getAmountUsed(),
                 card.getAvailableAmt()

@@ -24,7 +24,7 @@ public class TransactionMapper {
         if (transaction == null) return null;
         return new TransactionDTO(
                 transaction.getId(),
-                AccountMapper.toDto(transaction.getAccount()),
+                transaction.getAccount().getName(),
                 transaction.getTransactionDate(),
                 transaction.getSummary(),
                 transaction.getDeposit() != null ? "Deposit" : "Withdrawal",

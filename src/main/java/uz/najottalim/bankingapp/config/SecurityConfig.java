@@ -75,8 +75,7 @@ public class SecurityConfig {
                                         "/notices",
                                         "/contacts")
                                 .permitAll()
-                                .anyRequest()
-                                .denyAll()
+
         );
 //        UserDetailsManager
 //        UserDetailsService

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @ToString
 public class TransactionDTO {
     private Long customerId;
-    AccountsDto accountNumber;
+    private String accountNumber;
     private LocalDate transactionDt;
     private String transactionSummary;
     String transactionType;

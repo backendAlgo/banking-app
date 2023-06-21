@@ -5,7 +5,7 @@ import lombok.With;
 
 @With
 public record AccountsDto(
-        Long id,
+        Long customerId,
         String name,
         String email,
         String mobileNumber,
