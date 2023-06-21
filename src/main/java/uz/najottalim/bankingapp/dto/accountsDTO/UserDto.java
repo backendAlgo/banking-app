@@ -1,28 +1,23 @@
-package uz.najottalim.bankingapp.entity;
+package uz.najottalim.bankingapp.dto.accountsDTO;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Data
-public class Accounts {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+public class UserDto {
     private Long id;
     private String name;
     private String email;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private String mobileNumber;
     private String accountNumber;
-    @ManyToOne
-    @JoinColumn(name = "account_type_id")
-    private AccountType accountType;
+    private String accountType;
     private String address;
-    @ManyToOne
-    private Role role;
-
+    private String role;
 }

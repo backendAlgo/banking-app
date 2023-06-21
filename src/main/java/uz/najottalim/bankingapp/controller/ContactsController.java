@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ContactsController {
     @GetMapping
     public String accountsController() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+//        return SecurityContextHolder.getContext().getAuthentication().getName();
+        return "contacts";
     }
 }

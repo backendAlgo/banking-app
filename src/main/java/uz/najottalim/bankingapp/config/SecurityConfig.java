@@ -20,7 +20,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @RequiredArgsConstructor
 @EnableWebSecurity(debug = true)
 public class SecurityConfig {
-    private final RoleRepository roleRepository;
     private final JWTSecurityGeneratorFilter jwtSecurityGeneratorFilter;
     private final RequestTimeFilter requestTimeFilter;
     private final WordSplitterFilter wordSplitterFilter;
