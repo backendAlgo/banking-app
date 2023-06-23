@@ -4,41 +4,34 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
-import uz.najottalim.bankingapp.utility.JsonUtility;
+import uz.najottalim.bankingapp.utility.JWTUtility;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
 
-@Service
 public class JwtSecurityGeneratorFilter extends OncePerRequestFilter {
-    @Autowired
-    private final JsonUtility jsonUtility;
+    private final JWTUtility jsonUtility;
 
-    public JwtSecurityGeneratorFilter(JsonUtility jsonUtility) {
+    public JwtSecurityGeneratorFilter(JWTUtility jsonUtility) {
         this.jsonUtility = jsonUtility;
     }
 
     @Override
-    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null){
+        if (authentication != null && authentication.isAuthenticated()) {
             String jwtToken = jsonUtility.generate(authentication.getName(),
                     authentication.getAuthorities()
                             .stream()
                             .map(GrantedAuthority::getAuthority)
                             .collect(Collectors.joining(", "))
             );
-
-            response.setHeader("Auth", jwtToken);
+            response.setHeader("Custom-Authorization", jwtToken);
         }
-
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 }

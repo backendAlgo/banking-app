@@ -8,24 +8,39 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.session.DisableEncodeUrlFilter;
-import uz.najottalim.bankingapp.utility.JsonUtility;
+import org.springframework.web.cors.CorsConfiguration;
+import uz.najottalim.bankingapp.utility.JWTUtility;
+
+
+import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 public class SecurityConfig {
     @Bean
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, JWTUtility jsonUtility) throws Exception {
         http
+                .cors(cors -> {
+                    cors.configurationSource(request -> {
+                        CorsConfiguration configuration = new CorsConfiguration();
+                        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+                        configuration.setAllowedMethods(List.of("*"));
+                        configuration.setAllowCredentials(true);
+                        configuration.setAllowedHeaders(List.of("*"));
+                        configuration.setExposedHeaders(List.of("Custom-Authorization"));
+                        return configuration;
+                    });
+                })
                 .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
                         (requests) ->
                                 requests
                                         .requestMatchers(HttpMethod.POST, "/accounts/register")
                                         .permitAll()
-                                        .requestMatchers(HttpMethod.GET,
+                                        .requestMatchers("/user")
+                                        .authenticated()
+                                        .requestMatchers(HttpMethod.DELETE,
                                                 "/accounts/**",
                                                 "/balances/**",
                                                 "/loans/**",
@@ -33,7 +48,6 @@ public class SecurityConfig {
                                         )
                                         .hasRole("ADMIN")
                                         .requestMatchers(
-                                                "/account/{id}",
                                                 "/balances/**",
                                                 "/loans/**",
                                                 "/cards/**")
@@ -42,26 +56,16 @@ public class SecurityConfig {
                                                 "/notices",
                                                 "/contacts")
                                         .permitAll()
-                                        .anyRequest()
-                                        .denyAll()
+                                        .requestMatchers("/accounts/**")
+                                        .authenticated()
                 );
-        http.addFilterBefore(new RequestTimeFilter(), DisableEncodeUrlFilter.class);
-        http.addFilterBefore(new WordSplitterFilter(), BasicAuthenticationFilter.class);
-        http.addFilterBefore(new CustomLoggingFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.addFilterAfter(new JwtSecurityGeneratorFilter(new JsonUtility()), BasicAuthenticationFilter.class);
-
-
-        http.formLogin(withDefaults());
+        http.addFilterBefore(new JwtSecurityCheckFilter(jsonUtility), BasicAuthenticationFilter.class);
+        http.addFilterAfter(new JwtSecurityGeneratorFilter(jsonUtility), BasicAuthenticationFilter.class);
         http.httpBasic(withDefaults());
         return http.build();
     }
-//    @Bean
-//    public UserDetailsService springJdbcVersionForUserDetailsManager(DataSource source) {
-//        return new JdbcUserDetailsManager(source);
-//    }
 
-
-//    @Bean
+    //@Bean
 //    public UserDetailsService myCustomerUserDetailsManager() {
 //        UserDetails userDetails1 = User.builder().username("mirshod")
 //                .password("12345")

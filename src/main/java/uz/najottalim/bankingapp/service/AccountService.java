@@ -1,18 +1,14 @@
 package uz.najottalim.bankingapp.service;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import uz.najottalim.bankingapp.dto.AccountDto;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface AccountService {
-    ResponseEntity<AccountDto> findById(Long id);
+public interface  AccountService {
+    ResponseEntity<AccountDto> getAccountById(Long id);
 
-    ResponseEntity<List<AccountDto>> findAll();
-
-    ResponseEntity<AccountDto> save(AccountDto accountDto);
-
-    void delete(Long id);
-
-    ResponseEntity<AccountDto> update(AccountDto accountDto);
+    ResponseEntity<List<AccountDto>> getAllAccounts(Optional<String> sortBy, Optional<Integer> size, Optional<Integer> pageNum);
 }

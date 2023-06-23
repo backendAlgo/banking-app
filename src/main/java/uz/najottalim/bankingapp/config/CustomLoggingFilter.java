@@ -6,11 +6,10 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-@Service
 @Slf4j
 public class CustomLoggingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        chain.doFilter(request,response);
+        chain.doFilter(request, response);
     }
 }
