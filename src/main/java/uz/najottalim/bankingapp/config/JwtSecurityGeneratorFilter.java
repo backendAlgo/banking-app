@@ -22,6 +22,7 @@ public class JwtSecurityGeneratorFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//        throw new NullPointerException("asdasd");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             String jwtToken = jsonUtility.generate(authentication.getName(),

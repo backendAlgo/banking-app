@@ -72,37 +72,38 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Account account = (Account) accountRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("cannot load user: "));
-
-        Role role = roleRepository.findById(account.getRole().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Role not found"));
-
-        List<Role> childRolesAndOwnRole = new ArrayList<>();
-        childRolesAndOwnRole.add(role);
-        List<Role> parentRole = new ArrayList<>();
-        parentRole.add(role);
-        while (true) {
-            List<Role> roles = getRoles(parentRole);
-            if (roles.isEmpty()) {
-                break;
-            }
-            childRolesAndOwnRole.addAll(roles);
-            parentRole = roles;
-        }
-
-
-        List<SimpleGrantedAuthority> allAuthorities = childRolesAndOwnRole
-                .stream()
-                .flatMap(roleItem -> Stream.concat(
-                        Stream.of(roleItem.getName()),
-                        authorityRepository.findByRole(roleItem)
-                                .stream()
-                                .map(Authority::getName)))
-                .map(SimpleGrantedAuthority::new)
-                .toList();
-
-        return new User(account.getEmail(), account.getPassword(), allAuthorities);
+        throw new NullPointerException();
+//        Account account = (Account) accountRepository.findByEmail(email)
+//                .orElseThrow(() -> new UsernameNotFoundException("cannot load user: "));
+//
+//        Role role = roleRepository.findById(account.getRole().getId())
+//                .orElseThrow(() -> new IllegalArgumentException("Role not found"));
+//
+//        List<Role> childRolesAndOwnRole = new ArrayList<>();
+//        childRolesAndOwnRole.add(role);
+//        List<Role> parentRole = new ArrayList<>();
+//        parentRole.add(role);
+//        while (true) {
+//            List<Role> roles = getRoles(parentRole);
+//            if (roles.isEmpty()) {
+//                break;
+//            }
+//            childRolesAndOwnRole.addAll(roles);
+//            parentRole = roles;
+//        }
+//
+//
+//        List<SimpleGrantedAuthority> allAuthorities = childRolesAndOwnRole
+//                .stream()
+//                .flatMap(roleItem -> Stream.concat(
+//                        Stream.of(roleItem.getName()),
+//                        authorityRepository.findByRole(roleItem)
+//                                .stream()
+//                                .map(Authority::getName)))
+//                .map(SimpleGrantedAuthority::new)
+//                .toList();
+//
+//        return new User(account.getEmail(), account.getPassword(), allAuthorities);
     }
 
     private List<Role> getRoles(List<Role> parentRole) {

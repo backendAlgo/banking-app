@@ -3,11 +3,13 @@ package uz.najottalim.bankingapp.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.expression.DenyAllPermissionEvaluator;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import uz.najottalim.bankingapp.annotations.IsOwnUser;
 import uz.najottalim.bankingapp.dto.AccountDTO;
 import uz.najottalim.bankingapp.dto.TransactionDTO;
 import uz.najottalim.bankingapp.service.AccountService;
@@ -50,12 +52,15 @@ public class AccountsController {
     public ResponseEntity<AccountDTO> deleteAccount(@PathVariable Long id) {
         return accountService.deleteAccount(id);
     }
+//    DenyAllPermissionEvaluator
 
     @GetMapping("/{userId}/balances")
 //    @PreAuthorize("hasPermission()")
 //    @PostAuthorize("returnObject.getBody().get(0)\n" +
 //            "                .account().email().equals(#principal.getName())")
-   //    @PreAuthorize("hasPermission()")
+//    @PreAuthorize("hasPermission(#userId, null)")
+//    @IsOwnUser
+//    @PreAuthorize("@checkIfUserOwn.check(#userId)")
     public ResponseEntity<List<TransactionDTO>> getTransactionByUserId(@PathVariable Long userId, Principal principal) {
         log.info("current authenticated user email: {}", principal.getName());
         return accountService.getBalanceByUserId(userId);

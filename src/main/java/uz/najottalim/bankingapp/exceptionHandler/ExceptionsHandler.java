@@ -1,6 +1,8 @@
 package uz.najottalim.bankingapp.exceptionHandler;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,10 +18,24 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
+@Slf4j
 public class ExceptionsHandler {
     @ExceptionHandler(NoResourceFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorDTO noResourceFoundExceptionHandler(NoResourceFoundException ex) {
+        return ErrorDTO.builder().errors(ex.getMessage()).build();
+    }
+
+    @ExceptionHandler(Throwable.class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public ErrorDTO throwableException(Throwable ex) {
+        return ErrorDTO.builder().errors(ex.getMessage()).build();
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public ErrorDTO authenticationException(AuthenticationException ex) {
+        log.info("current exception: ", ex);
         return ErrorDTO.builder().errors(ex.getMessage()).build();
     }
 
