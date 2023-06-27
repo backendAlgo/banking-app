@@ -5,8 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.najottalim.bankingapp.dto.AccountDTO;
+import uz.najottalim.bankingapp.dto.TransactionDTO;
 import uz.najottalim.bankingapp.service.AccountService;
-import uz.najottalim.bankingapp.service.impl.AccountServiceimpl;
+import uz.najottalim.bankingapp.service.impl.AccountServiceImpl;
+
+import java.security.Principal;
 import java.util.Optional;
 
 import java.util.List;
@@ -16,31 +19,46 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class AccountsController {
-
     private final AccountService accountService;
 
-    @GetMapping
-    public ResponseEntity<List<AccountDTO>> getAll() {
-        return accountService.getAllAccounts();
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<AccountDTO> getById(@PathVariable Long id){
-        return accountService.getById(id);
+    public ResponseEntity<AccountDTO> getAccountById(@PathVariable Long id) {
+        return accountService.getAccountById(id);
     }
 
-    @PostMapping("/register")
+    @GetMapping
+    public ResponseEntity<List<AccountDTO>> getAllAccount(@RequestParam Optional<Integer> page,
+                                                          @RequestParam Optional<Integer> size,
+                                                          @RequestParam Optional<String> columnName) {
+        return accountService.getAllAccount(columnName, page, size);
+    }
+
+    @PostMapping
     public ResponseEntity<AccountDTO> addAccount(@RequestBody AccountDTO accountDTO) {
         return accountService.addAccount(accountDTO);
     }
 
-    @PutMapping
-    public ResponseEntity<AccountDTO> updateAccount(@RequestBody AccountDTO accountDTO) {
-        return null;
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AccountDTO> updateAccount(@RequestBody AccountDTO accountDTO, @PathVariable Long id) {
+        return accountService.updateAccount(accountDTO, id);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<AccountDTO> deleteAccount(@PathVariable Long id) {
-        return ResponseEntity.ok(accountService.getAllAccounts().getBody().get(0));
+        return accountService.deleteAccount(id);
+    }
+//    DenyAllPermissionEvaluator
+
+    @GetMapping("/{userId}/balances")
+//    @PreAuthorize("hasPermission()")
+//    @PostAuthorize("returnObject.getBody().get(0)\n" +
+//            "                .account().email().equals(#principal.getName())")
+//    @PreAuthorize("hasPermission(#userId, null)")
+//    @IsOwnUser
+//    @PreAuthorize("@checkIfUserOwn.check(#userId)")
+    public ResponseEntity<List<TransactionDTO>> getTransactionByUserId(@PathVariable Long userId, Principal principal) {
+        log.info("current authenticated user email: {}", principal.getName());
+        return accountService.getBalanceByUserId(userId);
     }
 }

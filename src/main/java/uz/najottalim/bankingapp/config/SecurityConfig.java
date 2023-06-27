@@ -1,36 +1,58 @@
 package uz.najottalim.bankingapp.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
+import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
+import org.springframework.security.authorization.AuthorizationDecision;
+import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.session.DisableEncodeUrlFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.HandlerMapping;
+import uz.najottalim.bankingapp.custompermission.UserIdEqualPermissionEvaluator;
+import uz.najottalim.bankingapp.utility.JWTUtility;
+
+
+import java.util.List;
+import java.util.function.Supplier;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@Slf4j
 public class SecurityConfig {
-
-
     @Bean
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder
-                DaoAuthenticationProvider;
-
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http, JWTUtility jsonUtility, CustomAuthenticationEntryPoint authenticationEntryPoint) throws Exception {
         http
+                .cors(cors -> {
+                    cors.configurationSource(request -> {
+                        CorsConfiguration configuration = new CorsConfiguration();
+                        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+                        configuration.setAllowedMethods(List.of("*"));
+                        configuration.setAllowCredentials(true);
+                        configuration.setAllowedHeaders(List.of("*"));
+                        configuration.setExposedHeaders(List.of("Custom-Authorization"));
+                        return configuration;
+                    });
+                })
                 .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
                         (requests) ->
                                 requests
                                         .requestMatchers(HttpMethod.POST, "/accounts/register")
                                         .permitAll()
+                                        .requestMatchers("/user")
+                                        .authenticated()
                                         .requestMatchers(HttpMethod.DELETE,
                                                 "/accounts/**",
                                                 "/balances/**",
@@ -39,7 +61,6 @@ public class SecurityConfig {
                                         )
                                         .hasRole("ADMIN")
                                         .requestMatchers(
-                                                "/accounts/**",
                                                 "/balances/**",
                                                 "/loans/**",
                                                 "/cards/**")
@@ -48,10 +69,25 @@ public class SecurityConfig {
                                                 "/notices",
                                                 "/contacts")
                                         .permitAll()
-                                        .anyRequest()
-                                        .denyAll()
+                                        .requestMatchers("/accounts/**")
+                                        .access((authSupplier, requestAuthorizationContext) -> {
+                                            //TODO: xohlagan logikalarizni qilsalariz bo'ladi
+                                            Authentication auth = authSupplier.get();
+                                            var a = requestAuthorizationContext.getRequest().getRequestURI().split("/")[2];
+                                            log.info("id: {}", a);
+                                            return new AuthorizationDecision(true);
+                                        })
                 );
-        http.formLogin(withDefaults());
+//        http.exceptionHandling(exceptionHandling -> {
+//            exceptionHandling.authenticationEntryPoint()
+//        })
+//        http.addFilterBefore(new CustomLoggingFilter(), DisableEncodeUrlFilter.class);
+        http.addFilterBefore(new JwtSecurityCheckFilter(jsonUtility), BasicAuthenticationFilter.class);
+        http.addFilterAfter(new JwtSecurityGeneratorFilter(jsonUtility), BasicAuthenticationFilter.class);
+//        http.formLogin(withDefaults());
+        http.exceptionHandling(exceptionHandler -> {
+            exceptionHandler.authenticationEntryPoint(authenticationEntryPoint);
+        });
         http.httpBasic(withDefaults());
         return http.build();
     }
@@ -82,5 +118,10 @@ public class SecurityConfig {
         return NoOpPasswordEncoder.getInstance();
     }
 
-
+    @Bean
+    static MethodSecurityExpressionHandler methodSecurityExpressionHandler(PermissionEvaluator permissionEvaluator) {
+        DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
+        expressionHandler.setPermissionEvaluator(permissionEvaluator);
+        return expressionHandler;
+    }
 }

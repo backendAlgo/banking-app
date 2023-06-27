@@ -1,23 +1,19 @@
 package uz.najottalim.bankingapp.dto;
-import lombok.*;
 
-import javax.persistence.*;
+import lombok.With;
+@With
+public record AccountDTO(
+        Long customerId,
+        Long id,
+        String name,
+        String email,
+        String mobileNumber,
+        String accountNumber,
+        AccountTypeDTO accountTypeDTO,
+        String address,
+        String password,
+        String role
+){
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class AccountDTO {
-    private Long id;
-    private String name;
-    private String email;
-    private String mobileNumber;
-    private String accountNumber;
-    private String address;
-    private String password;
-    private AccountTypeDto accountTypeDto;
-    private RoleDto roleDto;
-
-    // Constructors, getters, and setters
 }
 

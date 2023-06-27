@@ -1,7 +1,7 @@
 package uz.najottalim.bankingapp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import uz.najottalim.bankingapp.entity.Role;
+import uz.najottalim.bankingapp.models.Role;
 
 import java.util.List;
 
