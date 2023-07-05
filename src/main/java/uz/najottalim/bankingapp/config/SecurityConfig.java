@@ -22,7 +22,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
     private final JWTSecurityGeneratorFilter jwtSecurityGeneratorFilter;
     private final RequestTimeFilter requestTimeFilter;
-    private final WordSplitterFilter wordSplitterFilter;
+//    private final WordSplitterFilter wordSplitterFilter;
     @Bean
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 

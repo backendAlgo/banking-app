@@ -1,5 +1,6 @@
 package uz.najottalim.bankingapp.service.impl;
 
+import jakarta.transaction.Transaction;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.LockAcquisitionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import uz.najottalim.bankingapp.service.AccountService;
 import uz.najottalim.bankingapp.service.mapper.AccountMapper;
 import uz.najottalim.bankingapp.service.mapper.RoleMapper;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,6 +35,29 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     private final AccountRepository accountRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder ;
+    private void resetData() {
+        List<Accounts> accounts = accountRepository.findAll();
+        for (Accounts account : accounts) {
+            List<Transaction> transactions = transactionRepository.findByAccountOrderByTransactionDate(account);
+            Double currentSum = 0D;
+            Iterator<Transaction> iterator = transactions.iterator();
+            while (iterator.hasNext()) {
+                Transaction tr = iterator.next();
+                if (tr.getDeposit() != null) {
+                    currentSum += tr.getDeposit();
+                    tr.setClosingBalance(currentSum);
+                } else if (tr.getWithdrawal() != null) {
+                    if (tr.getWithdrawal() > currentSum) {
+                        iterator.remove();
+                    } else {
+                        currentSum -= tr.getWithdrawal();
+                        tr.setClosingBalance(currentSum);
+                    }
+                }
+            }
+            transactionRepository.saveAll(transactions);
+        }
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
