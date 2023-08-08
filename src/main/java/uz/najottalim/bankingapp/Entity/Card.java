@@ -16,7 +16,8 @@ public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long accountId;
+    @ManyToOne
+    private Account account;
     private String cardNumber;
     private LocalDate cardExpiredDate;
     @ManyToOne
@@ -26,5 +27,5 @@ public class Card {
     private Double amountUsed;
     private Double availableAmt;
 
-
 }
+

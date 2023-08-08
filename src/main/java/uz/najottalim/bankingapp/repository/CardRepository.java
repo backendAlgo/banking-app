@@ -1,2 +1,4 @@
-package uz.najottalim.bankingapp.repository;public interface CardRepository {
+package uz.najottalim.bankingapp.repository;
+
+public interface CardRepository {
 }

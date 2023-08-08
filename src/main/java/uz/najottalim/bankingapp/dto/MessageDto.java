@@ -19,5 +19,4 @@ public class MessageDto {
     private String subject;
     private String message;
     private LocalDate sentDate;
-    private StatusTypeDto statusTypeDTO;
 }

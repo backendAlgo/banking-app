@@ -13,10 +13,11 @@ import java.time.LocalDate;
 @ToString
 public class TransactionDto {
     private Long id;
-    private Long accountId;
     private LocalDate transactionDate;
-    private String summary;
-    private Double withdrawal;
-    private Double deposit;
+    private String transactionSummary;
+
+    private String transactionType;
+    private Double transactionAmt;
     private Double closingBalance;
+    private AccountDto accountDTO;
 }

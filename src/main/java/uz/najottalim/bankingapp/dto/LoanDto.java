@@ -13,10 +13,11 @@ import java.time.LocalDate;
 @ToString
 public class LoanDto {
     private Long id;
-    private Long accountId;
-    private LocalDate startDate;
-    private LoanTypeDto loanTypeDTO;
+    private Long customerId;
+    private LocalDate startDt;
+    private String loanType;
     private Double totalLoan;
-    private Double amountPay;
-    private Double outstandingAmt;
+    private Double amountPaid;
+    private Double outstandingAmount;
+
 }

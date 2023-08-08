@@ -14,17 +14,29 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "role")
+@Table(name = "roles")
 public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     private List<Authority> authorities;
 
     @ManyToOne
     @JoinColumn(name = "parent_role_id")
-    private Role parenRole;
+    private Role parentRole;
+
+//    @OneToMany(mappedBy = "parentRole")
+//    private List<Role> childRoles;
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", parentRole=" + parentRole +
+                '}';
+    }
 }

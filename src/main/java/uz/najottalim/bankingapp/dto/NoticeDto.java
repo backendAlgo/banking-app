@@ -16,5 +16,5 @@ public class NoticeDto {
     private String title;
     private String body;
     private String imageUrl;
-    private LocalDate createDate;
+    private LocalDate sentDate;
 }

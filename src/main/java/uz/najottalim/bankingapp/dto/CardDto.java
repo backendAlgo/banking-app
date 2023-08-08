@@ -14,11 +14,11 @@ import java.time.LocalDate;
 @ToString
 public class CardDto {
     private Long id;
-    private Long accountId;
+    private Long customerId ;
     private String cardNumber;
     private LocalDate cardExpiredDate;
-    private CardTypeDto cardTypeDTO;
+    private String cardType;
     private Double totalLimit;
     private Double amountUsed;
-    private Double availableAmt;
+    private Double availableAmount;
 }

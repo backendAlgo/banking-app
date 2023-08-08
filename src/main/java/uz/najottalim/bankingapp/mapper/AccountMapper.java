@@ -6,22 +6,33 @@ import org.springframework.stereotype.Component;
 import uz.najottalim.bankingapp.Entity.Account;
 import uz.najottalim.bankingapp.dto.AccountDto;
 
-@Component
-@RequiredArgsConstructor
 public class AccountMapper {
-    private final AccountTypeMapper accountTypeMapper;
 
+    public static Account toEntity(AccountDto accountDTO){
+
+        return new Account(accountDTO.getId(),
+                accountDTO.getName(),
+                accountDTO.getEmail(),
+                accountDTO.getMobileNumber(),
+                accountDTO.getAccountNumber(),
+                accountDTO.getAddress(),
+                accountDTO.getPassword(),
+                AccountTypeMapper.toEntity(accountDTO.getAccountTypeDTO()),
+                null
+        );
+
+    }
     public static AccountDto toDto(Account account){
-        if(account == null) return  null;
-        return new AccountDto(
-                account.getId(),
+        return new AccountDto(account.getId(),
                 account.getName(),
                 account.getEmail(),
-                account.getAddress(),
-                account.getAccountNumber(),
                 account.getMobileNumber(),
+                account.getAccountNumber(),
+                account.getAddress(),
+                null,
                 AccountTypeMapper.toDto(account.getAccountType()),
-                account.getPassword(),
-                account.getRole());
+                account.getRole().getName());
+
+
     }
 }

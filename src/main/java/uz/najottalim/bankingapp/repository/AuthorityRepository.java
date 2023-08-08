@@ -9,5 +9,6 @@ import java.util.List;
 
 @Repository
 public interface AuthorityRepository  extends JpaRepository<Authority , Long> {
-    List<Authority> findByRoles(Role role);
+
+    List<Authority> findByRole(Role role);
 }

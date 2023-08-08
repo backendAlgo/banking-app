@@ -18,15 +18,16 @@ public class Account {
     private String name;
     private String email;
     private String password;
+    private String address;
     private String mobileNumber;
     private String accountNumber;
 
     @ManyToOne
-    @JoinColumn(name = "account_type_id")
+    @JoinColumn(name = "account_type_id" , nullable = false)
     private AccountType accountType;
-    private String address;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
     private Role role;
 
 }

@@ -12,11 +12,12 @@ import java.time.LocalDate;
 @AllArgsConstructor@NoArgsConstructor
 @Table(name = "news")
 public class Notice {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
     private String title;
     private String body;
     private String imageUrl;
-    private LocalDate createDate;
+    private LocalDate sentDate;
+
 }

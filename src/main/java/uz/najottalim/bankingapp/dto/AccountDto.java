@@ -13,9 +13,9 @@ public class AccountDto {
     private String email;
     private String mobileNumber;
     private String accountNumber;
+    private String address;
     private String password;
     private AccountTypeDto accountTypeDTO;
-    private String address;
-    private Role role;
+    private String role;
 
 }

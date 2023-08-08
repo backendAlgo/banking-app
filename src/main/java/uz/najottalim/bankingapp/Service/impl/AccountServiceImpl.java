@@ -9,17 +9,24 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import uz.najottalim.bankingapp.Entity.Account;
+import uz.najottalim.bankingapp.Entity.Authority;
 import uz.najottalim.bankingapp.Entity.Role;
 import uz.najottalim.bankingapp.Service.AccountService;
+import uz.najottalim.bankingapp.dto.TransactionDto;
+import uz.najottalim.bankingapp.exeption.NoResourceFoundException;
+import uz.najottalim.bankingapp.mapper.TransactionMapper;
 import uz.najottalim.bankingapp.repository.AccountRepository;
 import uz.najottalim.bankingapp.dto.AccountDto;
 import uz.najottalim.bankingapp.mapper.AccountMapper;
 import uz.najottalim.bankingapp.repository.AuthorityRepository;
 import uz.najottalim.bankingapp.repository.RoleRepository;
+import uz.najottalim.bankingapp.repository.TransactionRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @RequiredArgsConstructor
@@ -29,19 +36,29 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     private final AccountRepository accountRepository;
     final private RoleRepository roleRepository;
     private final AuthorityRepository authorityRepository;
+    private final TransactionRepository transactionRepository;
 
 
     @Override
-    public ResponseEntity<List<AccountDto>> getAll() {
-        List<AccountDto> accountDtos = accountRepository.findAll().stream().map(account -> AccountMapper.toDto(account)).collect(Collectors.toList());
-        return ResponseEntity.ok(accountDtos);
+    public ResponseEntity<AccountDto> getById(Long id) {
+        Optional<Account> account = accountRepository.findById(id);
+        if(account.isEmpty()){
+            throw new NoResourceFoundException("No data found");
+        }
+        return ResponseEntity.ok(AccountMapper.toDto(account.get()));
+    }
+
+    @Override
+    public ResponseEntity<List<TransactionDto>> getBalanceById(Long id) {
+        return ResponseEntity.ok(transactionRepository.findByAccount_Id(id).stream()
+                .map(TransactionMapper::toDto).collect(Collectors.toList())
+        );
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-
-        Account account = accountRepository.findByEmail(email)
+            Account account = accountRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("cannot load user: "));
 
         Role role = roleRepository.findById(account.getRole().getId())
@@ -50,16 +67,16 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         List<Role> childRolesAndOwnRole = new ArrayList<>(roleRepository.findRoleByParentRole(role));
         childRolesAndOwnRole.add(role);
 
-        List<SimpleGrantedAuthority> allAuthorities = new ArrayList<>(childRolesAndOwnRole.stream()
-                .flatMap(rr -> authorityRepository.findByRoles(rr).stream())
-                .distinct()
-                .map(aa -> new SimpleGrantedAuthority(aa.getName()))
-                .toList());
+        List<SimpleGrantedAuthority> allAuthorities = childRolesAndOwnRole
+                .stream()
+                .flatMap(roleItem -> Stream.concat(
+                        Stream.of(roleItem.getName()),
+                        authorityRepository.findByRole(roleItem)
+                                .stream()
+                                .map(Authority::getName)))
+                .map(SimpleGrantedAuthority::new)
+                .toList();
 
-        allAuthorities.addAll(childRolesAndOwnRole.stream()
-                .map(aa -> new SimpleGrantedAuthority(aa.getName()))
-                .toList()
-        );
         return new User(account.getEmail(), account.getPassword(), allAuthorities);
     }
 }

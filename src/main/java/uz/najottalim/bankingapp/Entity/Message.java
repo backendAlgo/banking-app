@@ -13,15 +13,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Table(name = "messages")
 public class Message {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
     private String name;
     private String email;
     private String subject;
     private String message;
     private LocalDate sentDate;
-    @ManyToOne
-    @JoinColumn(name = "status_type_id")
-    private StatusType statusType;
 }

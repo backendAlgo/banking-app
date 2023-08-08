@@ -13,10 +13,9 @@ import java.time.LocalDate;
 @Table(name = "loans")
 @Data
 public class Loan {
-    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
-    private Long accountId;
     private LocalDate startDate;
     @ManyToOne
     @JoinColumn(name = "type_loans_id")
@@ -24,5 +23,8 @@ public class Loan {
     private Double totalLoan;
     private Double amountPay;
     private Double outstandingAmt;
+
+    @ManyToOne
+    private Account account;
 
 }
